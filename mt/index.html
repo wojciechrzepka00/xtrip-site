@@ -656,6 +656,24 @@
       <h2 data-i18n="book_title">Illibra t-trasferiment tiegħek</h2>
       <p data-i18n="book_subtitle">Imla d-dettalji tiegħek u nippreparaw messaġġ lest biex jintbagħat fuq WhatsApp — nikkonfermaw il-ħin u l-prezz.</p>
     </div>
+    <div id="bookingSuccess" style="display:none; text-align:center; padding:40px 20px;">
+      <div style="width:56px; height:56px; border-radius:50%; background:var(--amber); display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0F2038" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M20 6 9 17l-5-5"/></svg>
+      </div>
+      <h3 style="font-family:'Fraunces',serif; font-size:22px; color:var(--navy); margin-bottom:10px;" data-i18n="book_success_title">Prenotazzjoni riċevuta</h3>
+      <p style="color:#5A6472; font-size:15px; max-width:380px; margin:0 auto 24px;" data-i18n="book_success_text">Grazzi! Bgħatnielek konferma bid-dettalji kollha fuq l-email tiegħek.</p>
+
+      <div id="bookingSummaryBox" style="background:var(--fog); border-radius:14px; padding:20px 22px; max-width:380px; margin:0 auto 24px; text-align:left;"></div>
+
+      <p style="color:var(--navy); font-size:15px; font-weight:600; margin:0 0 18px;" data-i18n="book_success_regards">Narawk dalwaqt!</p>
+
+      <div style="border-top:1px solid #E1DCCE; padding-top:20px; max-width:380px; margin:0 auto;">
+        <p style="color:#5A6472; font-size:13.5px; margin:0 0 10px;" data-i18n="book_success_contact">Jekk għandek mistoqsijiet, ikkuntattjana:</p>
+        <p style="font-size:13.5px; margin:0 0 4px;"><a href="mailto:przewoz@legendarykrakow.pl" style="color:var(--navy); font-weight:600;">przewoz@legendarykrakow.pl</a></p>
+        <p style="font-size:13.5px; margin:0;"><a href="#" id="bookingSuccessWaLink" target="_blank" rel="noopener" style="color:#25D366; font-weight:600;">WhatsApp: +48 728 814 659</a></p>
+      </div>
+    </div>
+
     <form id="bookingForm" novalidate>
       <div class="form-row">
         <div class="form-field">
@@ -858,7 +876,7 @@ urgent_wa_button:"Pilny transfer — napisz bezpośrednio na WhatsApp",
 urgent_wa_message:"Pilny transfer (mniej niż 24h) — proszę o szybki kontakt.",
 phone_error:"Podaj poprawny numer telefonu w formacie międzynarodowym (np. +48600000000).",
 phone_hint:"Upewnij się, że podany numer ma aktywne WhatsApp — tam potwierdzimy rezerwację.",
-book_submit:"Zarezerwuj transfer",book_wa_secondary:"lub napisz od razu na WhatsApp",
+book_submit:"Zarezerwuj transfer",book_wa_secondary:"lub napisz od razu na WhatsApp",book_success_title:"Rezerwacja przyjęta",book_success_text:"Dziękujemy! Potwierdzenie ze szczegółami wysłaliśmy na Twój adres e-mail.",book_success_regards:"Do zobaczenia!",book_success_contact:"W razie pytań zapraszamy do kontaktu:",
 whatsapp_message:"Dzień dobry, chciałbym zapytać o transfer z lotniska Pyrzowice – Katowice."
 },
 en:{
@@ -907,7 +925,7 @@ urgent_wa_button:"Urgent transfer — message us directly on WhatsApp",
 urgent_wa_message:"Urgent transfer (less than 24h) — please respond quickly.",
 phone_error:"Please enter a valid international phone number (e.g. +48600000000).",
 phone_hint:"Make sure the number has WhatsApp active — that's where we'll confirm your booking.",
-book_submit:"Book your transfer",book_wa_secondary:"or message us directly on WhatsApp",
+book_submit:"Book your transfer",book_wa_secondary:"or message us directly on WhatsApp",book_success_title:"Booking received",book_success_text:"Thank you! We've sent a confirmation with all the details to your email.",book_success_regards:"See you soon!",book_success_contact:"If you have any questions, feel free to contact us:",
 whatsapp_message:"Hello, I'd like to ask about a transfer from Pyrzowice – Katowice Airport."
 },
 de:{
@@ -956,7 +974,7 @@ urgent_wa_button:"Dringender Transfer — direkt auf WhatsApp schreiben",
 urgent_wa_message:"Dringender Transfer (weniger als 24h) — bitte schnell antworten.",
 phone_error:"Bitte geben Sie eine gültige internationale Telefonnummer ein (z.B. +48600000000).",
 phone_hint:"Stellen Sie sicher, dass die Nummer WhatsApp nutzt — dort bestätigen wir Ihre Buchung.",
-book_submit:"Transfer buchen",book_wa_secondary:"oder direkt auf WhatsApp schreiben",
+book_submit:"Transfer buchen",book_wa_secondary:"oder direkt auf WhatsApp schreiben",book_success_title:"Buchung erhalten",book_success_text:"Vielen Dank! Wir haben Ihnen eine Bestätigung mit allen Details per E-Mail gesendet.",book_success_regards:"Bis bald!",book_success_contact:"Bei Fragen kontaktieren Sie uns gerne:",
 whatsapp_message:"Hallo, ich möchte mich nach einem Transfer vom Flughafen Pyrzowice – Katowice erkundigen."
 },
 fr:{
@@ -1005,7 +1023,7 @@ urgent_wa_button:"Transfert urgent — écrivez-nous directement sur WhatsApp",
 urgent_wa_message:"Transfert urgent (moins de 24h) — merci de répondre rapidement.",
 phone_error:"Veuillez saisir un numéro de téléphone international valide (ex. +48600000000).",
 phone_hint:"Assurez-vous que ce numéro a WhatsApp actif — c'est là que nous confirmerons votre réservation.",
-book_submit:"Réserver le transfert",book_wa_secondary:"ou écrivez-nous directement sur WhatsApp",
+book_submit:"Réserver le transfert",book_wa_secondary:"ou écrivez-nous directement sur WhatsApp",book_success_title:"Réservation reçue",book_success_text:"Merci ! Nous avons envoyé une confirmation avec tous les détails à votre adresse e-mail.",book_success_regards:"À bientôt !",book_success_contact:"Pour toute question, n'hésitez pas à nous contacter :",
 whatsapp_message:"Bonjour, je souhaite me renseigner sur un transfert depuis l'aéroport de Pyrzowice – Katowice."
 },
 it:{
@@ -1054,7 +1072,7 @@ urgent_wa_button:"Transfer urgente — scrivici direttamente su WhatsApp",
 urgent_wa_message:"Transfer urgente (meno di 24h) — si prega di rispondere rapidamente.",
 phone_error:"Inserisci un numero di telefono internazionale valido (es. +48600000000).",
 phone_hint:"Assicurati che il numero abbia WhatsApp attivo — lì confermeremo la tua prenotazione.",
-book_submit:"Prenota il transfer",book_wa_secondary:"oppure scrivici direttamente su WhatsApp",
+book_submit:"Prenota il transfer",book_wa_secondary:"oppure scrivici direttamente su WhatsApp",book_success_title:"Prenotazione ricevuta",book_success_text:"Grazie! Ti abbiamo inviato una conferma con tutti i dettagli via e-mail.",book_success_regards:"A presto!",book_success_contact:"Per qualsiasi domanda, contattaci pure:",
 whatsapp_message:"Buongiorno, vorrei informazioni su un transfer dall'aeroporto di Pyrzowice – Katowice."
 },
 es:{
@@ -1103,7 +1121,7 @@ urgent_wa_button:"Traslado urgente — escríbenos directamente por WhatsApp",
 urgent_wa_message:"Traslado urgente (menos de 24h) — por favor responde rápido.",
 phone_error:"Introduce un número de teléfono internacional válido (ej. +48600000000).",
 phone_hint:"Asegúrate de que el número tenga WhatsApp activo — ahí confirmaremos tu reserva.",
-book_submit:"Reserva tu traslado",book_wa_secondary:"o escríbenos directamente por WhatsApp",
+book_submit:"Reserva tu traslado",book_wa_secondary:"o escríbenos directamente por WhatsApp",book_success_title:"Reserva recibida",book_success_text:"¡Gracias! Te hemos enviado una confirmación con todos los detalles a tu correo electrónico.",book_success_regards:"¡Hasta pronto!",book_success_contact:"Si tienes alguna pregunta, no dudes en contactarnos:",
 whatsapp_message:"Hola, quisiera preguntar por un traslado desde el aeropuerto de Pyrzowice – Katowice."
 },
 mt:{
@@ -1152,7 +1170,7 @@ urgent_wa_button:"Trasferiment urġenti — ikteb dirett fuq WhatsApp",
 urgent_wa_message:"Trasferiment urġenti (anqas minn 24h) — jekk jogħġbok wieġeb malajr.",
 phone_error:"Daħħal numru tat-telefon internazzjonali validu (eż. +48600000000).",
 phone_hint:"Kun żgur li n-numru għandu WhatsApp attiv — hemm nikkonfermaw il-btala tiegħek.",
-book_submit:"Illibra t-trasferiment",book_wa_secondary:"jew ikteb dirett fuq WhatsApp",
+book_submit:"Illibra t-trasferiment",book_wa_secondary:"jew ikteb dirett fuq WhatsApp",book_success_title:"Prenotazzjoni riċevuta",book_success_text:"Grazzi! Bgħatnielek konferma bid-dettalji kollha fuq l-email tiegħek.",book_success_regards:"Narawk dalwaqt!",book_success_contact:"Jekk għandek mistoqsijiet, ikkuntattjana:",
 whatsapp_message:"Bonjour, nixtieq nistaqsi dwar trasferiment mill-ajruport ta' Pyrzowice – Katowice."
 },
 uk:{
@@ -1201,7 +1219,7 @@ urgent_wa_button:"Терміновий трансфер — напишіть н�
 urgent_wa_message:"Терміновий трансфер (менше 24 год) — прошу швидко відповісти.",
 phone_error:"Введіть правильний номер телефону в міжнародному форматі (напр. +48600000000).",
 phone_hint:"Переконайтеся, що номер має активний WhatsApp — там ми підтвердимо бронювання.",
-book_submit:"Забронювати трансфер",book_wa_secondary:"або напишіть нам напряму у WhatsApp",
+book_submit:"Забронювати трансфер",book_wa_secondary:"або напишіть нам напряму у WhatsApp",book_success_title:"Бронювання прийнято",book_success_text:"Дякуємо! Ми надіслали підтвердження з усіма деталями на вашу електронну пошту.",book_success_regards:"До зустрічі!",book_success_contact:"Якщо у вас виникнуть запитання, звертайтесь до нас:",
 whatsapp_message:"Доброго дня, хотів би дізнатися про трансфер з аеропорту Пшивовіце – Катовіце."
 },
 ar:{
@@ -1250,7 +1268,7 @@ urgent_wa_button:"نقل عاجل — راسلنا مباشرة عبر واتس�
 urgent_wa_message:"نقل عاجل (أقل من 24 ساعة) — يرجى الرد بسرعة.",
 phone_error:"يرجى إدخال رقم هاتف دولي صحيح (مثال: +48600000000).",
 phone_hint:"تأكد من أن الرقم لديه واتساب نشط — سنؤكد الحجز هناك.",
-book_submit:"احجز نقلك",book_wa_secondary:"أو راسلنا مباشرة عبر واتساب",
+book_submit:"احجز نقلك",book_wa_secondary:"أو راسلنا مباشرة عبر واتساب",book_success_title:"تم استلام الحجز",book_success_text:"شكرًا لك! لقد أرسلنا تأكيدًا يحتوي على جميع التفاصيل إلى بريدك الإلكتروني.",book_success_regards:"إلى اللقاء!",book_success_contact:"إذا كان لديك أي أسئلة، لا تتردد في التواصل معنا:",
 whatsapp_message:"مرحبًا، أود الاستفسار عن نقل من مطار بشيغوفيتسه - كاتوفيتسه."
 }
 };
@@ -1521,7 +1539,9 @@ bookingForm.addEventListener('submit', (e)=>{
     t.payment_note || 'Płatność gotówką lub kartą u kierowcy.'
   ].filter(Boolean).join('\n');
 
-  // 1) Zapis do Kalendarza Google + wysyłka maila z potwierdzeniem (jeśli skonfigurowano BOOKING_ENDPOINT)
+  // Jeśli backend rezerwacji jest skonfigurowany: wysyłamy dane cicho (mail + kalendarz),
+  // pokazujemy potwierdzenie na stronie i NIE otwieramy WhatsApp automatycznie —
+  // WhatsApp to teraz osobna, dobrowolna opcja kontaktu (drugi przycisk).
   if (BOOKING_ENDPOINT) {
     fetch(BOOKING_ENDPOINT, {
       method: 'POST',
@@ -1532,10 +1552,33 @@ bookingForm.addEventListener('submit', (e)=>{
         route: directionLabel, vehicle: vehicleLabel, price: priceLabel,
         datetime: datetime, notes: address ? `Adres: ${address}` : '', lang: lang
       })
-    }).catch(()=>{ /* ciche niepowodzenie — WhatsApp i tak zadziała */ });
+    }).catch(()=>{ /* ciche niepowodzenie — wpis i tak trafia lokalnie w formularzu */ });
+
+    const summaryRows = [
+      [t.label_direction || 'Kierunek', directionLabel],
+      [t.label_datetime || 'Data i godzina', datetime ? datetime.replace('T',' ') : '-'],
+      [t.label_passengers || 'Liczba osób', passengers],
+      [t.price_estimate_label || 'Cena', `${priceLabel} (${vehicleLabel})`],
+    ];
+    if (address) summaryRows.push([t.label_address || 'Adres', address]);
+    if (routeType === 'airport' && flightNo) summaryRows.push([t.label_flight || 'Numer lotu', flightNo]);
+
+    document.getElementById('bookingSummaryBox').innerHTML = summaryRows.map(([label, value]) =>
+      `<div style="display:flex; justify-content:space-between; gap:12px; padding:7px 0; border-bottom:1px solid #E1DCCE; font-size:13.5px;">
+        <span style="color:#5A6472;">${label}</span><span style="font-weight:600; color:var(--navy); text-align:right;">${value}</span>
+      </div>`
+    ).join('');
+
+    document.getElementById('bookingSuccessWaLink').href = `https://wa.me/${PHONE}?text=${encodeURIComponent(t.whatsapp_message)}`;
+
+    bookingForm.style.display = 'none';
+    document.getElementById('bookingSuccess').style.display = 'block';
+    bookingForm.reset();
+    updatePriceBox();
+    return;
   }
 
-  // 2) Natychmiastowe przekierowanie na WhatsApp
+  // Fallback: jeśli backend NIE jest skonfigurowany, jedyną drogą kontaktu jest WhatsApp
   const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(lines)}`;
   window.open(url, '_blank');
 });
