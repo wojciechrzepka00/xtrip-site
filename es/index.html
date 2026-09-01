@@ -153,6 +153,18 @@
   }
   .btn-wa:hover{ transform:translateY(-2px); }
   .btn-wa svg{ width:20px; height:20px; }
+  .btn-primary{
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--amber); color:var(--navy); font-weight:700; font-size:15px;
+    padding:15px 26px; border-radius:100px; transition:transform .15s ease;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); }
+  .btn-wa-secondary{
+    display:inline-flex; align-items:center; gap:8px;
+    background:transparent; color:#5A6472; font-weight:600; font-size:13.5px;
+    padding:10px 18px; border-radius:100px; border:1px solid #D9D2BE; transition:border-color .15s ease;
+  }
+  .btn-wa-secondary:hover{ border-color:#25D366; color:#25D366; }
   .hero-note{ font-size:13px; color:var(--mist); }
 
   /* route ticker (signature element) */
@@ -742,10 +754,15 @@
         <div class="price-box-vehicle" id="priceVehicle"></div>
       </div>
 
-      <button type="submit" id="bookingSubmitBtn" class="btn-wa" style="width:100%; justify-content:center; border:none; cursor:pointer;">
-        <svg viewBox="0 0 24 24" fill="#08331b" width="20" height="20"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5s-.6-1.5-.9-2c-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.2-.6-.4z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.3C8.4 21.6 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.2.8.9-3.1-.2-.3C3.5 14.7 3 13.4 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
-        <span data-i18n="book_submit">Enviar solicitud por WhatsApp</span>
+      <button type="submit" id="bookingSubmitBtn" class="btn-primary" style="width:100%; justify-content:center; border:none; cursor:pointer;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0F2038" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M20 6 9 17l-5-5"/></svg>
+        <span data-i18n="book_submit">Reserva tu traslado</span>
       </button>
+
+      <a href="#" id="bookingWaContactBtn" target="_blank" rel="noopener" class="btn-wa-secondary" style="width:100%; justify-content:center; margin-top:10px;">
+        <svg viewBox="0 0 24 24" fill="#25D366" width="18" height="18"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5s-.6-1.5-.9-2c-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.2-.6-.4z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.3C8.4 21.6 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.2.8.9-3.1-.2-.3C3.5 14.7 3 13.4 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+        <span data-i18n="book_wa_secondary">o escríbenos directamente por WhatsApp</span>
+      </a>
 
       <a href="#" id="urgentWaBtn" target="_blank" rel="noopener" class="btn-wa" style="width:100%; justify-content:center; display:none; background:#25D366;">
         <svg viewBox="0 0 24 24" fill="#08331b" width="20" height="20"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5s-.6-1.5-.9-2c-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.2-.6-.4z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.3C8.4 21.6 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.2.8.9-3.1-.2-.3C3.5 14.7 3 13.4 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
@@ -841,7 +858,7 @@ urgent_wa_button:"Pilny transfer — napisz bezpośrednio na WhatsApp",
 urgent_wa_message:"Pilny transfer (mniej niż 24h) — proszę o szybki kontakt.",
 phone_error:"Podaj poprawny numer telefonu w formacie międzynarodowym (np. +48600000000).",
 phone_hint:"Upewnij się, że podany numer ma aktywne WhatsApp — tam potwierdzimy rezerwację.",
-book_submit:"Wyślij zapytanie na WhatsApp",
+book_submit:"Zarezerwuj transfer",book_wa_secondary:"lub napisz od razu na WhatsApp",
 whatsapp_message:"Dzień dobry, chciałbym zapytać o transfer z lotniska Pyrzowice – Katowice."
 },
 en:{
@@ -890,7 +907,7 @@ urgent_wa_button:"Urgent transfer — message us directly on WhatsApp",
 urgent_wa_message:"Urgent transfer (less than 24h) — please respond quickly.",
 phone_error:"Please enter a valid international phone number (e.g. +48600000000).",
 phone_hint:"Make sure the number has WhatsApp active — that's where we'll confirm your booking.",
-book_submit:"Send request on WhatsApp",
+book_submit:"Book your transfer",book_wa_secondary:"or message us directly on WhatsApp",
 whatsapp_message:"Hello, I'd like to ask about a transfer from Pyrzowice – Katowice Airport."
 },
 de:{
@@ -939,7 +956,7 @@ urgent_wa_button:"Dringender Transfer — direkt auf WhatsApp schreiben",
 urgent_wa_message:"Dringender Transfer (weniger als 24h) — bitte schnell antworten.",
 phone_error:"Bitte geben Sie eine gültige internationale Telefonnummer ein (z.B. +48600000000).",
 phone_hint:"Stellen Sie sicher, dass die Nummer WhatsApp nutzt — dort bestätigen wir Ihre Buchung.",
-book_submit:"Anfrage per WhatsApp senden",
+book_submit:"Transfer buchen",book_wa_secondary:"oder direkt auf WhatsApp schreiben",
 whatsapp_message:"Hallo, ich möchte mich nach einem Transfer vom Flughafen Pyrzowice – Katowice erkundigen."
 },
 fr:{
@@ -988,7 +1005,7 @@ urgent_wa_button:"Transfert urgent — écrivez-nous directement sur WhatsApp",
 urgent_wa_message:"Transfert urgent (moins de 24h) — merci de répondre rapidement.",
 phone_error:"Veuillez saisir un numéro de téléphone international valide (ex. +48600000000).",
 phone_hint:"Assurez-vous que ce numéro a WhatsApp actif — c'est là que nous confirmerons votre réservation.",
-book_submit:"Envoyer la demande sur WhatsApp",
+book_submit:"Réserver le transfert",book_wa_secondary:"ou écrivez-nous directement sur WhatsApp",
 whatsapp_message:"Bonjour, je souhaite me renseigner sur un transfert depuis l'aéroport de Pyrzowice – Katowice."
 },
 it:{
@@ -1037,7 +1054,7 @@ urgent_wa_button:"Transfer urgente — scrivici direttamente su WhatsApp",
 urgent_wa_message:"Transfer urgente (meno di 24h) — si prega di rispondere rapidamente.",
 phone_error:"Inserisci un numero di telefono internazionale valido (es. +48600000000).",
 phone_hint:"Assicurati che il numero abbia WhatsApp attivo — lì confermeremo la tua prenotazione.",
-book_submit:"Invia richiesta su WhatsApp",
+book_submit:"Prenota il transfer",book_wa_secondary:"oppure scrivici direttamente su WhatsApp",
 whatsapp_message:"Buongiorno, vorrei informazioni su un transfer dall'aeroporto di Pyrzowice – Katowice."
 },
 es:{
@@ -1086,7 +1103,7 @@ urgent_wa_button:"Traslado urgente — escríbenos directamente por WhatsApp",
 urgent_wa_message:"Traslado urgente (menos de 24h) — por favor responde rápido.",
 phone_error:"Introduce un número de teléfono internacional válido (ej. +48600000000).",
 phone_hint:"Asegúrate de que el número tenga WhatsApp activo — ahí confirmaremos tu reserva.",
-book_submit:"Enviar solicitud por WhatsApp",
+book_submit:"Reserva tu traslado",book_wa_secondary:"o escríbenos directamente por WhatsApp",
 whatsapp_message:"Hola, quisiera preguntar por un traslado desde el aeropuerto de Pyrzowice – Katowice."
 },
 mt:{
@@ -1135,7 +1152,7 @@ urgent_wa_button:"Trasferiment urġenti — ikteb dirett fuq WhatsApp",
 urgent_wa_message:"Trasferiment urġenti (anqas minn 24h) — jekk jogħġbok wieġeb malajr.",
 phone_error:"Daħħal numru tat-telefon internazzjonali validu (eż. +48600000000).",
 phone_hint:"Kun żgur li n-numru għandu WhatsApp attiv — hemm nikkonfermaw il-btala tiegħek.",
-book_submit:"Ibgħat talba fuq WhatsApp",
+book_submit:"Illibra t-trasferiment",book_wa_secondary:"jew ikteb dirett fuq WhatsApp",
 whatsapp_message:"Bonjour, nixtieq nistaqsi dwar trasferiment mill-ajruport ta' Pyrzowice – Katowice."
 },
 uk:{
@@ -1184,7 +1201,7 @@ urgent_wa_button:"Терміновий трансфер — напишіть н�
 urgent_wa_message:"Терміновий трансфер (менше 24 год) — прошу швидко відповісти.",
 phone_error:"Введіть правильний номер телефону в міжнародному форматі (напр. +48600000000).",
 phone_hint:"Переконайтеся, що номер має активний WhatsApp — там ми підтвердимо бронювання.",
-book_submit:"Надіслати запит у WhatsApp",
+book_submit:"Забронювати трансфер",book_wa_secondary:"або напишіть нам напряму у WhatsApp",
 whatsapp_message:"Доброго дня, хотів би дізнатися про трансфер з аеропорту Пшивовіце – Катовіце."
 },
 ar:{
@@ -1233,7 +1250,7 @@ urgent_wa_button:"نقل عاجل — راسلنا مباشرة عبر واتس�
 urgent_wa_message:"نقل عاجل (أقل من 24 ساعة) — يرجى الرد بسرعة.",
 phone_error:"يرجى إدخال رقم هاتف دولي صحيح (مثال: +48600000000).",
 phone_hint:"تأكد من أن الرقم لديه واتساب نشط — سنؤكد الحجز هناك.",
-book_submit:"إرسال الطلب عبر واتساب",
+book_submit:"احجز نقلك",book_wa_secondary:"أو راسلنا مباشرة عبر واتساب",
 whatsapp_message:"مرحبًا، أود الاستفسار عن نقل من مطار بشيغوفيتسه - كاتوفيتسه."
 }
 };
@@ -1269,7 +1286,7 @@ function setLang(code){
   });
   const msg = encodeURIComponent(T[code].whatsapp_message);
   const waUrl = `https://wa.me/${PHONE}?text=${msg}`;
-  ['heroWaBtn','routesWaBtn','contactWaBtn','floatWaBtn'].forEach(id=>{
+  ['heroWaBtn','routesWaBtn','contactWaBtn','floatWaBtn','bookingWaContactBtn'].forEach(id=>{
     document.getElementById(id).href = waUrl;
   });
   localStorage.setItem('xtrip_lang', code);
@@ -1364,10 +1381,12 @@ function updatePriceBox(){
   if(tooSoon){
     urgentError.classList.add('show');
     submitBtn.style.display = 'none';
+    document.getElementById('bookingWaContactBtn').style.display = 'none';
     document.getElementById('urgentWaBtn').style.display = 'flex';
   } else {
     urgentError.classList.remove('show');
     submitBtn.style.display = 'flex';
+    document.getElementById('bookingWaContactBtn').style.display = 'flex';
     document.getElementById('urgentWaBtn').style.display = 'none';
   }
 
