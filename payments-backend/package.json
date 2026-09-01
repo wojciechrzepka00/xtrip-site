@@ -1,0 +1,17 @@
+{
+  "name": "xtrip-payments-backend",
+  "version": "1.0.0",
+  "description": "Stripe checkout + webhook -> Comarch Betterfly faktura, dla Katowice Pyrzowice Airport Transfers",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "stripe": "^16.2.0",
+    "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
+    "cors": "^2.8.5"
+  }
+}

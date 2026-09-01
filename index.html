@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katowice Pyrzowice Airport Transfers — Twój kierowca już czeka</title>
+<meta name="description" content="Prywatne, punktualne transfery z lotniska Pyrzowice-Katowice do Krakowa i Zakopanego. Bez przesiadek, bez czekania na innych pasażerów.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TaxiService",
+  "name": "Katowice Pyrzowice Airport Transfers",
+  "image": "https://example.com/images/vito.jpg",
+  "telephone": "+48728814659",
+  "areaServed": [
+    {"@type":"City","name":"Kraków"},
+    {"@type":"City","name":"Zakopane"},
+    {"@type":"Airport","name":"Katowice Airport (Pyrzowice)"}
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Pyrzowice",
+    "addressCountry": "PL"
+  },
+  "priceRange": "600 zł - 3200 zł",
+  "availableLanguage": ["pl","en","de","fr","it","es","mt"]
+}
+</script>
+<link rel="alternate" hreflang="pl" href="https://TWOJA-DOMENA.pl/">
+<link rel="alternate" hreflang="en" href="https://TWOJA-DOMENA.pl/en/">
+<link rel="alternate" hreflang="de" href="https://TWOJA-DOMENA.pl/de/">
+<link rel="alternate" hreflang="fr" href="https://TWOJA-DOMENA.pl/fr/">
+<link rel="alternate" hreflang="it" href="https://TWOJA-DOMENA.pl/it/">
+<link rel="alternate" hreflang="es" href="https://TWOJA-DOMENA.pl/es/">
+<link rel="alternate" hreflang="mt" href="https://TWOJA-DOMENA.pl/mt/">
+<link rel="alternate" hreflang="uk" href="https://TWOJA-DOMENA.pl/uk/">
+<link rel="alternate" hreflang="ar" href="https://TWOJA-DOMENA.pl/ar/">
+<link rel="alternate" hreflang="x-default" href="https://TWOJA-DOMENA.pl/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F2038;
+    --navy-2:#17324F;
+    --navy-3:#20496f;
+    --fog:#EEEAE1;
+    --paper:#FAF8F2;
+    --amber:#C4872F;
+    --amber-light:#E3A857;
+    --ink:#13161B;
+    --mist:#93A7BB;
+    --line: rgba(255,255,255,0.14);
+    --maxw: 1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{ font-family:'JetBrains Mono',monospace; }
+  a{ color:inherit; text-decoration:none; }
+  img,svg{ display:block; max-width:100%; }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+  :focus-visible{ outline:2px solid var(--amber); outline-offset:3px; }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(15,32,56,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 28px;
+    max-width:var(--maxw); margin:0 auto;
+  }
+  .logo{
+    color:var(--fog); font-family:'Fraunces',serif; font-weight:600; font-size:15px;
+    line-height:1.25; letter-spacing:.01em;
+    display:flex; flex-direction:column;
+  }
+  .logo span{ color:var(--amber-light); font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:500; letter-spacing:.1em; }
+  @media (max-width:480px){ .logo{ font-size:12.5px; } .logo span{ font-size:9px; } }
+  .nav-links{ display:flex; align-items:center; gap:24px; }
+  .nav-links a{
+    color:var(--mist); font-size:14px; font-weight:500;
+    transition:color .2s;
+  }
+  .nav-links a:hover{ color:var(--fog); }
+  .lang-switch{ position:relative; }
+  .lang-btn{
+    background:transparent; border:1px solid var(--line); color:var(--fog);
+    padding:8px 14px; border-radius:100px; font-size:13px; font-weight:600;
+    cursor:pointer; font-family:'JetBrains Mono',monospace; letter-spacing:.03em;
+  }
+  .lang-menu{
+    display:none; position:absolute; right:0; top:calc(100% + 8px);
+    background:var(--navy-2); border:1px solid var(--line); border-radius:12px;
+    padding:6px; min-width:150px; max-height:340px; overflow-y:auto;
+    box-shadow:0 12px 32px rgba(0,0,0,.35);
+  }
+  .lang-menu.open{ display:block; }
+  .lang-menu button{
+    display:block; width:100%; text-align:left; background:none; border:none;
+    color:var(--fog); padding:9px 12px; border-radius:8px; font-size:14px;
+    cursor:pointer; font-family:'Inter',sans-serif;
+  }
+  .lang-menu button:hover{ background:rgba(255,255,255,.08); }
+  .lang-menu button.active{ color:var(--amber-light); }
+  .nav-cta{
+    background:var(--amber); color:var(--navy); font-weight:700; font-size:13px;
+    padding:10px 18px; border-radius:100px; white-space:nowrap;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:radial-gradient(120% 140% at 15% 0%, var(--navy-3) 0%, var(--navy) 55%, #0A1727 100%);
+    color:var(--fog);
+    padding:76px 0 0;
+    overflow:hidden;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns: 1.1fr 0.9fr; gap:40px; align-items:center;
+    padding-bottom:56px;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:.14em;
+    color:var(--amber-light); margin-bottom:18px; font-weight:500;
+  }
+  .hero h1{ font-size:clamp(34px,5vw,58px); line-height:1.05; font-weight:600; }
+  .hero p.sub{
+    color:var(--mist); font-size:17px; line-height:1.6; margin:22px 0 12px; max-width:480px;
+  }
+  .hero p.biz{
+    color:var(--amber-light); font-size:14px; margin:0 0 26px; max-width:480px;
+  }
+  .cta-row{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .btn-wa{
+    display:inline-flex; align-items:center; gap:10px;
+    background:#25D366; color:#08331b; font-weight:700; font-size:15px;
+    padding:15px 26px; border-radius:100px; transition:transform .15s ease;
+  }
+  .btn-wa:hover{ transform:translateY(-2px); }
+  .btn-wa svg{ width:20px; height:20px; }
+  .hero-note{ font-size:13px; color:var(--mist); }
+
+  /* route ticker (signature element) */
+  .ticker{
+    background:rgba(255,255,255,0.04);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:26px 22px 18px;
+  }
+  .ticker-label{
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--mist);
+    letter-spacing:.12em; margin-bottom:20px;
+  }
+  .ticker-line{ position:relative; height:2px; background:var(--line); margin:0 6px 10px; overflow:hidden;}
+  .ticker-line::before{
+    content:''; position:absolute; left:-40%; top:0; height:100%; width:40%;
+    background:linear-gradient(90deg, transparent, var(--amber-light), transparent);
+    animation: travel 4.5s ease-in-out infinite;
+  }
+  @keyframes travel{
+    0%{ left:-40%; }
+    100%{ left:100%; }
+  }
+  .ticker-stops{ display:flex; justify-content:space-between; margin:0 0 22px; }
+  .stop{ text-align:center; flex:1; }
+  .stop:first-child{ text-align:left; }
+  .stop:last-child{ text-align:right; }
+  .stop-dot{
+    width:9px; height:9px; border-radius:50%; background:var(--amber-light);
+    margin:0 auto 8px;
+  }
+  .stop:first-child .stop-dot{ margin-left:0; }
+  .stop:last-child .stop-dot{ margin-right:0; margin-left:auto; }
+  .stop-name{ font-size:12px; font-weight:600; color:var(--fog); }
+  .ticker-details{ display:flex; border-top:1px solid var(--line); padding-top:16px; gap:18px; }
+  .tdetail{ flex:1; }
+  .tdetail .k{ font-size:11px; color:var(--mist); margin-bottom:4px; }
+  .tdetail .v{ font-family:'JetBrains Mono',monospace; font-size:15px; color:var(--amber-light); font-weight:700; }
+
+  /* ---------- SECTIONS GENERIC ---------- */
+  section{ padding:88px 0; }
+  .section-head{ max-width:640px; margin-bottom:40px; }
+  .section-head .eyebrow{ color:var(--amber); }
+  .section-head h2{ font-size:clamp(28px,3.6vw,40px); font-weight:600; color:var(--navy); }
+  .section-head p{ color:#5A6472; font-size:16px; margin-top:14px; line-height:1.6; }
+
+  /* ---------- FLEET ---------- */
+  .fleet-grid{
+    display:grid; grid-template-columns:repeat(5,1fr); gap:18px;
+  }
+  .fleet-card{
+    background:var(--navy); border-radius:18px; padding:18px 16px 20px;
+    color:var(--fog); display:flex; flex-direction:column;
+  }
+  .fleet-photo{
+    height:110px; border-radius:12px; overflow:hidden; margin-bottom:16px; position:relative;
+  }
+  .fleet-photo img{ width:100%; height:100%; object-fit:cover; }
+  .photo-placeholder{
+    display:none; align-items:center; justify-content:center; height:100%; width:100%;
+    background:var(--navy-2); border:1.5px dashed var(--amber); border-radius:12px;
+    color:var(--mist); font-size:11px; text-align:center; padding:8px; line-height:1.4;
+  }
+  .fleet-card h3{ font-size:17px; font-weight:600; color:var(--fog); }
+  .fleet-seats{
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--amber-light);
+    margin:7px 0 10px; letter-spacing:.02em;
+  }
+  .fleet-card p{ font-size:12.5px; line-height:1.5; color:var(--mist); margin:0; flex-grow:1; }
+  .biz-tag{
+    display:inline-block; margin-top:10px; font-size:10.5px; font-weight:600;
+    color:var(--navy); background:var(--amber-light); padding:3px 8px; border-radius:100px;
+  }
+
+  /* ---------- ROUTES / PRICING ---------- */
+  .price-city-head{ font-family:'Fraunces',serif; font-size:18px; color:var(--navy); margin:0 0 12px; font-weight:600; }
+  .price-table-wrap{ overflow-x:auto; margin-bottom:28px; border-radius:16px; border:1px solid #E1DCCE; }
+  table.price-table{ width:100%; border-collapse:collapse; background:var(--fog); min-width:600px; }
+  table.price-table th, table.price-table td{ padding:14px 18px; text-align:left; font-size:14px; }
+  table.price-table thead th{ background:var(--navy); color:var(--fog); font-weight:600; font-size:12.5px; letter-spacing:.03em; }
+  table.price-table tbody tr:not(:last-child){ border-bottom:1px solid #E1DCCE; }
+  table.price-table td.veh{ font-weight:600; color:var(--navy); }
+  table.price-table td.price{ font-family:'JetBrains Mono',monospace; color:var(--amber); font-weight:700; }
+
+  @media (max-width:640px){
+    table.price-table{ min-width:0; }
+    table.price-table thead{ display:none; }
+    table.price-table tbody tr{
+      display:flex; flex-wrap:wrap; align-items:center; gap:4px 14px;
+      padding:14px 18px;
+    }
+    table.price-table tbody tr:not(:last-child){ border-bottom:1px solid #E1DCCE; }
+    table.price-table td{ padding:0; border:none; }
+    table.price-table td.veh{ flex:1 1 100%; font-size:15.5px; margin-bottom:4px; }
+    table.price-table td.price{ display:flex; align-items:baseline; gap:6px; }
+    table.price-table td.price[data-label-key]::before{
+      content: attr(data-label); font-family:'Inter',sans-serif; font-weight:600;
+      font-size:11.5px; color:#8B8776; text-transform:uppercase; letter-spacing:.03em;
+    }
+    table.price-table td.price[colspan]{ flex:1 1 100%; }
+  }
+  .price-note{ font-size:12.5px; color:#9B9584; margin-bottom:30px; }
+  .route-other{
+    border:1px dashed #C9C1AC; border-radius:18px; padding:24px 30px;
+    display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap;
+  }
+  .route-other h4{ font-family:'Fraunces',serif; font-size:18px; color:var(--navy); margin:0 0 6px; }
+  .route-other p{ margin:0; color:#5A6472; font-size:14px; max-width:520px; }
+
+  /* ---------- WHY ---------- */
+  .why-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:26px; }
+  .why-item .num{ font-family:'JetBrains Mono',monospace; color:var(--amber); font-size:13px; margin-bottom:14px; }
+  .why-item h3{ font-size:17px; color:var(--navy); font-weight:600; margin-bottom:8px; }
+  .why-item p{ font-size:13.5px; color:#5A6472; line-height:1.55; margin:0; }
+
+  /* ---------- BOOKING FORM ---------- */
+  .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+  .form-field label{ display:block; font-size:12.5px; font-weight:600; color:var(--navy); margin-bottom:6px; }
+  .form-field input{
+    width:100%; padding:12px 14px; border:1px solid #D9D2BE; border-radius:10px;
+    font-family:'Inter',sans-serif; font-size:14.5px; background:#fff; color:var(--ink);
+  }
+  .form-field input:focus{ outline:none; border-color:var(--amber); box-shadow:0 0 0 3px rgba(196,135,47,0.15); }
+  .field-error{ display:none; color:#B3432E; font-size:12.5px; margin:-6px 0 12px; }
+  .field-error.show{ display:block; }
+  .field-hint{ color:#8B8776; font-size:12px; margin:-2px 0 18px; }
+  @media (max-width:560px){ .form-row{ grid-template-columns:1fr; gap:0; } }
+
+  .form-field select{
+    width:100%; padding:12px 14px; border:1px solid #D9D2BE; border-radius:10px;
+    font-family:'Inter',sans-serif; font-size:14.5px; background:#fff; color:var(--ink);
+  }
+  .form-field select:focus{ outline:none; border-color:var(--amber); box-shadow:0 0 0 3px rgba(196,135,47,0.15); }
+  .price-box{
+    background:var(--navy); border-radius:14px; padding:20px 22px; margin:22px 0 18px; text-align:center;
+  }
+  .price-box-label{ font-size:12px; color:var(--mist); text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; }
+  .price-box-value{ font-family:'JetBrains Mono',monospace; font-size:32px; font-weight:700; color:var(--amber-light); }
+  .price-box-vehicle{ font-size:12.5px; color:var(--mist); margin-top:4px; }
+
+  /* ---------- CONTACT ---------- */
+  .contact{
+    background:var(--navy); color:var(--fog); border-radius:26px;
+    padding:64px 48px; text-align:center; margin:0 28px;
+    max-width:calc(var(--maxw) - 56px); margin-left:auto; margin-right:auto;
+  }
+  .contact h2{ font-size:clamp(26px,3.6vw,38px); font-weight:600; margin-bottom:16px; }
+  .contact p{ color:var(--mist); font-size:16px; max-width:460px; margin:0 auto 32px; line-height:1.6; }
+  .contact .phone-line{ margin-top:22px; font-size:13px; color:var(--mist); }
+  .contact .phone-line span{ font-family:'JetBrains Mono',monospace; color:var(--amber-light); }
+
+  /* ---------- FOOTER ---------- */
+  footer{ padding:34px 0 30px; }
+  .footer-row{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+    font-size:12.5px; color:#8B8776;
+  }
+  .footer-row a{ color:#8B8776; }
+  .footer-row a:hover{ color:var(--navy); }
+
+  /* floating whatsapp */
+  .wa-float{
+    position:fixed; right:22px; bottom:22px; z-index:60;
+    width:58px; height:58px; border-radius:50%; background:#25D366;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 26px rgba(0,0,0,.28);
+  }
+  .wa-float svg{ width:28px; height:28px; }
+
+  @media (max-width:1020px){
+    .fleet-grid{ grid-template-columns:repeat(3,1fr); }
+  }
+  @media (max-width:920px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .why-grid{ grid-template-columns:repeat(2,1fr); }
+    .nav-links a:not(.nav-cta){ display:none; }
+    .nav-links{ gap:0; }
+    .nav-cta{ padding:12px 20px; font-size:14px; }
+  }
+  @media (max-width:560px){
+    .fleet-grid{ grid-template-columns:repeat(2,1fr); }
+    .why-grid{ grid-template-columns:1fr; }
+    .contact{ padding:44px 26px; margin:0 14px; }
+  }
+
+  /* ---------- RTL (arabski) ---------- */
+  body.rtl{ direction:rtl; text-align:right; }
+  body.rtl .nav{ flex-direction:row-reverse; }
+  body.rtl .nav-links{ flex-direction:row-reverse; }
+  body.rtl .logo{ align-items:flex-end; }
+  body.rtl .hero-grid{ direction:rtl; }
+  body.rtl .cta-row{ flex-direction:row-reverse; }
+  body.rtl .btn-wa{ flex-direction:row-reverse; }
+  body.rtl .hero p.sub, body.rtl .hero p.biz{ margin-left:auto; margin-right:0; }
+  body.rtl .stop:first-child{ text-align:right; }
+  body.rtl .stop:last-child{ text-align:left; }
+  body.rtl .stop:first-child .stop-dot{ margin-right:0; margin-left:auto; }
+  body.rtl .stop:last-child .stop-dot{ margin-left:0; margin-right:auto; }
+  body.rtl .ticker-details{ flex-direction:row-reverse; }
+  body.rtl table.price-table th, body.rtl table.price-table td{ text-align:right; }
+  body.rtl table.price-table td.price{ text-align:left; }
+  body.rtl .route-card::before{ left:auto; right:0; }
+  body.rtl .route-other{ flex-direction:row-reverse; text-align:right; }
+  body.rtl .form-field label{ text-align:right; }
+  body.rtl .form-field input, body.rtl .form-field select{ text-align:right; }
+  body.rtl .wa-float{ right:auto; left:22px; }
+  body.rtl .footer-row{ flex-direction:row-reverse; }
+  body.rtl .lang-menu{ right:auto; left:0; text-align:right; }
+  @media (max-width:640px){
+    body.rtl table.price-table td.price{ flex-direction:row-reverse; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .ticker-line::before{ animation:none; left:0; width:100%; opacity:.3; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">KATOWICE PYRZOWICE<span>AIRPORT TRANSFERS</span></div>
+    <nav class="nav-links">
+      <a href="#home" data-i18n="nav_home">Start</a>
+      <a href="#fleet" data-i18n="nav_fleet">Flota</a>
+      <a href="#routes" data-i18n="nav_routes">Trasy i cennik</a>
+      <a href="#why" data-i18n="nav_why">Dlaczego my</a>
+      <a href="#book" class="nav-cta" data-i18n="nav_book">Zamów</a>
+    </nav>
+    <div class="lang-switch">
+      <button class="lang-btn" id="langBtn">PL ▾</button>
+      <div class="lang-menu" id="langMenu"></div>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow" data-i18n="hero_eyebrow">TRANSFERY LOTNISKOWE · KATOWICE-PYRZOWICE</div>
+      <h1 data-i18n="hero_title">Twój kierowca już czeka</h1>
+      <p class="sub" data-i18n="hero_subtitle">Prywatne, punktualne transfery z lotniska Pyrzowice-Katowice do Krakowa i Zakopanego. Bez przesiadek, bez czekania na innych pasażerów.</p>
+      <p class="biz" data-i18n="hero_biz">Obsługujemy również transfery biznesowe dla firm i gości korporacyjnych.</p>
+      <div class="cta-row">
+        <a href="#" class="btn-wa" id="heroWaBtn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="#08331b"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5s-.6-1.5-.9-2c-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.2-.6-.4z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.3C8.4 21.6 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.2.8.9-3.1-.2-.3C3.5 14.7 3 13.4 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+          <span data-i18n="hero_cta">Zarezerwuj na WhatsApp</span>
+        </a>
+        <span class="hero-note" data-i18n="hero_note">Odpowiadamy zwykle w ciągu kilku minut</span>
+      </div>
+    </div>
+
+    <div class="ticker">
+      <div class="ticker-label">ROUTE OVERVIEW</div>
+      <div class="ticker-stops">
+        <div class="stop"><div class="stop-dot"></div><div class="stop-name" data-i18n="route_label_air">Katowice-Pyrzowice</div></div>
+        <div class="stop"><div class="stop-dot"></div><div class="stop-name" data-i18n="route_label_kr">Kraków</div></div>
+        <div class="stop"><div class="stop-dot"></div><div class="stop-name" data-i18n="route_label_zak">Zakopane</div></div>
+      </div>
+      <div class="ticker-line"></div>
+      <div class="ticker-details">
+        <div class="tdetail"><div class="k mono" data-i18n="route_km_kr">75 km</div><div class="v mono" data-i18n="route_time_kr">ok. 1 godz.</div></div>
+        <div class="tdetail"><div class="k mono" data-i18n="route_km_zak">180 km</div><div class="v mono" data-i18n="route_time_zak">ok. 2 godz. 15 min</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fleet">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow mono" data-i18n="nav_fleet">Flota</div>
+      <h2 data-i18n="fleet_title">Flota dopasowana do podróży</h2>
+      <p data-i18n="fleet_subtitle">Od kameralnego auta po duży autobus — wybierz pojazd odpowiedni do liczby osób i bagażu.</p>
+    </div>
+    <div class="fleet-grid">
+
+      <div class="fleet-card">
+        <div class="fleet-photo">
+          <img src="images/pacifica.jpg" alt="Chrysler Pacifica" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="photo-placeholder">📷 Zdjęcie: Chrysler Pacifica</div>
+        </div>
+        <h3 data-i18n="fleet_pacifica_name">Chrysler Pacifica</h3>
+        <div class="fleet-seats" data-i18n="fleet_pacifica_seats">do 5 osób + kierowca</div>
+        <p data-i18n="fleet_pacifica_desc">Premium minivan dla klientów oczekujących najwyższego standardu podróży.</p>
+      </div>
+
+      <div class="fleet-card">
+        <div class="fleet-photo">
+          <img src="images/vito.jpg" alt="Mercedes Vito" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="photo-placeholder">📷 Zdjęcie: Mercedes Vito</div>
+        </div>
+        <h3 data-i18n="fleet_vito_name">Mercedes Vito</h3>
+        <div class="fleet-seats" data-i18n="fleet_vito_seats">do 8 osób + kierowca</div>
+        <p data-i18n="fleet_vito_desc">Komfortowy van dla rodzin i małych grup. Klimatyzacja, dużo miejsca na bagaż.</p>
+      </div>
+
+      <div class="fleet-card">
+        <div class="fleet-photo">
+          <img src="images/sprinter.jpg" alt="Mercedes Sprinter" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="photo-placeholder">📷 Zdjęcie: Mercedes Sprinter</div>
+        </div>
+        <h3 data-i18n="fleet_sprinter_name">Mercedes Sprinter</h3>
+        <div class="fleet-seats" data-i18n="fleet_sprinter_seats">do 20 osób + kierowca</div>
+        <p data-i18n="fleet_sprinter_desc">Przestronny van dla większych grup — komfort na dłuższej trasie w góry.</p>
+      </div>
+
+      <div class="fleet-card">
+        <div class="fleet-photo">
+          <img src="images/autobus30.jpg" alt="Autobus 30 osób" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="photo-placeholder">📷 Zdjęcie: Autobus 30 osób</div>
+        </div>
+        <h3 data-i18n="fleet_coach30_name">Autobus</h3>
+        <div class="fleet-seats" data-i18n="fleet_coach30_seats">do 30 osób</div>
+        <p data-i18n="fleet_coach30_desc">Nowoczesny autobus dla grup zorganizowanych, wesel i wycieczek firmowych.</p>
+      </div>
+
+      <div class="fleet-card">
+        <div class="fleet-photo">
+          <img src="images/autobus60.jpg" alt="Autobus 60 osób" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="photo-placeholder">📷 Zdjęcie: Autobus 60 osób</div>
+        </div>
+        <h3 data-i18n="fleet_coach60_name">Autobus</h3>
+        <div class="fleet-seats" data-i18n="fleet_coach60_seats">do 60 osób</div>
+        <p data-i18n="fleet_coach60_desc">Duży autobus dla dużych grup, pielgrzymek i transportu pracowniczego.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="routes" style="background:var(--fog);">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow mono" data-i18n="nav_routes">Trasy i cennik</div>
+      <h2 data-i18n="routes_title">Trasy i orientacyjne ceny</h2>
+      <p data-i18n="routes_subtitle">Cena zawsze ustalana z góry — żadnych ukrytych opłat.</p>
+    </div>
+
+    <h3 class="price-city-head" data-i18n="pricing_city_kr">Trasa: Pyrzowice – Lotnisko Katowice ↔ Kraków</h3>
+    <div class="price-table-wrap">
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th data-i18n="pricing_capacity">Liczba osób</th>
+            <th data-i18n="pricing_day">Dzień</th>
+            <th data-i18n="pricing_night">Noc</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="veh" data-i18n="cap_3">Do 3 osób</td>
+            <td class="price mono" data-label-key="pricing_day">600 zł</td>
+            <td class="price mono" data-label-key="pricing_night">660 zł</td>
+          </tr>
+          <tr>
+            <td class="veh" data-i18n="cap_8">Do 8 osób</td>
+            <td class="price mono" data-label-key="pricing_day">700 zł</td>
+            <td class="price mono" data-label-key="pricing_night">780 zł</td>
+          </tr>
+          <tr>
+            <td class="veh" data-i18n="cap_20">Do 20 osób</td>
+            <td class="price mono" data-label-key="pricing_day">1200 zł</td>
+            <td class="price mono" data-label-key="pricing_night">1400 zł</td>
+          </tr>
+          <tr>
+            <td class="veh" data-i18n="cap_30">Do 30 osób</td>
+            <td class="price mono" colspan="2" data-i18n="pricing_on_request" style="text-align:left;">na zapytanie</td>
+          </tr>
+          <tr>
+            <td class="veh" data-i18n="cap_60">Do 60 osób</td>
+            <td class="price mono" colspan="2" data-i18n="pricing_on_request" style="text-align:left;">na zapytanie</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="price-city-head" data-i18n="pricing_city_zak">Trasa: Pyrzowice – Lotnisko Katowice ↔ Zakopane</h3>
+    <div class="price-table-wrap">
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th data-i18n="pricing_capacity">Liczba osób</th>
+            <th data-i18n="pricing_day">Dzień</th>
+            <th data-i18n="pricing_night">Noc</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="veh" data-i18n="cap_3">Do 3 osób</td>
+            <td class="price mono" data-label-key="pricing_day">1200 zł</td>
+            <td class="price mono" data-label-key="pricing_night">1320 zł</td>
+          </tr>
+          <tr>
+            <td class="veh" data-i18n="cap_8">Do 8 osób</td>
+            <td class="price mono" data-label-key="pricing_day">1400 zł</td>
+            <td class="price mono" data-label-key="pricing_night">1560 zł</td>
+          </tr>
+          <tr>
+            <td class="veh" data-i18n="cap_20">Do 20 osób</td>
+            <td class="price mono" data-label-key="pricing_day">2400 zł</td>
+            <td class="price mono" data-label-key="pricing_night">2800 zł</td>
+          </tr>
+          <tr>
+            <td class="veh" data-i18n="cap_30">Do 30 osób</td>
+            <td class="price mono" colspan="2" data-i18n="pricing_on_request" style="text-align:left;">na zapytanie</td>
+          </tr>
+          <tr>
+            <td class="veh" data-i18n="cap_60">Do 60 osób</td>
+            <td class="price mono" colspan="2" data-i18n="pricing_on_request" style="text-align:left;">na zapytanie</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="price-note" data-i18n="pricing_note">Ceny orientacyjne na podstawie analizy ofert konkurencji — do potwierdzenia. Dla pojazdów powyżej 8 osób wycena ustalana jest indywidualnie.</p>
+
+    <h3 class="price-city-head" data-i18n="pricing_city_kz">Trasa: Kraków ↔ Zakopane (bez lotniska)</h3>
+    <div class="price-table-wrap">
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th data-i18n="pricing_capacity">Liczba osób</th>
+            <th data-i18n="pricing_day">Dzień</th>
+            <th data-i18n="pricing_night">Noc</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="veh" data-i18n="cap_3">Do 3 osób</td>
+            <td class="price mono" data-label-key="pricing_day">600 zł</td>
+            <td class="price mono" data-label-key="pricing_night">660 zł</td>
+          </tr>
+          <tr>
+            <td class="veh" data-i18n="cap_8">Do 8 osób</td>
+            <td class="price mono" data-label-key="pricing_day">700 zł</td>
+            <td class="price mono" data-label-key="pricing_night">780 zł</td>
+          </tr>
+          <tr>
+            <td class="veh" data-i18n="cap_20">Do 20 osób</td>
+            <td class="price mono" data-label-key="pricing_day">1200 zł</td>
+            <td class="price mono" data-label-key="pricing_night">1400 zł</td>
+          </tr>
+          <tr>
+            <td class="veh" data-i18n="cap_30">Do 30 osób</td>
+            <td class="price mono" colspan="2" data-i18n="pricing_on_request" style="text-align:left;">na zapytanie</td>
+          </tr>
+          <tr>
+            <td class="veh" data-i18n="cap_60">Do 60 osób</td>
+            <td class="price mono" colspan="2" data-i18n="pricing_on_request" style="text-align:left;">na zapytanie</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="price-note" data-i18n="pricing_note_kz">Trasa Kraków–Zakopane wyceniona jak trasa Pyrzowice-Katowice–Kraków (porównywalny dystans, ok. 100 km) — do Twojej weryfikacji.</p>
+
+    <div class="route-other">
+      <div>
+        <h4 data-i18n="routes_other_title">Inne kierunki i transfery biznesowe</h4>
+        <p data-i18n="routes_other_desc">Częstochowa, Bielsko-Biała, Wieliczka, spotkania firmowe i konferencje — zapytaj o wycenę indywidualną.</p>
+      </div>
+      <a href="#" class="btn-wa" id="routesWaBtn" target="_blank" rel="noopener" style="padding:12px 22px;">
+        <svg viewBox="0 0 24 24" fill="#08331b" width="18" height="18"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5s-.6-1.5-.9-2c-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.2-.6-.4z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.3C8.4 21.6 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.2.8.9-3.1-.2-.3C3.5 14.7 3 13.4 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+        <span data-i18n="contact_cta">Napisz na WhatsApp</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow mono" data-i18n="nav_why">Dlaczego my</div>
+      <h2 data-i18n="why_title">Dlaczego warto jechać z nami</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-item"><div class="num mono">01</div><h3 data-i18n="why_1_title">Kierowca z tabliczką</h3><p data-i18n="why_1_desc">Odbiór bezpośrednio z hali przylotów, pomoc z bagażem.</p></div>
+      <div class="why-item"><div class="num mono">02</div><h3 data-i18n="why_2_title">Monitoring lotów</h3><p data-i18n="why_2_desc">Śledzimy Twój lot — czekamy nawet przy opóźnieniu.</p></div>
+      <div class="why-item"><div class="num mono">03</div><h3 data-i18n="why_3_title">Stała cena</h3><p data-i18n="why_3_desc">Cena ustalona przed podróżą, płatność bez niespodzianek.</p></div>
+      <div class="why-item"><div class="num mono">04</div><h3 data-i18n="why_4_title">Dostępność 24/7</h3><p data-i18n="why_4_desc">Odbieramy o każdej porze dnia i nocy.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="book" style="background:var(--fog);">
+  <div class="wrap" style="max-width:640px;">
+    <div class="section-head">
+      <div class="eyebrow mono" data-i18n="book_eyebrow">FORMULARZ ZAMÓWIENIA</div>
+      <h2 data-i18n="book_title">Zamów transfer</h2>
+      <p data-i18n="book_subtitle">Wypełnij dane, a przygotujemy wiadomość gotową do wysłania na WhatsApp — potwierdzimy termin i cenę.</p>
+    </div>
+    <form id="bookingForm" novalidate>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="fName" data-i18n="label_firstname">Imię</label>
+          <input type="text" id="fName" required>
+        </div>
+        <div class="form-field">
+          <label for="lName" data-i18n="label_lastname">Nazwisko</label>
+          <input type="text" id="lName" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field" style="grid-column:1 / -1;">
+          <label for="routeType" data-i18n="label_route_type">Rodzaj trasy</label>
+          <select id="routeType">
+            <option value="airport" data-i18n="option_route_airport">Transfer z/na lotnisko Pyrzowice – Katowice</option>
+            <option value="krakow_zakopane" data-i18n="option_route_kz">Kraków ↔ Zakopane (bez lotniska)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row" id="airportFieldsRow">
+        <div class="form-field">
+          <label for="direction" data-i18n="label_direction">Kierunek</label>
+          <select id="direction">
+            <option value="from_airport" data-i18n="option_from_airport">Z lotniska do miasta</option>
+            <option value="to_airport" data-i18n="option_to_airport">Z miasta na lotnisko</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="city" data-i18n="label_city">Miasto docelowe</label>
+          <select id="city">
+            <option value="krakow" data-i18n="fleet_route_krakow">Kraków</option>
+            <option value="zakopane" data-i18n="fleet_route_zakopane">Zakopane</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row" id="kzFieldsRow" style="display:none;">
+        <div class="form-field" style="grid-column:1 / -1;">
+          <label for="kzDirection" data-i18n="label_direction">Kierunek</label>
+          <select id="kzDirection">
+            <option value="krakow_to_zakopane" data-i18n="option_krakow_to_zakopane">Kraków → Zakopane</option>
+            <option value="zakopane_to_krakow" data-i18n="option_zakopane_to_krakow">Zakopane → Kraków</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row" id="addressRow">
+        <div class="form-field" style="grid-column:1 / -1;">
+          <label for="address" data-i18n="label_address">Adres docelowy</label>
+          <input type="text" id="address" placeholder="Ulica, numer, miasto">
+        </div>
+      </div>
+
+      <div class="form-row" id="flightRow">
+        <div class="form-field" id="flightField">
+          <label for="flightNo" data-i18n="label_flight">Numer lotu</label>
+          <input type="text" id="flightNo" placeholder="np. FR1234">
+        </div>
+        <div class="form-field">
+          <label for="passengers" data-i18n="label_passengers">Liczba osób</label>
+          <input type="number" id="passengers" min="1" max="60" value="1">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field" style="grid-column:1 / -1;">
+          <label for="email" data-i18n="label_email">Adres e-mail</label>
+          <input type="email" id="email" placeholder="jan.kowalski@email.com" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="datetime" data-i18n="label_datetime">Data i godzina</label>
+          <input type="datetime-local" id="datetime">
+        </div>
+        <div class="form-field">
+          <label for="phone" data-i18n="label_phone">Numer telefonu (WhatsApp)</label>
+          <input type="tel" id="phone" placeholder="+48 600 000 000" required>
+        </div>
+      </div>
+
+      <p class="field-error" id="emailError" data-i18n="email_error">Podaj poprawny adres e-mail — wyślemy na niego potwierdzenie rezerwacji.</p>
+      <p class="field-error" id="phoneError" data-i18n="phone_error">Podaj poprawny numer telefonu w formacie międzynarodowym (np. +48600000000).</p>
+      <p class="field-hint" data-i18n="phone_hint">Upewnij się, że podany numer ma aktywne WhatsApp — tam potwierdzimy rezerwację.</p>
+      <p class="field-error" id="urgentError" data-i18n="urgent_error">Rezerwacje na mniej niż 24 godziny przyjmujemy wyłącznie przez bezpośredni kontakt na WhatsApp — użyj przycisku poniżej.</p>
+
+      <p class="field-hint" data-i18n="payment_note">Płatność gotówką lub kartą bezpośrednio u kierowcy — nie pobieramy przedpłaty online.</p>
+
+      <div class="price-box" id="priceBox">
+        <div class="price-box-label" data-i18n="price_estimate_label">Szacowana cena</div>
+        <div class="price-box-value" id="priceValue">—</div>
+        <div class="price-box-vehicle" id="priceVehicle"></div>
+      </div>
+
+      <button type="submit" id="bookingSubmitBtn" class="btn-wa" style="width:100%; justify-content:center; border:none; cursor:pointer;">
+        <svg viewBox="0 0 24 24" fill="#08331b" width="20" height="20"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5s-.6-1.5-.9-2c-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.2-.6-.4z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.3C8.4 21.6 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.2.8.9-3.1-.2-.3C3.5 14.7 3 13.4 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+        <span data-i18n="book_submit">Wyślij zapytanie na WhatsApp</span>
+      </button>
+
+      <a href="#" id="urgentWaBtn" target="_blank" rel="noopener" class="btn-wa" style="width:100%; justify-content:center; display:none; background:#25D366;">
+        <svg viewBox="0 0 24 24" fill="#08331b" width="20" height="20"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5s-.6-1.5-.9-2c-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.2-.6-.4z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.3C8.4 21.6 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.2.8.9-3.1-.2-.3C3.5 14.7 3 13.4 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+        <span data-i18n="urgent_wa_button">Pilny transfer — napisz bezpośrednio na WhatsApp</span>
+      </a>
+    </form>
+  </div>
+</section>
+
+<section id="contact" style="background:var(--fog); padding-bottom:70px;">
+  <div class="contact">
+    <h2 data-i18n="contact_title">Zarezerwuj transfer</h2>
+    <p data-i18n="contact_subtitle">Napisz do nas na WhatsApp — odpowiemy w kilka minut i potwierdzimy termin.</p>
+    <a href="#" class="btn-wa" id="contactWaBtn" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="#08331b"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5s-.6-1.5-.9-2c-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.2-.6-.4z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.3C8.4 21.6 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.2.8.9-3.1-.2-.3C3.5 14.7 3 13.4 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+      <span data-i18n="contact_cta">Napisz na WhatsApp</span>
+    </a>
+    <div class="phone-line"><span data-i18n="contact_phone_label">lub zadzwoń</span>: <span>+48 728 814 659</span></div>
+    <div class="phone-line"><span data-i18n="contact_email_label">lub napisz</span>: <span><a href="mailto:przewoz@legendarykrakow.pl" style="color:inherit;">przewoz@legendarykrakow.pl</a></span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>Wojciech Rzepka — Xtrip · <span data-i18n="footer_rights">Wszelkie prawa zastrzeżone.</span> © 2026</div>
+    <div><a href="blog.html">Blog</a></div>
+  </div>
+</footer>
+
+<a class="wa-float" id="floatWaBtn" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="#08331b"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.6.1-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5s-.6-1.5-.9-2c-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.6-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.2-.6-.4z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.3C8.4 21.6 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.4-.5-4.8-1.3l-.3-.2-3.2.8.9-3.1-.2-.3C3.5 14.7 3 13.4 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9z"/></svg>
+</a>
+
+<script>
+const PHONE = "48728814659";
+
+const LANGS = {
+  pl:{ name:"Polski", flag:"PL" },
+  en:{ name:"English", flag:"EN" },
+  de:{ name:"Deutsch", flag:"DE" },
+  fr:{ name:"Français", flag:"FR" },
+  it:{ name:"Italiano", flag:"IT" },
+  es:{ name:"Español", flag:"ES" },
+  mt:{ name:"Malti", flag:"MT" },
+  uk:{ name:"Українська", flag:"UA" },
+  ar:{ name:"العربية", flag:"AR" }
+};
+
+const T = {
+pl:{
+nav_home:"Start",nav_fleet:"Flota",nav_routes:"Trasy i cennik",nav_why:"Dlaczego my",nav_contact:"Kontakt",nav_book:"Zamów",
+hero_eyebrow:"TRANSFERY LOTNISKOWE · KATOWICE-PYRZOWICE",hero_title:"Twój kierowca już czeka",
+hero_subtitle:"Prywatne, punktualne transfery z lotniska Pyrzowice-Katowice do Krakowa i Zakopanego. Bez przesiadek, bez czekania na innych pasażerów.",
+hero_biz:"Obsługujemy również transfery biznesowe dla firm i gości korporacyjnych.",
+hero_cta:"Zarezerwuj na WhatsApp",hero_note:"Odpowiadamy zwykle w ciągu kilku minut",
+route_label_air:"Katowice-Pyrzowice",route_label_kr:"Kraków",route_label_zak:"Zakopane",
+route_km_kr:"75 km",route_time_kr:"ok. 1 godz.",route_km_zak:"180 km",route_time_zak:"ok. 2 godz. 15 min",
+fleet_title:"Flota dopasowana do podróży",fleet_subtitle:"Od kameralnego auta po duży autobus — wybierz pojazd odpowiedni do liczby osób i bagażu.",
+biz_tag:"Transfer biznesowy",
+fleet_pacifica_name:"Chrysler Pacifica",fleet_pacifica_desc:"Premium minivan dla klientów oczekujących najwyższego standardu podróży.",fleet_pacifica_seats:"do 5 osób + kierowca",
+fleet_vito_name:"Mercedes Vito",fleet_vito_desc:"Komfortowy van dla rodzin i małych grup. Klimatyzacja, dużo miejsca na bagaż.",fleet_vito_seats:"do 8 osób + kierowca",
+fleet_sprinter_name:"Mercedes Sprinter",fleet_sprinter_desc:"Przestronny van dla większych grup — komfort na dłuższej trasie w góry.",fleet_sprinter_seats:"do 20 osób + kierowca",
+fleet_coach30_name:"Autobus",fleet_coach30_desc:"Nowoczesny autobus dla grup zorganizowanych, wesel i wycieczek firmowych.",fleet_coach30_seats:"do 30 osób",
+fleet_coach60_name:"Autobus",fleet_coach60_desc:"Duży autobus dla dużych grup, pielgrzymek i transportu pracowniczego.",fleet_coach60_seats:"do 60 osób",
+routes_title:"Trasy i orientacyjne ceny",routes_subtitle:"Cena zawsze ustalana z góry — żadnych ukrytych opłat.",
+pricing_vehicle:"Pojazd",pricing_day:"Dzień",pricing_night:"Noc",pricing_city_kr:"Trasa: Pyrzowice – Lotnisko Katowice ↔ Kraków",pricing_city_zak:"Trasa: Pyrzowice – Lotnisko Katowice ↔ Zakopane",
+pricing_city_kz:"Trasa: Kraków ↔ Zakopane (bez lotniska)",pricing_note_kz:"Trasa Kraków–Zakopane wyceniona jak trasa Pyrzowice-Katowice–Kraków (porównywalny dystans, ok. 100 km) — do Twojej weryfikacji.",
+label_route_type:"Rodzaj trasy",option_route_airport:"Transfer z/na lotnisko Pyrzowice – Katowice",option_route_kz:"Kraków ↔ Zakopane (bez lotniska)",
+option_krakow_to_zakopane:"Kraków → Zakopane",option_zakopane_to_krakow:"Zakopane → Kraków",
+pricing_capacity:"Liczba osób",cap_3:"Do 3 osób",cap_8:"Do 8 osób",cap_20:"Do 20 osób",cap_30:"Do 30 osób",cap_60:"Do 60 osób",
+pricing_bus:"Autobusy (30 / 60 os.)",pricing_on_request:"na zapytanie",
+pricing_note:"Ceny orientacyjne na podstawie analizy ofert konkurencji — do potwierdzenia. Dla pojazdów powyżej 8 osób wycena ustalana jest indywidualnie.",
+routes_other_title:"Inne kierunki i transfery biznesowe",routes_other_desc:"Częstochowa, Bielsko-Biała, Wieliczka, spotkania firmowe i konferencje — zapytaj o wycenę indywidualną.",
+why_title:"Dlaczego warto jechać z nami",
+why_1_title:"Kierowca z tabliczką",why_1_desc:"Odbiór bezpośrednio z hali przylotów, pomoc z bagażem.",
+why_2_title:"Monitoring lotów",why_2_desc:"Śledzimy Twój lot — czekamy nawet przy opóźnieniu.",
+why_3_title:"Stała cena",why_3_desc:"Cena ustalona przed podróżą, płatność bez niespodzianek.",
+why_4_title:"Dostępność 24/7",why_4_desc:"Odbieramy o każdej porze dnia i nocy.",
+contact_title:"Zarezerwuj transfer",contact_subtitle:"Napisz do nas na WhatsApp — odpowiemy w kilka minut i potwierdzimy termin.",
+contact_cta:"Napisz na WhatsApp",contact_phone_label:"lub zadzwoń",contact_email_label:"lub napisz",
+footer_rights:"Wszelkie prawa zastrzeżone.",
+book_eyebrow:"FORMULARZ ZAMÓWIENIA",book_title:"Zamów transfer",book_subtitle:"Wypełnij dane, a przygotujemy wiadomość gotową do wysłania na WhatsApp — potwierdzimy termin i cenę.",
+label_firstname:"Imię",label_lastname:"Nazwisko",label_flight:"Numer lotu",label_phone:"Numer telefonu (WhatsApp)",label_email:"Adres e-mail",
+email_error:"Podaj poprawny adres e-mail — wyślemy na niego potwierdzenie rezerwacji.",
+payment_note:"Płatność gotówką lub kartą bezpośrednio u kierowcy — nie pobieramy przedpłaty online.",
+label_direction:"Kierunek",option_from_airport:"Z lotniska do miasta",option_to_airport:"Z miasta na lotnisko",
+label_city:"Miasto docelowe",fleet_route_krakow:"Kraków",fleet_route_zakopane:"Zakopane",
+label_address:"Adres docelowy",label_passengers:"Liczba osób",label_datetime:"Data i godzina",
+price_estimate_label:"Szacowana cena",price_pax_label:"os.",
+holiday_surcharge_label:"+25% dopłata świąteczna",
+urgent_error:"Rezerwacje na mniej niż 24 godziny przyjmujemy wyłącznie przez bezpośredni kontakt na WhatsApp — użyj przycisku poniżej.",
+urgent_wa_button:"Pilny transfer — napisz bezpośrednio na WhatsApp",
+urgent_wa_message:"Pilny transfer (mniej niż 24h) — proszę o szybki kontakt.",
+phone_error:"Podaj poprawny numer telefonu w formacie międzynarodowym (np. +48600000000).",
+phone_hint:"Upewnij się, że podany numer ma aktywne WhatsApp — tam potwierdzimy rezerwację.",
+book_submit:"Wyślij zapytanie na WhatsApp",
+whatsapp_message:"Dzień dobry, chciałbym zapytać o transfer z lotniska Pyrzowice – Katowice."
+},
+en:{
+nav_home:"Home",nav_fleet:"Fleet",nav_routes:"Routes & Prices",nav_why:"Why us",nav_contact:"Contact",nav_book:"Book",
+hero_eyebrow:"AIRPORT TRANSFERS · KATOWICE-PYRZOWICE",hero_title:"Your driver is already waiting",
+hero_subtitle:"Private, on-time transfers from Katowice-Pyrzowice Airport to Kraków and Zakopane. No transfers, no waiting for other passengers.",
+hero_biz:"We also handle business transfers for companies and corporate guests.",
+hero_cta:"Book on WhatsApp",hero_note:"We usually reply within minutes",
+route_label_air:"Katowice-Pyrzowice",route_label_kr:"Kraków",route_label_zak:"Zakopane",
+route_km_kr:"75 km",route_time_kr:"approx. 1 hr",route_km_zak:"180 km",route_time_zak:"approx. 2 hr 15 min",
+fleet_title:"A fleet matched to your trip",fleet_subtitle:"From a compact car to a full-size coach — choose the vehicle that fits your group and luggage.",
+biz_tag:"Business transfer",
+fleet_pacifica_name:"Chrysler Pacifica",fleet_pacifica_desc:"Premium minivan for clients who expect the highest travel standard.",fleet_pacifica_seats:"up to 5 passengers + driver",
+fleet_vito_name:"Mercedes Vito",fleet_vito_desc:"Comfortable van for families and small groups. Air conditioning, plenty of luggage space.",fleet_vito_seats:"up to 8 passengers + driver",
+fleet_sprinter_name:"Mercedes Sprinter",fleet_sprinter_desc:"Spacious van for larger groups — comfortable on the longer mountain route.",fleet_sprinter_seats:"up to 20 passengers + driver",
+fleet_coach30_name:"Coach",fleet_coach30_desc:"Modern coach for organized groups, weddings and corporate trips.",fleet_coach30_seats:"up to 30 passengers",
+fleet_coach60_name:"Coach",fleet_coach60_desc:"Large coach for big groups, pilgrimages and staff transport.",fleet_coach60_seats:"up to 60 passengers",
+routes_title:"Routes & indicative prices",routes_subtitle:"Price agreed upfront — no hidden fees.",
+pricing_vehicle:"Vehicle",pricing_day:"Day",pricing_night:"Night",pricing_city_kr:"Route: Pyrzowice – Katowice Airport ↔ Kraków",pricing_city_zak:"Route: Pyrzowice – Katowice Airport ↔ Zakopane",
+pricing_city_kz:"Route: Kraków ↔ Zakopane (no airport)",pricing_note_kz:"The Kraków–Zakopane route is priced the same as Pyrzowice-Katowice–Kraków (comparable distance, approx. 100 km) — to be confirmed.",
+label_route_type:"Route type",option_route_airport:"Transfer to/from Pyrzowice – Katowice Airport",option_route_kz:"Kraków ↔ Zakopane (no airport)",
+option_krakow_to_zakopane:"Kraków → Zakopane",option_zakopane_to_krakow:"Zakopane → Kraków",
+pricing_capacity:"Passengers",cap_3:"Up to 3 passengers",cap_8:"Up to 8 passengers",cap_20:"Up to 20 passengers",cap_30:"Up to 30 passengers",cap_60:"Up to 60 passengers",
+pricing_bus:"Coaches (30 / 60 seats)",pricing_on_request:"on request",
+pricing_note:"Indicative prices based on a review of competitor offers — to be confirmed. For vehicles over 8 seats, pricing is quoted individually.",
+routes_other_title:"Other destinations & business transfers",routes_other_desc:"Częstochowa, Bielsko-Biała, Wieliczka, corporate meetings and conferences — ask for a custom quote.",
+why_title:"Why travel with us",
+why_1_title:"Driver with a name board",why_1_desc:"Pickup right at arrivals, help with your luggage.",
+why_2_title:"Flight monitoring",why_2_desc:"We track your flight — we wait even if it's delayed.",
+why_3_title:"Fixed price",why_3_desc:"Price agreed before the trip, no surprises at payment.",
+why_4_title:"Available 24/7",why_4_desc:"We pick up at any hour, day or night.",
+contact_title:"Book your transfer",contact_subtitle:"Message us on WhatsApp — we'll reply within minutes and confirm your booking.",
+contact_cta:"Message on WhatsApp",contact_phone_label:"or call",contact_email_label:"or email",
+footer_rights:"All rights reserved.",
+book_eyebrow:"BOOKING FORM",book_title:"Book your transfer",book_subtitle:"Fill in your details and we'll prepare a message ready to send on WhatsApp — we'll confirm the time and price.",
+label_firstname:"First name",label_lastname:"Last name",label_flight:"Flight number",label_phone:"Phone number (WhatsApp)",label_email:"Email address",
+email_error:"Please enter a valid email address — we'll send your booking confirmation there.",
+payment_note:"Payment by cash or card directly to the driver — we don't charge online in advance.",
+label_direction:"Direction",option_from_airport:"Airport to city",option_to_airport:"City to airport",
+label_city:"Destination city",fleet_route_krakow:"Kraków",fleet_route_zakopane:"Zakopane",
+label_address:"Destination address",label_passengers:"Number of passengers",label_datetime:"Date & time",
+price_estimate_label:"Estimated price",price_pax_label:"pax",
+holiday_surcharge_label:"+25% holiday surcharge",
+urgent_error:"Bookings under 24 hours are accepted only via direct WhatsApp contact — use the button below.",
+urgent_wa_button:"Urgent transfer — message us directly on WhatsApp",
+urgent_wa_message:"Urgent transfer (less than 24h) — please respond quickly.",
+phone_error:"Please enter a valid international phone number (e.g. +48600000000).",
+phone_hint:"Make sure the number has WhatsApp active — that's where we'll confirm your booking.",
+book_submit:"Send request on WhatsApp",
+whatsapp_message:"Hello, I'd like to ask about a transfer from Pyrzowice – Katowice Airport."
+},
+de:{
+nav_home:"Start",nav_fleet:"Flotte",nav_routes:"Strecken & Preise",nav_why:"Warum wir",nav_contact:"Kontakt",nav_book:"Buchen",
+hero_eyebrow:"FLUGHAFENTRANSFER · KATOWICE-PYRZOWICE",hero_title:"Ihr Fahrer wartet bereits",
+hero_subtitle:"Private, pünktliche Transfers vom Flughafen Katowice-Pyrzowice nach Krakau und Zakopane. Ohne Umsteigen, ohne Warten auf andere Fahrgäste.",
+hero_biz:"Wir übernehmen auch Geschäftsreisen für Firmen und Firmengäste.",
+hero_cta:"Über WhatsApp buchen",hero_note:"Wir antworten meist innerhalb weniger Minuten",
+route_label_air:"Katowice-Pyrzowice",route_label_kr:"Krakau",route_label_zak:"Zakopane",
+route_km_kr:"75 km",route_time_kr:"ca. 1 Std.",route_km_zak:"180 km",route_time_zak:"ca. 2 Std. 15 Min.",
+fleet_title:"Eine Flotte für jede Reise",fleet_subtitle:"Vom kompakten Auto bis zum großen Reisebus — wählen Sie das passende Fahrzeug für Gruppe und Gepäck.",
+biz_tag:"Geschäftstransfer",
+fleet_pacifica_name:"Chrysler Pacifica",fleet_pacifica_desc:"Premium-Minivan für Kunden mit höchsten Ansprüchen.",fleet_pacifica_seats:"bis 5 Personen + Fahrer",
+fleet_vito_name:"Mercedes Vito",fleet_vito_desc:"Komfortabler Van für Familien und kleine Gruppen. Klimaanlage, viel Platz für Gepäck.",fleet_vito_seats:"bis 8 Personen + Fahrer",
+fleet_sprinter_name:"Mercedes Sprinter",fleet_sprinter_desc:"Geräumiger Van für größere Gruppen — komfortabel auf der längeren Bergstrecke.",fleet_sprinter_seats:"bis 20 Personen + Fahrer",
+fleet_coach30_name:"Reisebus",fleet_coach30_desc:"Moderner Reisebus für Gruppen, Hochzeiten und Firmenreisen.",fleet_coach30_seats:"bis 30 Personen",
+fleet_coach60_name:"Reisebus",fleet_coach60_desc:"Großer Reisebus für große Gruppen, Wallfahrten und Mitarbeitertransport.",fleet_coach60_seats:"bis 60 Personen",
+routes_title:"Strecken & Richtpreise",routes_subtitle:"Der Preis wird vorab vereinbart — keine versteckten Kosten.",
+pricing_vehicle:"Fahrzeug",pricing_day:"Tag",pricing_night:"Nacht",pricing_city_kr:"Strecke: Pyrzowice – Flughafen Katowice ↔ Krakau",pricing_city_zak:"Strecke: Pyrzowice – Flughafen Katowice ↔ Zakopane",
+pricing_city_kz:"Strecke: Krakau ↔ Zakopane (ohne Flughafen)",pricing_note_kz:"Die Strecke Krakau–Zakopane wird wie Pyrzowice-Katowice–Krakau berechnet (vergleichbare Distanz, ca. 100 km) — zur Bestätigung.",
+label_route_type:"Streckenart",option_route_airport:"Transfer zum/vom Flughafen Pyrzowice – Katowice",option_route_kz:"Krakau ↔ Zakopane (ohne Flughafen)",
+option_krakow_to_zakopane:"Krakau → Zakopane",option_zakopane_to_krakow:"Zakopane → Krakau",
+pricing_capacity:"Personenzahl",cap_3:"Bis 3 Personen",cap_8:"Bis 8 Personen",cap_20:"Bis 20 Personen",cap_30:"Bis 30 Personen",cap_60:"Bis 60 Personen",
+pricing_bus:"Reisebusse (30 / 60 Plätze)",pricing_on_request:"auf Anfrage",
+pricing_note:"Richtpreise auf Basis einer Analyse von Wettbewerberangeboten — zur Bestätigung. Für Fahrzeuge über 8 Plätze wird der Preis individuell festgelegt.",
+routes_other_title:"Weitere Ziele & Geschäftstransfers",routes_other_desc:"Częstochowa, Bielsko-Biała, Wieliczka, Firmentreffen und Konferenzen — fragen Sie nach einem individuellen Angebot.",
+why_title:"Warum mit uns reisen",
+why_1_title:"Fahrer mit Namensschild",why_1_desc:"Abholung direkt in der Ankunftshalle, Hilfe mit dem Gepäck.",
+why_2_title:"Flugüberwachung",why_2_desc:"Wir verfolgen Ihren Flug — wir warten auch bei Verspätung.",
+why_3_title:"Festpreis",why_3_desc:"Preis vor der Fahrt vereinbart, keine Überraschungen bei der Zahlung.",
+why_4_title:"24/7 verfügbar",why_4_desc:"Wir holen Sie zu jeder Tages- und Nachtzeit ab.",
+contact_title:"Transfer buchen",contact_subtitle:"Schreiben Sie uns auf WhatsApp — wir antworten innerhalb weniger Minuten und bestätigen Ihre Buchung.",
+contact_cta:"Auf WhatsApp schreiben",contact_phone_label:"oder anrufen",contact_email_label:"oder per E-Mail",
+footer_rights:"Alle Rechte vorbehalten.",
+book_eyebrow:"BUCHUNGSFORMULAR",book_title:"Transfer buchen",book_subtitle:"Füllen Sie Ihre Daten aus — wir bereiten eine Nachricht vor, die Sie direkt per WhatsApp senden können. Wir bestätigen Termin und Preis.",
+label_firstname:"Vorname",label_lastname:"Nachname",label_flight:"Flugnummer",label_phone:"Telefonnummer (WhatsApp)",label_email:"E-Mail-Adresse",
+email_error:"Bitte geben Sie eine gültige E-Mail-Adresse ein — dorthin senden wir Ihre Buchungsbestätigung.",
+payment_note:"Zahlung bar oder per Karte direkt beim Fahrer — wir erheben keine Online-Vorauszahlung.",
+label_direction:"Richtung",option_from_airport:"Vom Flughafen in die Stadt",option_to_airport:"Von der Stadt zum Flughafen",
+label_city:"Zielort",fleet_route_krakow:"Krakau",fleet_route_zakopane:"Zakopane",
+label_address:"Zieladresse",label_passengers:"Anzahl Personen",label_datetime:"Datum & Uhrzeit",
+price_estimate_label:"Geschätzter Preis",price_pax_label:"Pers.",
+holiday_surcharge_label:"+25% Feiertagszuschlag",
+urgent_error:"Buchungen unter 24 Stunden nehmen wir ausschließlich per direktem WhatsApp-Kontakt entgegen — nutzen Sie den Button unten.",
+urgent_wa_button:"Dringender Transfer — direkt auf WhatsApp schreiben",
+urgent_wa_message:"Dringender Transfer (weniger als 24h) — bitte schnell antworten.",
+phone_error:"Bitte geben Sie eine gültige internationale Telefonnummer ein (z.B. +48600000000).",
+phone_hint:"Stellen Sie sicher, dass die Nummer WhatsApp nutzt — dort bestätigen wir Ihre Buchung.",
+book_submit:"Anfrage per WhatsApp senden",
+whatsapp_message:"Hallo, ich möchte mich nach einem Transfer vom Flughafen Pyrzowice – Katowice erkundigen."
+},
+fr:{
+nav_home:"Accueil",nav_fleet:"Véhicules",nav_routes:"Trajets & Tarifs",nav_why:"Pourquoi nous",nav_contact:"Contact",nav_book:"Réserver",
+hero_eyebrow:"TRANSFERTS AÉROPORT · KATOWICE-PYRZOWICE",hero_title:"Votre chauffeur vous attend déjà",
+hero_subtitle:"Transferts privés et ponctuels depuis l'aéroport de Katowice-Pyrzowice vers Cracovie et Zakopane. Sans correspondance, sans attendre d'autres passagers.",
+hero_biz:"Nous assurons également les transferts d'affaires pour les entreprises et leurs invités.",
+hero_cta:"Réserver sur WhatsApp",hero_note:"Nous répondons généralement en quelques minutes",
+route_label_air:"Katowice-Pyrzowice",route_label_kr:"Cracovie",route_label_zak:"Zakopane",
+route_km_kr:"75 km",route_time_kr:"env. 1 h",route_km_zak:"180 km",route_time_zak:"env. 2 h 15",
+fleet_title:"Une flotte adaptée à votre voyage",fleet_subtitle:"D'une voiture compacte à un grand autocar — choisissez le véhicule adapté à votre groupe et vos bagages.",
+biz_tag:"Transfert d'affaires",
+fleet_pacifica_name:"Chrysler Pacifica",fleet_pacifica_desc:"Minivan premium pour les clients exigeant le plus haut niveau de confort.",fleet_pacifica_seats:"jusqu'à 5 personnes + chauffeur",
+fleet_vito_name:"Mercedes Vito",fleet_vito_desc:"Van confortable pour familles et petits groupes. Climatisation, grand espace bagages.",fleet_vito_seats:"jusqu'à 8 personnes + chauffeur",
+fleet_sprinter_name:"Mercedes Sprinter",fleet_sprinter_desc:"Van spacieux pour les groupes plus grands — confortable sur le trajet vers les montagnes.",fleet_sprinter_seats:"jusqu'à 20 personnes + chauffeur",
+fleet_coach30_name:"Autocar",fleet_coach30_desc:"Autocar moderne pour groupes organisés, mariages et voyages d'entreprise.",fleet_coach30_seats:"jusqu'à 30 personnes",
+fleet_coach60_name:"Autocar",fleet_coach60_desc:"Grand autocar pour grands groupes, pèlerinages et transport de personnel.",fleet_coach60_seats:"jusqu'à 60 personnes",
+routes_title:"Trajets et tarifs indicatifs",routes_subtitle:"Le prix est convenu à l'avance — aucun frais caché.",
+pricing_vehicle:"Véhicule",pricing_day:"Jour",pricing_night:"Nuit",pricing_city_kr:"Trajet : Pyrzowice – Aéroport de Katowice ↔ Cracovie",pricing_city_zak:"Trajet : Pyrzowice – Aéroport de Katowice ↔ Zakopane",
+pricing_city_kz:"Trajet : Cracovie ↔ Zakopane (sans aéroport)",pricing_note_kz:"Le trajet Cracovie–Zakopane est tarifé comme Pyrzowice-Katowice–Cracovie (distance comparable, env. 100 km) — à confirmer.",
+label_route_type:"Type de trajet",option_route_airport:"Transfert vers/depuis l'aéroport de Pyrzowice – Katowice",option_route_kz:"Cracovie ↔ Zakopane (sans aéroport)",
+option_krakow_to_zakopane:"Cracovie → Zakopane",option_zakopane_to_krakow:"Zakopane → Cracovie",
+pricing_capacity:"Nombre de personnes",cap_3:"Jusqu'à 3 personnes",cap_8:"Jusqu'à 8 personnes",cap_20:"Jusqu'à 20 personnes",cap_30:"Jusqu'à 30 personnes",cap_60:"Jusqu'à 60 personnes",
+pricing_bus:"Autocars (30 / 60 places)",pricing_on_request:"sur demande",
+pricing_note:"Prix indicatifs basés sur une analyse des offres concurrentes — à confirmer. Pour les véhicules de plus de 8 places, le prix est établi individuellement.",
+routes_other_title:"Autres destinations & transferts d'affaires",routes_other_desc:"Częstochowa, Bielsko-Biała, Wieliczka, réunions d'entreprise et conférences — demandez un devis personnalisé.",
+why_title:"Pourquoi voyager avec nous",
+why_1_title:"Chauffeur avec pancarte",why_1_desc:"Prise en charge directement à l'arrivée, aide avec les bagages.",
+why_2_title:"Suivi des vols",why_2_desc:"Nous suivons votre vol — nous attendons même en cas de retard.",
+why_3_title:"Prix fixe",why_3_desc:"Prix convenu avant le trajet, aucune surprise au paiement.",
+why_4_title:"Disponible 24h/24",why_4_desc:"Prise en charge à toute heure, jour et nuit.",
+contact_title:"Réservez votre transfert",contact_subtitle:"Écrivez-nous sur WhatsApp — nous répondons en quelques minutes et confirmons votre réservation.",
+contact_cta:"Écrire sur WhatsApp",contact_phone_label:"ou appelez",contact_email_label:"ou par e-mail",
+footer_rights:"Tous droits réservés.",
+book_eyebrow:"FORMULAIRE DE RÉSERVATION",book_title:"Réservez votre transfert",book_subtitle:"Remplissez vos coordonnées, nous préparerons un message prêt à envoyer sur WhatsApp — nous confirmerons l'horaire et le prix.",
+label_firstname:"Prénom",label_lastname:"Nom",label_flight:"Numéro de vol",label_phone:"Numéro de téléphone (WhatsApp)",label_email:"Adresse e-mail",
+email_error:"Veuillez saisir une adresse e-mail valide — nous y enverrons la confirmation de votre réservation.",
+payment_note:"Paiement en espèces ou par carte directement auprès du chauffeur — aucun prépaiement en ligne n'est demandé.",
+label_direction:"Direction",option_from_airport:"De l'aéroport vers la ville",option_to_airport:"De la ville vers l'aéroport",
+label_city:"Ville de destination",fleet_route_krakow:"Cracovie",fleet_route_zakopane:"Zakopane",
+label_address:"Adresse de destination",label_passengers:"Nombre de passagers",label_datetime:"Date et heure",
+price_estimate_label:"Prix estimé",price_pax_label:"pers.",
+holiday_surcharge_label:"+25% supplément fêtes",
+urgent_error:"Les réservations à moins de 24 heures ne sont acceptées que par contact direct sur WhatsApp — utilisez le bouton ci-dessous.",
+urgent_wa_button:"Transfert urgent — écrivez-nous directement sur WhatsApp",
+urgent_wa_message:"Transfert urgent (moins de 24h) — merci de répondre rapidement.",
+phone_error:"Veuillez saisir un numéro de téléphone international valide (ex. +48600000000).",
+phone_hint:"Assurez-vous que ce numéro a WhatsApp actif — c'est là que nous confirmerons votre réservation.",
+book_submit:"Envoyer la demande sur WhatsApp",
+whatsapp_message:"Bonjour, je souhaite me renseigner sur un transfert depuis l'aéroport de Pyrzowice – Katowice."
+},
+it:{
+nav_home:"Home",nav_fleet:"Flotta",nav_routes:"Tratte e Prezzi",nav_why:"Perché noi",nav_contact:"Contatti",nav_book:"Prenota",
+hero_eyebrow:"TRANSFER AEROPORTUALI · KATOWICE-PYRZOWICE",hero_title:"Il tuo autista ti sta già aspettando",
+hero_subtitle:"Transfer privati e puntuali dall'aeroporto di Katowice-Pyrzowice a Cracovia e Zakopane. Senza cambi, senza attese per altri passeggeri.",
+hero_biz:"Gestiamo anche transfer business per aziende e ospiti corporate.",
+hero_cta:"Prenota su WhatsApp",hero_note:"Di solito rispondiamo entro pochi minuti",
+route_label_air:"Katowice-Pyrzowice",route_label_kr:"Cracovia",route_label_zak:"Zakopane",
+route_km_kr:"75 km",route_time_kr:"circa 1 ora",route_km_zak:"180 km",route_time_zak:"circa 2 ore e 15 min",
+fleet_title:"Una flotta su misura per il tuo viaggio",fleet_subtitle:"Da un'auto compatta a un grande pullman — scegli il veicolo adatto al tuo gruppo e ai bagagli.",
+biz_tag:"Transfer business",
+fleet_pacifica_name:"Chrysler Pacifica",fleet_pacifica_desc:"Minivan premium per clienti che desiderano il massimo comfort di viaggio.",fleet_pacifica_seats:"fino a 5 persone + autista",
+fleet_vito_name:"Mercedes Vito",fleet_vito_desc:"Van confortevole per famiglie e piccoli gruppi. Aria condizionata, ampio spazio bagagli.",fleet_vito_seats:"fino a 8 persone + autista",
+fleet_sprinter_name:"Mercedes Sprinter",fleet_sprinter_desc:"Van spazioso per gruppi più numerosi — comodo sul tragitto più lungo verso le montagne.",fleet_sprinter_seats:"fino a 20 persone + autista",
+fleet_coach30_name:"Pullman",fleet_coach30_desc:"Pullman moderno per gruppi organizzati, matrimoni e viaggi aziendali.",fleet_coach30_seats:"fino a 30 persone",
+fleet_coach60_name:"Pullman",fleet_coach60_desc:"Grande pullman per gruppi numerosi, pellegrinaggi e trasporto dipendenti.",fleet_coach60_seats:"fino a 60 persone",
+routes_title:"Tratte e prezzi indicativi",routes_subtitle:"Il prezzo viene concordato in anticipo — nessun costo nascosto.",
+pricing_vehicle:"Veicolo",pricing_day:"Giorno",pricing_night:"Notte",pricing_city_kr:"Tratta: Pyrzowice – Aeroporto di Katowice ↔ Cracovia",pricing_city_zak:"Tratta: Pyrzowice – Aeroporto di Katowice ↔ Zakopane",
+pricing_city_kz:"Tratta: Cracovia ↔ Zakopane (senza aeroporto)",pricing_note_kz:"La tratta Cracovia–Zakopane è tariffata come Pyrzowice-Katowice–Cracovia (distanza comparabile, circa 100 km) — da confermare.",
+label_route_type:"Tipo di tratta",option_route_airport:"Transfer da/per l'aeroporto di Pyrzowice – Katowice",option_route_kz:"Cracovia ↔ Zakopane (senza aeroporto)",
+option_krakow_to_zakopane:"Cracovia → Zakopane",option_zakopane_to_krakow:"Zakopane → Cracovia",
+pricing_capacity:"Numero di persone",cap_3:"Fino a 3 persone",cap_8:"Fino a 8 persone",cap_20:"Fino a 20 persone",cap_30:"Fino a 30 persone",cap_60:"Fino a 60 persone",
+pricing_bus:"Pullman (30 / 60 posti)",pricing_on_request:"su richiesta",
+pricing_note:"Prezzi indicativi basati su un'analisi delle offerte della concorrenza — da confermare. Per veicoli oltre 8 posti il prezzo viene definito individualmente.",
+routes_other_title:"Altre destinazioni e transfer business",routes_other_desc:"Częstochowa, Bielsko-Biała, Wieliczka, riunioni aziendali e conferenze — richiedi un preventivo personalizzato.",
+why_title:"Perché viaggiare con noi",
+why_1_title:"Autista con cartello",why_1_desc:"Ritiro direttamente all'arrivo, aiuto con i bagagli.",
+why_2_title:"Monitoraggio del volo",why_2_desc:"Seguiamo il tuo volo — aspettiamo anche in caso di ritardo.",
+why_3_title:"Prezzo fisso",why_3_desc:"Prezzo concordato prima del viaggio, nessuna sorpresa al pagamento.",
+why_4_title:"Disponibili 24/7",why_4_desc:"Ritiro a qualsiasi ora, giorno e notte.",
+contact_title:"Prenota il tuo transfer",contact_subtitle:"Scrivici su WhatsApp — risponderemo in pochi minuti e confermeremo la tua prenotazione.",
+contact_cta:"Scrivi su WhatsApp",contact_phone_label:"oppure chiama",contact_email_label:"oppure scrivi una e-mail",
+footer_rights:"Tutti i diritti riservati.",
+book_eyebrow:"MODULO DI PRENOTAZIONE",book_title:"Prenota il tuo transfer",book_subtitle:"Compila i tuoi dati: prepareremo un messaggio pronto da inviare su WhatsApp — confermeremo orario e prezzo.",
+label_firstname:"Nome",label_lastname:"Cognome",label_flight:"Numero di volo",label_phone:"Numero di telefono (WhatsApp)",label_email:"Indirizzo e-mail",
+email_error:"Inserisci un indirizzo e-mail valido — ti invieremo lì la conferma della prenotazione.",
+payment_note:"Pagamento in contanti o con carta direttamente all'autista — nessun pagamento anticipato online.",
+label_direction:"Direzione",option_from_airport:"Dall'aeroporto alla città",option_to_airport:"Dalla città all'aeroporto",
+label_city:"Città di destinazione",fleet_route_krakow:"Cracovia",fleet_route_zakopane:"Zakopane",
+label_address:"Indirizzo di destinazione",label_passengers:"Numero di passeggeri",label_datetime:"Data e ora",
+price_estimate_label:"Prezzo stimato",price_pax_label:"pers.",
+holiday_surcharge_label:"+25% supplemento festivo",
+urgent_error:"Le prenotazioni entro 24 ore sono accettate solo tramite contatto diretto su WhatsApp — usa il pulsante qui sotto.",
+urgent_wa_button:"Transfer urgente — scrivici direttamente su WhatsApp",
+urgent_wa_message:"Transfer urgente (meno di 24h) — si prega di rispondere rapidamente.",
+phone_error:"Inserisci un numero di telefono internazionale valido (es. +48600000000).",
+phone_hint:"Assicurati che il numero abbia WhatsApp attivo — lì confermeremo la tua prenotazione.",
+book_submit:"Invia richiesta su WhatsApp",
+whatsapp_message:"Buongiorno, vorrei informazioni su un transfer dall'aeroporto di Pyrzowice – Katowice."
+},
+es:{
+nav_home:"Inicio",nav_fleet:"Flota",nav_routes:"Rutas y Precios",nav_why:"Por qué nosotros",nav_contact:"Contacto",nav_book:"Reservar",
+hero_eyebrow:"TRASLADOS AL AEROPUERTO · KATOWICE-PYRZOWICE",hero_title:"Tu conductor ya te está esperando",
+hero_subtitle:"Traslados privados y puntuales desde el aeropuerto de Katowice-Pyrzowice a Cracovia y Zakopane. Sin trasbordos, sin esperar a otros pasajeros.",
+hero_biz:"También ofrecemos traslados de negocios para empresas e invitados corporativos.",
+hero_cta:"Reservar por WhatsApp",hero_note:"Normalmente respondemos en pocos minutos",
+route_label_air:"Katowice-Pyrzowice",route_label_kr:"Cracovia",route_label_zak:"Zakopane",
+route_km_kr:"75 km",route_time_kr:"aprox. 1 h",route_km_zak:"180 km",route_time_zak:"aprox. 2 h 15 min",
+fleet_title:"Una flota a la medida de tu viaje",fleet_subtitle:"Desde un coche compacto hasta un gran autocar — elige el vehículo adecuado para tu grupo y equipaje.",
+biz_tag:"Traslado de negocios",
+fleet_pacifica_name:"Chrysler Pacifica",fleet_pacifica_desc:"Minivan premium para clientes que buscan el máximo confort de viaje.",fleet_pacifica_seats:"hasta 5 personas + conductor",
+fleet_vito_name:"Mercedes Vito",fleet_vito_desc:"Furgoneta cómoda para familias y grupos pequeños. Aire acondicionado, amplio espacio para equipaje.",fleet_vito_seats:"hasta 8 personas + conductor",
+fleet_sprinter_name:"Mercedes Sprinter",fleet_sprinter_desc:"Furgoneta espaciosa para grupos más grandes — cómoda en el trayecto más largo hacia las montañas.",fleet_sprinter_seats:"hasta 20 personas + conductor",
+fleet_coach30_name:"Autocar",fleet_coach30_desc:"Autocar moderno para grupos organizados, bodas y viajes de empresa.",fleet_coach30_seats:"hasta 30 personas",
+fleet_coach60_name:"Autocar",fleet_coach60_desc:"Autocar grande para grupos numerosos, peregrinaciones y transporte de personal.",fleet_coach60_seats:"hasta 60 personas",
+routes_title:"Rutas y precios orientativos",routes_subtitle:"El precio se acuerda por adelantado — sin cargos ocultos.",
+pricing_vehicle:"Vehículo",pricing_day:"Día",pricing_night:"Noche",pricing_city_kr:"Ruta: Pyrzowice – Aeropuerto de Katowice ↔ Cracovia",pricing_city_zak:"Ruta: Pyrzowice – Aeropuerto de Katowice ↔ Zakopane",
+pricing_city_kz:"Ruta: Cracovia ↔ Zakopane (sin aeropuerto)",pricing_note_kz:"La ruta Cracovia–Zakopane tiene el mismo precio que Pyrzowice-Katowice–Cracovia (distancia comparable, unos 100 km) — a confirmar.",
+label_route_type:"Tipo de ruta",option_route_airport:"Traslado al/desde el aeropuerto de Pyrzowice – Katowice",option_route_kz:"Cracovia ↔ Zakopane (sin aeropuerto)",
+option_krakow_to_zakopane:"Cracovia → Zakopane",option_zakopane_to_krakow:"Zakopane → Cracovia",
+pricing_capacity:"Número de personas",cap_3:"Hasta 3 personas",cap_8:"Hasta 8 personas",cap_20:"Hasta 20 personas",cap_30:"Hasta 30 personas",cap_60:"Hasta 60 personas",
+pricing_bus:"Autocares (30 / 60 plazas)",pricing_on_request:"a petición",
+pricing_note:"Precios orientativos basados en un análisis de ofertas de la competencia — a confirmar. Para vehículos de más de 8 plazas, el precio se establece individualmente.",
+routes_other_title:"Otros destinos y traslados de negocios",routes_other_desc:"Częstochowa, Bielsko-Biała, Wieliczka, reuniones de empresa y conferencias — pide un presupuesto personalizado.",
+why_title:"Por qué viajar con nosotros",
+why_1_title:"Conductor con cartel",why_1_desc:"Recogida directamente en llegadas, ayuda con el equipaje.",
+why_2_title:"Seguimiento de vuelos",why_2_desc:"Seguimos tu vuelo — esperamos incluso si se retrasa.",
+why_3_title:"Precio fijo",why_3_desc:"Precio acordado antes del viaje, sin sorpresas en el pago.",
+why_4_title:"Disponibles 24/7",why_4_desc:"Recogemos a cualquier hora, día o noche.",
+contact_title:"Reserva tu traslado",contact_subtitle:"Escríbenos por WhatsApp — responderemos en minutos y confirmaremos tu reserva.",
+contact_cta:"Escribir por WhatsApp",contact_phone_label:"o llama",contact_email_label:"o escribe un correo",
+footer_rights:"Todos los derechos reservados.",
+book_eyebrow:"FORMULARIO DE RESERVA",book_title:"Reserva tu traslado",book_subtitle:"Completa tus datos y prepararemos un mensaje listo para enviar por WhatsApp — confirmaremos el horario y el precio.",
+label_firstname:"Nombre",label_lastname:"Apellido",label_flight:"Número de vuelo",label_phone:"Número de teléfono (WhatsApp)",label_email:"Correo electrónico",
+email_error:"Introduce un correo electrónico válido — te enviaremos allí la confirmación de la reserva.",
+payment_note:"Pago en efectivo o con tarjeta directamente al conductor — no cobramos anticipo online.",
+label_direction:"Dirección",option_from_airport:"Del aeropuerto a la ciudad",option_to_airport:"De la ciudad al aeropuerto",
+label_city:"Ciudad de destino",fleet_route_krakow:"Cracovia",fleet_route_zakopane:"Zakopane",
+label_address:"Dirección de destino",label_passengers:"Número de pasajeros",label_datetime:"Fecha y hora",
+price_estimate_label:"Precio estimado",price_pax_label:"pers.",
+holiday_surcharge_label:"+25% recargo festivo",
+urgent_error:"Las reservas con menos de 24 horas solo se aceptan por contacto directo en WhatsApp — usa el botón de abajo.",
+urgent_wa_button:"Traslado urgente — escríbenos directamente por WhatsApp",
+urgent_wa_message:"Traslado urgente (menos de 24h) — por favor responde rápido.",
+phone_error:"Introduce un número de teléfono internacional válido (ej. +48600000000).",
+phone_hint:"Asegúrate de que el número tenga WhatsApp activo — ahí confirmaremos tu reserva.",
+book_submit:"Enviar solicitud por WhatsApp",
+whatsapp_message:"Hola, quisiera preguntar por un traslado desde el aeropuerto de Pyrzowice – Katowice."
+},
+mt:{
+nav_home:"Bidu",nav_fleet:"Flotta",nav_routes:"Rotot u Prezzijiet",nav_why:"Għaliex aħna",nav_contact:"Kuntatt",nav_book:"Illibra",
+hero_eyebrow:"TRASFERIMENTI TAL-AJRUPORT · KATOWICE-PYRZOWICE",hero_title:"Is-sewwieq tiegħek diġà qed jistenna",
+hero_subtitle:"Trasferimenti privati u puntwali mill-Ajruport ta' Katowice-Pyrzowice għal Krakovja u Zakopane. Mingħajr tibdil, mingħajr ma tistenna passiġġieri oħra.",
+hero_biz:"Noffru wkoll trasferimenti tan-negozju għal kumpaniji u mistiedna korporattivi.",
+hero_cta:"Illibra fuq WhatsApp",hero_note:"Ġeneralment inwieġbu fi ftit minuti",
+route_label_air:"Katowice-Pyrzowice",route_label_kr:"Krakovja",route_label_zak:"Zakopane",
+route_km_kr:"75 km",route_time_kr:"madwar siegħa",route_km_zak:"180 km",route_time_zak:"madwar sagħtejn u 15-il minuta",
+fleet_title:"Flotta li taqbel mal-vjaġġ tiegħek",fleet_subtitle:"Minn karozza kompatta sa kowċ kbir — agħżel il-vettura li taqbel mal-grupp u l-bagalji tiegħek.",
+biz_tag:"Trasferiment tan-negozju",
+fleet_pacifica_name:"Chrysler Pacifica",fleet_pacifica_desc:"Minivan premium għal klijenti li jistennew l-ogħla standard ta' vjaġġar.",fleet_pacifica_seats:"sa 5 passiġġieri + sewwieq",
+fleet_vito_name:"Mercedes Vito",fleet_vito_desc:"Vann komdu għal familji u gruppi żgħar. Arja kondizzjonata, ħafna spazju għall-bagalji.",fleet_vito_seats:"sa 8 passiġġieri + sewwieq",
+fleet_sprinter_name:"Mercedes Sprinter",fleet_sprinter_desc:"Vann kbir għal gruppi akbar — komdu fuq ir-rotta itwal lejn il-muntanji.",fleet_sprinter_seats:"sa 20 passiġġier + sewwieq",
+fleet_coach30_name:"Kowċ",fleet_coach30_desc:"Kowċ modern għal gruppi organizzati, tiġijiet u vjaġġi korporattivi.",fleet_coach30_seats:"sa 30 passiġġier",
+fleet_coach60_name:"Kowċ",fleet_coach60_desc:"Kowċ kbir għal gruppi kbar, pellegrinaġġi u trasport tal-persunal.",fleet_coach60_seats:"sa 60 passiġġier",
+routes_title:"Rotot u prezzijiet indikattivi",routes_subtitle:"Il-prezz jinqabel minn qabel — l-ebda ħlas moħbi.",
+pricing_vehicle:"Vettura",pricing_day:"Jum",pricing_night:"Lejl",pricing_city_kr:"Rotta: Pyrzowice – Ajruport ta' Katowice ↔ Krakovja",pricing_city_zak:"Rotta: Pyrzowice – Ajruport ta' Katowice ↔ Zakopane",
+pricing_city_kz:"Rotta: Krakovja ↔ Zakopane (mingħajr ajruport)",pricing_note_kz:"Ir-rotta Krakovja–Zakopane hija ipprezzata bħal Pyrzowice-Katowice–Krakovja (distanza komparabbli, madwar 100 km) — għall-konferma.",
+label_route_type:"Tip ta' rotta",option_route_airport:"Trasferiment lejn/mill-ajruport ta' Pyrzowice – Katowice",option_route_kz:"Krakovja ↔ Zakopane (mingħajr ajruport)",
+option_krakow_to_zakopane:"Krakovja → Zakopane",option_zakopane_to_krakow:"Zakopane → Krakovja",
+pricing_capacity:"Numru ta' persuni",cap_3:"Sa 3 persuni",cap_8:"Sa 8 persuni",cap_20:"Sa 20 persuna",cap_30:"Sa 30 persuna",cap_60:"Sa 60 persuna",
+pricing_bus:"Kowċijiet (30 / 60 post)",pricing_on_request:"fuq talba",
+pricing_note:"Prezzijiet indikattivi bbażati fuq analiżi ta' offerti tal-kompetituri — għall-konferma. Għal vetturi ta' aktar minn 8 postijiet, il-prezz jiġi stabbilit individwalment.",
+routes_other_title:"Destinazzjonijiet oħra u trasferimenti tan-negozju",routes_other_desc:"Częstochowa, Bielsko-Biała, Wieliczka, laqgħat korporattivi u konferenzi — staqsi għal kwotazzjoni personalizzata.",
+why_title:"Għaliex tivvjaġġa magħna",
+why_1_title:"Sewwieq bit-tabella tal-isem",why_1_desc:"Ġbir dirett mis-sala tal-wasliet, għajnuna bil-bagalji.",
+why_2_title:"Monitoraġġ tat-titjira",why_2_desc:"Insegwu t-titjira tiegħek — nistennew anke jekk tkun tard.",
+why_3_title:"Prezz fiss",why_3_desc:"Prezz miftiehem qabel il-vjaġġ, l-ebda sorpriża fil-ħlas.",
+why_4_title:"Disponibbli 24/7",why_4_desc:"Niġbru fi kwalunkwe ħin, il-jum jew il-lejl.",
+contact_title:"Illibra t-trasferiment tiegħek",contact_subtitle:"Ikkuntattjana fuq WhatsApp — inwieġbu fi ftit minuti u nikkonfermaw il-btala tiegħek.",
+contact_cta:"Ikteb fuq WhatsApp",contact_phone_label:"jew ċempel",contact_email_label:"jew ibgħat email",
+footer_rights:"Id-drittijiet kollha riżervati.",
+book_eyebrow:"FORMOLA TA' PRENOTAZZJONI",book_title:"Illibra t-trasferiment tiegħek",book_subtitle:"Imla d-dettalji tiegħek u nippreparaw messaġġ lest biex jintbagħat fuq WhatsApp — nikkonfermaw il-ħin u l-prezz.",
+label_firstname:"Isem",label_lastname:"Kunjom",label_flight:"Numru tat-titjira",label_phone:"Numru tat-telefon (WhatsApp)",label_email:"Indirizz elettroniku",
+email_error:"Daħħal indirizz elettroniku validu — nibagħtu l-konferma tal-btala hemm.",
+payment_note:"Ħlas fi flus jew karta direttament lis-sewwieq — ma nitolbux ħlas bil-quddiem online.",
+label_direction:"Direzzjoni",option_from_airport:"Mill-ajruport lejn il-belt",option_to_airport:"Mill-belt lejn l-ajruport",
+label_city:"Belt tad-destinazzjoni",fleet_route_krakow:"Krakovja",fleet_route_zakopane:"Zakopane",
+label_address:"Indirizz tad-destinazzjoni",label_passengers:"Numru ta' passiġġieri",label_datetime:"Data u ħin",
+price_estimate_label:"Prezz stmat",price_pax_label:"persuni",
+holiday_surcharge_label:"+25% supplement tal-festi",
+urgent_error:"Prenotazzjonijiet ta' anqas minn 24 siegħa jiġu aċċettati biss permezz ta' kuntatt dirett fuq WhatsApp — uża l-buttuna hawn taħt.",
+urgent_wa_button:"Trasferiment urġenti — ikteb dirett fuq WhatsApp",
+urgent_wa_message:"Trasferiment urġenti (anqas minn 24h) — jekk jogħġbok wieġeb malajr.",
+phone_error:"Daħħal numru tat-telefon internazzjonali validu (eż. +48600000000).",
+phone_hint:"Kun żgur li n-numru għandu WhatsApp attiv — hemm nikkonfermaw il-btala tiegħek.",
+book_submit:"Ibgħat talba fuq WhatsApp",
+whatsapp_message:"Bonjour, nixtieq nistaqsi dwar trasferiment mill-ajruport ta' Pyrzowice – Katowice."
+},
+uk:{
+nav_home:"Головна",nav_fleet:"Автопарк",nav_routes:"Маршрути та ціни",nav_why:"Чому ми",nav_contact:"Контакт",nav_book:"Замовити",
+hero_eyebrow:"ТРАНСФЕРИ З АЕРОПОРТУ · КАТОВІЦЕ-ПШИВОВІЦЕ",hero_title:"Ваш водій вже чекає",
+hero_subtitle:"Приватні, пунктуальні трансфери з аеропорту Катовіце-Пшивовіце до Кракова та Закопане. Без пересадок, без очікування інших пасажирів.",
+hero_biz:"Ми також обслуговуємо бізнес-трансфери для компаній та корпоративних гостей.",
+hero_cta:"Забронювати через WhatsApp",hero_note:"Зазвичай відповідаємо протягом кількох хвилин",
+route_label_air:"Катовіце-Пшивовіце",route_label_kr:"Краків",route_label_zak:"Закопане",
+route_km_kr:"75 км",route_time_kr:"прибл. 1 год",route_km_zak:"180 км",route_time_zak:"прибл. 2 год 15 хв",
+fleet_title:"Автопарк під ваші потреби",fleet_subtitle:"Від компактного автомобіля до великого автобуса — оберіть транспорт, що відповідає вашій групі та багажу.",
+biz_tag:"Бізнес-трансфер",
+fleet_pacifica_name:"Chrysler Pacifica",fleet_pacifica_desc:"Преміальний мінівен для клієнтів, які очікують найвищого рівня комфорту подорожі.",fleet_pacifica_seats:"до 5 пасажирів + водій",
+fleet_vito_name:"Mercedes Vito",fleet_vito_desc:"Комфортний мінівен для сімей та невеликих груп. Кондиціонер, багато місця для багажу.",fleet_vito_seats:"до 8 пасажирів + водій",
+fleet_sprinter_name:"Mercedes Sprinter",fleet_sprinter_desc:"Просторий мікроавтобус для більших груп — комфорт на довшому маршруті в гори.",fleet_sprinter_seats:"до 20 пасажирів + водій",
+fleet_coach30_name:"Автобус",fleet_coach30_desc:"Сучасний автобус для організованих груп, весіль та корпоративних поїздок.",fleet_coach30_seats:"до 30 пасажирів",
+fleet_coach60_name:"Автобус",fleet_coach60_desc:"Великий автобус для великих груп, паломництв та перевезення персоналу.",fleet_coach60_seats:"до 60 пасажирів",
+routes_title:"Маршрути та орієнтовні ціни",routes_subtitle:"Ціна завжди узгоджується заздалегідь — жодних прихованих платежів.",
+pricing_vehicle:"Транспорт",pricing_day:"День",pricing_night:"Ніч",pricing_city_kr:"Маршрут: Пшивовіце – Аеропорт Катовіце ↔ Краків",pricing_city_zak:"Маршрут: Пшивовіце – Аеропорт Катовіце ↔ Закопане",
+pricing_city_kz:"Маршрут: Краків ↔ Закопане (без аеропорту)",pricing_note_kz:"Маршрут Краків–Закопане оцінюється як маршрут Пшивовіце-Катовіце–Краків (порівнянна відстань, прибл. 100 км) — потребує підтвердження.",
+label_route_type:"Тип маршруту",option_route_airport:"Трансфер до/з аеропорту Пшивовіце – Катовіце",option_route_kz:"Краків ↔ Закопане (без аеропорту)",
+option_krakow_to_zakopane:"Краків → Закопане",option_zakopane_to_krakow:"Закопане → Краків",
+pricing_capacity:"Кількість осіб",cap_3:"До 3 осіб",cap_8:"До 8 осіб",cap_20:"До 20 осіб",cap_30:"До 30 осіб",cap_60:"До 60 осіб",
+pricing_bus:"Автобуси (30 / 60 місць)",pricing_on_request:"за запитом",
+pricing_note:"Орієнтовні ціни для маршруту до Закопане розраховані пропорційно до маршруту до Кракова (прибл. у 2 рази більша відстань і час) — потребує Вашого підтвердження.",
+routes_other_title:"Інші напрямки та бізнес-трансфери",routes_other_desc:"Ченстохова, Бельсько-Бяла, Величка, ділові зустрічі та конференції — запитайте індивідуальну пропозицію.",
+why_title:"Чому варто їхати з нами",
+why_1_title:"Водій з табличкою",why_1_desc:"Зустріч прямо в залі прильоту, допомога з багажем.",
+why_2_title:"Моніторинг рейсів",why_2_desc:"Ми стежимо за вашим рейсом — чекаємо навіть у разі затримки.",
+why_3_title:"Фіксована ціна",why_3_desc:"Ціна узгоджена перед поїздкою, без сюрпризів при оплаті.",
+why_4_title:"Доступність 24/7",why_4_desc:"Забираємо в будь-який час доби.",
+contact_title:"Забронюйте трансфер",contact_subtitle:"Напишіть нам у WhatsApp — ми відповімо протягом кількох хвилин і підтвердимо бронювання.",
+contact_cta:"Написати в WhatsApp",contact_phone_label:"або зателефонуйте",contact_email_label:"або напишіть на пошту",
+footer_rights:"Усі права захищені.",
+book_eyebrow:"ФОРМА БРОНЮВАННЯ",book_title:"Замовити трансфер",book_subtitle:"Заповніть дані, і ми підготуємо повідомлення, готове для надсилання у WhatsApp — підтвердимо час і ціну.",
+label_firstname:"Ім'я",label_lastname:"Прізвище",label_flight:"Номер рейсу",label_phone:"Номер телефону (WhatsApp)",label_email:"Електронна пошта",
+email_error:"Введіть дійсну електронну адресу — ми надішлемо туди підтвердження бронювання.",
+payment_note:"Оплата готівкою або карткою безпосередньо водієві — ми не стягуємо передоплату онлайн.",
+label_direction:"Напрямок",option_from_airport:"З аеропорту до міста",option_to_airport:"З міста до аеропорту",
+label_city:"Місто призначення",fleet_route_krakow:"Краків",fleet_route_zakopane:"Закопане",
+label_address:"Адреса призначення",label_passengers:"Кількість пасажирів",label_datetime:"Дата і час",
+price_estimate_label:"Орієнтовна ціна",price_pax_label:"ос.",
+holiday_surcharge_label:"+25% святкова надбавка",
+urgent_error:"Бронювання менш ніж за 24 години приймаємо лише через прямий контакт у WhatsApp — скористайтеся кнопкою нижче.",
+urgent_wa_button:"Терміновий трансфер — напишіть напряму у WhatsApp",
+urgent_wa_message:"Терміновий трансфер (менше 24 год) — прошу швидко відповісти.",
+phone_error:"Введіть правильний номер телефону в міжнародному форматі (напр. +48600000000).",
+phone_hint:"Переконайтеся, що номер має активний WhatsApp — там ми підтвердимо бронювання.",
+book_submit:"Надіслати запит у WhatsApp",
+whatsapp_message:"Доброго дня, хотів би дізнатися про трансфер з аеропорту Пшивовіце – Катовіце."
+},
+ar:{
+nav_home:"الرئيسية",nav_fleet:"الأسطول",nav_routes:"المسارات والأسعار",nav_why:"لماذا نحن",nav_contact:"اتصل بنا",nav_book:"احجز",
+hero_eyebrow:"نقل من وإلى المطار · كاتوفيتسه-بشيغوفيتسه",hero_title:"سائقك بانتظارك بالفعل",
+hero_subtitle:"نقل خاص وفي الوقت المحدد من مطار كاتوفيتسه-بشيغوفيتسه إلى كراكوف وزاكوباني. بدون تبديل، وبدون انتظار ركاب آخرين.",
+hero_biz:"نقدم أيضًا خدمات النقل للشركات وضيوف الأعمال.",
+hero_cta:"احجز عبر واتساب",hero_note:"عادة ما نرد خلال دقائق",
+route_label_air:"كاتوفيتسه-بشيغوفيتسه",route_label_kr:"كراكوف",route_label_zak:"زاكوباني",
+route_km_kr:"75 كم",route_time_kr:"حوالي ساعة واحدة",route_km_zak:"180 كم",route_time_zak:"حوالي ساعتين و15 دقيقة",
+fleet_title:"أسطول يناسب رحلتك",fleet_subtitle:"من سيارة مدمجة إلى حافلة كبيرة — اختر المركبة المناسبة لمجموعتك وأمتعتك.",
+biz_tag:"نقل للأعمال",
+fleet_pacifica_name:"كرايسلر باسيفيكا",fleet_pacifica_desc:"ميني فان فاخرة للعملاء الذين يتوقعون أعلى مستوى من الراحة في السفر.",fleet_pacifica_seats:"حتى 5 ركاب + سائق",
+fleet_vito_name:"مرسيدس فيتو",fleet_vito_desc:"فان مريحة للعائلات والمجموعات الصغيرة. تكييف هواء ومساحة كبيرة للأمتعة.",fleet_vito_seats:"حتى 8 ركاب + سائق",
+fleet_sprinter_name:"مرسيدس سبرينتر",fleet_sprinter_desc:"فان واسعة للمجموعات الأكبر — مريحة على الطريق الأطول إلى الجبال.",fleet_sprinter_seats:"حتى 20 راكبًا + سائق",
+fleet_coach30_name:"حافلة",fleet_coach30_desc:"حافلة حديثة للمجموعات المنظمة وحفلات الزفاف ورحلات الشركات.",fleet_coach30_seats:"حتى 30 راكبًا",
+fleet_coach60_name:"حافلة",fleet_coach60_desc:"حافلة كبيرة للمجموعات الكبيرة والحج ونقل الموظفين.",fleet_coach60_seats:"حتى 60 راكبًا",
+routes_title:"المسارات والأسعار التقريبية",routes_subtitle:"يتم الاتفاق على السعر مسبقًا دائمًا — بدون رسوم خفية.",
+pricing_vehicle:"المركبة",pricing_day:"نهار",pricing_night:"ليل",pricing_city_kr:"المسار: بشيغوفيتسه - مطار كاتوفيتسه ↔ كراكوف",pricing_city_zak:"المسار: بشيغوفيتسه - مطار كاتوفيتسه ↔ زاكوباني",
+pricing_city_kz:"المسار: كراكوف ↔ زاكوباني (بدون مطار)",pricing_note_kz:"يتم تسعير مسار كراكوف–زاكوباني مثل مسار بشيغوفيتسه-كاتوفيتسه–كراكوف (مسافة مماثلة، حوالي 100 كم) — بانتظار التأكيد.",
+label_route_type:"نوع المسار",option_route_airport:"نقل من/إلى مطار بشيغوفيتسه - كاتوفيتسه",option_route_kz:"كراكوف ↔ زاكوباني (بدون مطار)",
+option_krakow_to_zakopane:"كراكوف → زاكوباني",option_zakopane_to_krakow:"زاكوباني → كراكوف",
+pricing_capacity:"عدد الأشخاص",cap_3:"حتى 3 أشخاص",cap_8:"حتى 8 أشخاص",cap_20:"حتى 20 شخصًا",cap_30:"حتى 30 شخصًا",cap_60:"حتى 60 شخصًا",
+pricing_bus:"حافلات (30 / 60 مقعدًا)",pricing_on_request:"عند الطلب",
+pricing_note:"أسعار تقريبية بناءً على تحليل عروض المنافسين — بانتظار التأكيد. بالنسبة للمركبات التي تزيد عن 8 مقاعد، يتم تحديد السعر بشكل فردي.",
+routes_other_title:"وجهات أخرى ونقل للأعمال",routes_other_desc:"تشيستوحوفا، بيلسكو بيالا، فيليتشكا، الاجتماعات والمؤتمرات — اطلب عرض سعر مخصص.",
+why_title:"لماذا تسافر معنا",
+why_1_title:"سائق يحمل لوحة بالاسم",why_1_desc:"الاستقبال مباشرة من صالة الوصول، والمساعدة في الأمتعة.",
+why_2_title:"مراقبة الرحلات الجوية",why_2_desc:"نتابع رحلتك — وننتظر حتى في حالة التأخير.",
+why_3_title:"سعر ثابت",why_3_desc:"يتم الاتفاق على السعر قبل الرحلة، بدون مفاجآت عند الدفع.",
+why_4_title:"متاح على مدار الساعة",why_4_desc:"نستقبلكم في أي وقت من اليوم أو الليل.",
+contact_title:"احجز نقلك",contact_subtitle:"راسلنا عبر واتساب — سنرد خلال دقائق ونؤكد حجزك.",
+contact_cta:"راسلنا عبر واتساب",contact_phone_label:"أو اتصل بنا",contact_email_label:"أو راسلنا بالبريد الإلكتروني",
+footer_rights:"جميع الحقوق محفوظة.",
+book_eyebrow:"نموذج الحجز",book_title:"احجز نقلك",book_subtitle:"املأ بياناتك وسنجهز رسالة جاهزة للإرسال عبر واتساب — سنؤكد الوقت والسعر.",
+label_firstname:"الاسم الأول",label_lastname:"اسم العائلة",label_flight:"رقم الرحلة",label_phone:"رقم الهاتف (واتساب)",label_email:"البريد الإلكتروني",
+email_error:"يرجى إدخال بريد إلكتروني صحيح — سنرسل تأكيد الحجز إليه.",
+payment_note:"الدفع نقدًا أو بالبطاقة مباشرة للسائق — لا نطلب دفعًا مسبقًا عبر الإنترنت.",
+label_direction:"الاتجاه",option_from_airport:"من المطار إلى المدينة",option_to_airport:"من المدينة إلى المطار",
+label_city:"مدينة الوجهة",fleet_route_krakow:"كراكوف",fleet_route_zakopane:"زاكوباني",
+label_address:"عنوان الوجهة",label_passengers:"عدد الركاب",label_datetime:"التاريخ والوقت",
+price_estimate_label:"السعر التقديري",price_pax_label:"شخص",
+holiday_surcharge_label:"+25% رسوم إضافية للأعياد",
+urgent_error:"نقبل الحجوزات التي تقل عن 24 ساعة فقط عبر التواصل المباشر على واتساب — استخدم الزر أدناه.",
+urgent_wa_button:"نقل عاجل — راسلنا مباشرة عبر واتساب",
+urgent_wa_message:"نقل عاجل (أقل من 24 ساعة) — يرجى الرد بسرعة.",
+phone_error:"يرجى إدخال رقم هاتف دولي صحيح (مثال: +48600000000).",
+phone_hint:"تأكد من أن الرقم لديه واتساب نشط — سنؤكد الحجز هناك.",
+book_submit:"إرسال الطلب عبر واتساب",
+whatsapp_message:"مرحبًا، أود الاستفسار عن نقل من مطار بشيغوفيتسه - كاتوفيتسه."
+}
+};
+
+function buildLangMenu(){
+  const menu = document.getElementById('langMenu');
+  menu.innerHTML = '';
+  Object.keys(LANGS).forEach(code=>{
+    const b = document.createElement('button');
+    b.textContent = LANGS[code].name;
+    b.dataset.code = code;
+    const LANG_URLS = {pl:'index.html',en:'en/index.html',de:'de/index.html',fr:'fr/index.html',it:'it/index.html',es:'es/index.html',mt:'mt/index.html',uk:'uk/index.html',ar:'ar/index.html'}; b.onclick = ()=>{ window.location.href = LANG_URLS[code]; };
+    menu.appendChild(b);
+  });
+}
+
+function setLang(code){
+  if(!T[code]) code = 'en';
+  document.documentElement.lang = code;
+  document.documentElement.dir = (code === 'ar') ? 'rtl' : 'ltr';
+  document.body.classList.toggle('rtl', code === 'ar');
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(T[code][key]) el.textContent = T[code][key];
+  });
+  document.querySelectorAll('[data-label-key]').forEach(el=>{
+    const key = el.getAttribute('data-label-key');
+    if(T[code][key]) el.setAttribute('data-label', T[code][key]);
+  });
+  document.getElementById('langBtn').textContent = LANGS[code].flag + ' ▾';
+  document.querySelectorAll('#langMenu button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.code === code);
+  });
+  const msg = encodeURIComponent(T[code].whatsapp_message);
+  const waUrl = `https://wa.me/${PHONE}?text=${msg}`;
+  ['heroWaBtn','routesWaBtn','contactWaBtn','floatWaBtn'].forEach(id=>{
+    document.getElementById(id).href = waUrl;
+  });
+  localStorage.setItem('xtrip_lang', code);
+}
+
+function detectLang(){
+  const saved = localStorage.getItem('xtrip_lang');
+  if(saved && T[saved]) return saved;
+  const nav = (navigator.language || navigator.userLanguage || 'en').slice(0,2).toLowerCase();
+  return T[nav] ? nav : 'en';
+}
+
+buildLangMenu();
+setLang('pl');
+
+document.getElementById('langBtn').addEventListener('click', ()=>{
+  document.getElementById('langMenu').classList.toggle('open');
+});
+document.addEventListener('click', (e)=>{
+  if(!e.target.closest('.lang-switch')) document.getElementById('langMenu').classList.remove('open');
+});
+
+// --- Cennik i kalkulacja ceny (wg liczby osób, bez nazw pojazdów) ---
+const PRICING = {
+  krakow:   { cap_3:{day:600,  night:660},  cap_8:{day:700,  night:780},  cap_20:{day:1200, night:1400} },
+  zakopane: { cap_3:{day:1200, night:1320}, cap_8:{day:1400, night:1560}, cap_20:{day:2400, night:2800} },
+  // Kraków ↔ Zakopane liczone jak trasa Pyrzowice–Kraków (porównywalny dystans, ok. 100 km)
+  krakow_zakopane: { cap_3:{day:600, night:660}, cap_8:{day:700, night:780}, cap_20:{day:1200, night:1400} }
+};
+
+function toggleRouteFields(){
+  const routeType = document.getElementById('routeType').value;
+  const isAirport = routeType === 'airport';
+  document.getElementById('airportFieldsRow').style.display = isAirport ? 'grid' : 'none';
+  document.getElementById('kzFieldsRow').style.display = isAirport ? 'none' : 'grid';
+  document.getElementById('flightField').style.display = isAirport ? 'block' : 'none';
+  updatePriceBox();
+}
+document.getElementById('routeType').addEventListener('change', toggleRouteFields);
+document.getElementById('kzDirection').addEventListener('change', updatePriceBox);
+document.getElementById('kzDirection').addEventListener('input', updatePriceBox);
+
+function vehicleForPassengers(n){
+  if(n <= 3) return "cap_3";
+  if(n <= 8) return "cap_8";
+  if(n <= 20) return "cap_20";
+  if(n <= 30) return "cap_30";
+  return "cap_60"; // 31-60 (i teoretycznie więcej) -> na zapytanie
+}
+
+function isNightTime(datetimeValue){
+  if(!datetimeValue) return false;
+  const d = new Date(datetimeValue);
+  const h = d.getHours();
+  return (h >= 22 || h < 6);
+}
+
+function isWinterHoliday(datetimeValue){
+  if(!datetimeValue) return false;
+  const d = new Date(datetimeValue);
+  // Wigilia (24.12), I dzień świąt (25.12), II dzień świąt (26.12) — każdego roku
+  return d.getMonth() === 11 && [24,25,26].includes(d.getDate());
+}
+
+function hoursUntil(datetimeValue){
+  if(!datetimeValue) return null;
+  const target = new Date(datetimeValue);
+  const now = new Date();
+  return (target - now) / (1000 * 60 * 60);
+}
+
+function updatePriceBox(){
+  const routeType = document.getElementById('routeType').value;
+  const city = document.getElementById('city').value;
+  const pricingKey = (routeType === 'airport') ? city : 'krakow_zakopane';
+  const passengers = parseInt(document.getElementById('passengers').value, 10) || 1;
+  const datetimeValue = document.getElementById('datetime').value;
+  const night = isNightTime(datetimeValue);
+  const holiday = isWinterHoliday(datetimeValue);
+  const vehicle = vehicleForPassengers(passengers);
+  const lang = document.documentElement.lang;
+  const t = T[lang] || T.en;
+
+  const priceValueEl = document.getElementById('priceValue');
+  const priceVehicleEl = document.getElementById('priceVehicle');
+  const urgentError = document.getElementById('urgentError');
+  const submitBtn = document.getElementById('bookingSubmitBtn');
+
+  const hrs = hoursUntil(datetimeValue);
+  const tooSoon = (hrs !== null && hrs < 24);
+
+  if(tooSoon){
+    urgentError.classList.add('show');
+    submitBtn.style.display = 'none';
+    document.getElementById('urgentWaBtn').style.display = 'flex';
+  } else {
+    urgentError.classList.remove('show');
+    submitBtn.style.display = 'flex';
+    document.getElementById('urgentWaBtn').style.display = 'none';
+  }
+
+  const capLabel = t[vehicle] || vehicle;
+
+  if(!PRICING[pricingKey][vehicle]){
+    priceValueEl.textContent = t.pricing_on_request || "na zapytanie";
+    priceVehicleEl.textContent = capLabel + " · " + passengers + " " + (t.price_pax_label || "os.");
+    return { vehicle, price: null, night, city: pricingKey, holiday, tooSoon, routeType };
+  }
+
+  let price = PRICING[pricingKey][vehicle][night ? 'night' : 'day'];
+  if(holiday) price = Math.round(price * 1.25);
+
+  priceValueEl.textContent = price + " zł";
+  let vehicleLine = capLabel + " · " + passengers + " " + (t.price_pax_label || "os.") + " · " + (night ? (t.pricing_night||"noc") : (t.pricing_day||"dzień"));
+  if(holiday) vehicleLine += " · " + (t.holiday_surcharge_label || "+25% dopłata świąteczna");
+  priceVehicleEl.textContent = vehicleLine;
+  return { vehicle, price, night, city: pricingKey, holiday, tooSoon, routeType };
+}
+
+function toggleAddressField(){
+  const direction = document.getElementById('direction').value;
+  document.getElementById('addressRow').style.display = (direction === 'from_airport') ? 'grid' : 'grid';
+  // adres jest zawsze istotny (albo jako cel z lotniska, albo jako miejsce odbioru w mieście)
+}
+
+['city','passengers','datetime','direction'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', updatePriceBox);
+  document.getElementById(id).addEventListener('change', updatePriceBox);
+});
+
+function updateUrgentWaLink(){
+  const lang = document.documentElement.lang;
+  const t = T[lang] || T.en;
+  const fName = document.getElementById('fName').value.trim();
+  const lName = document.getElementById('lName').value.trim();
+  const msg = [
+    t.urgent_wa_message || "Pilny transfer (mniej niż 24h) — proszę o szybki kontakt.",
+    fName || lName ? `${t.label_firstname||'Imię'}/${t.label_lastname||'Nazwisko'}: ${fName} ${lName}` : null
+  ].filter(Boolean).join('\n');
+  document.getElementById('urgentWaBtn').href = `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
+}
+['fName','lName','city','passengers','datetime','direction','routeType','kzDirection'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', updateUrgentWaLink);
+  document.getElementById(id).addEventListener('change', updateUrgentWaLink);
+});
+
+// --- Booking form ---
+// Po skonfigurowaniu Google Apps Script (patrz google-calendar-system/) wklej tu
+// adres wdrożenia z dostępem "Każdy", aby zgłoszenia trafiały też do Kalendarza Google.
+const BOOKING_ENDPOINT = ""; // np. "https://script.google.com/macros/s/XXXXXXXX/exec"
+
+const bookingForm = document.getElementById('bookingForm');
+bookingForm.addEventListener('submit', (e)=>{
+  e.preventDefault();
+
+  const datetime = document.getElementById('datetime').value;
+  const hrs = hoursUntil(datetime);
+  if(hrs !== null && hrs < 24){
+    // Rezerwacja poniżej 24h — blokujemy standardowy formularz, kierujemy na bezpośredni WhatsApp
+    document.getElementById('urgentError').classList.add('show');
+    updateUrgentWaLink();
+    document.getElementById('urgentWaBtn').scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+
+  const fName = document.getElementById('fName').value.trim();
+  const lName = document.getElementById('lName').value.trim();
+  const routeType = document.getElementById('routeType').value;
+  const direction = document.getElementById('direction').value;
+  const kzDirection = document.getElementById('kzDirection').value;
+  const city = document.getElementById('city').value;
+  const address = document.getElementById('address').value.trim();
+  const flightNo = document.getElementById('flightNo').value.trim();
+  const passengers = document.getElementById('passengers').value;
+  const emailInput = document.getElementById('email');
+  const email = emailInput.value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailError = document.getElementById('emailError');
+  const phoneInput = document.getElementById('phone');
+  const phone = phoneInput.value.trim();
+  const phoneRegex = /^\+[1-9]\d{7,14}$/;
+  const cleanPhone = phone.replace(/[\s-]/g,'');
+  const phoneError = document.getElementById('phoneError');
+
+  if(!emailRegex.test(email)){
+    emailError.classList.add('show');
+    emailInput.focus();
+    return;
+  }
+  emailError.classList.remove('show');
+
+  if(!phoneRegex.test(cleanPhone)){
+    phoneError.classList.add('show');
+    phoneInput.focus();
+    return;
+  }
+  phoneError.classList.remove('show');
+
+  const lang = document.documentElement.lang;
+  const t = T[lang] || T.en;
+  const calc = updatePriceBox();
+
+  let directionLabel;
+  if(routeType === 'airport'){
+    const cityLabel = t[`fleet_route_${city}`] || city;
+    const dirText = direction === 'from_airport' ? (t.option_from_airport || 'Z lotniska do miasta') : (t.option_to_airport || 'Z miasta na lotnisko');
+    directionLabel = `${dirText} (${cityLabel})`;
+  } else {
+    directionLabel = kzDirection === 'krakow_to_zakopane'
+      ? (t.option_krakow_to_zakopane || 'Kraków → Zakopane')
+      : (t.option_zakopane_to_krakow || 'Zakopane → Kraków');
+  }
+
+  let priceLabel = calc.price ? (calc.price + " zł") : (t.pricing_on_request || "na zapytanie");
+  if(calc.holiday && calc.price) priceLabel += " (" + (t.holiday_surcharge_label || "+25% dopłata świąteczna") + ")";
+  const vehicleLabel = t[calc.vehicle] || calc.vehicle;
+
+  const lines = [
+    t.whatsapp_message,
+    `${t.label_firstname || 'Imię'}: ${fName}`,
+    `${t.label_lastname || 'Nazwisko'}: ${lName}`,
+    `${t.label_email || 'E-mail'}: ${email}`,
+    `${t.label_direction || 'Kierunek'}: ${directionLabel}`,
+    address ? `${t.label_address || 'Adres'}: ${address}` : null,
+    (routeType === 'airport' && flightNo) ? `${t.label_flight || 'Nr lotu'}: ${flightNo}` : null,
+    `${t.label_passengers || 'Liczba osób'}: ${passengers}`,
+    document.getElementById('datetime').value ? `${t.label_datetime || 'Data/godzina'}: ${document.getElementById('datetime').value.replace('T',' ')}` : null,
+    `${t.label_phone || 'Telefon'}: ${cleanPhone}`,
+    `${t.price_estimate_label || 'Szacowana cena'}: ${priceLabel} (${vehicleLabel})`,
+    t.payment_note || 'Płatność gotówką lub kartą u kierowcy.'
+  ].filter(Boolean).join('\n');
+
+  // 1) Zapis do Kalendarza Google + wysyłka maila z potwierdzeniem (jeśli skonfigurowano BOOKING_ENDPOINT)
+  if (BOOKING_ENDPOINT) {
+    fetch(BOOKING_ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors', // Apps Script Web App nie zwraca nagłówków CORS
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        firstName: fName, lastName: lName, phone: cleanPhone, email: email, flightNo: flightNo,
+        route: directionLabel, vehicle: vehicleLabel, price: priceLabel,
+        datetime: datetime, notes: address ? `Adres: ${address}` : '', lang: lang
+      })
+    }).catch(()=>{ /* ciche niepowodzenie — WhatsApp i tak zadziała */ });
+  }
+
+  // 2) Natychmiastowe przekierowanie na WhatsApp
+  const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(lines)}`;
+  window.open(url, '_blank');
+});
+
+updatePriceBox();
+</script>
+
+</body>
+</html>

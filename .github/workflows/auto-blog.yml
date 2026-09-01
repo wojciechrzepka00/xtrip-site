@@ -1,0 +1,33 @@
+name: Auto-publikacja artykułu na blog
+
+on:
+  schedule:
+    # Uruchamia się co 3 dni o 6:00 UTC
+    - cron: "0 6 */3 * *"
+  workflow_dispatch: {}   # pozwala też uruchomić ręcznie z zakładki Actions
+
+permissions:
+  contents: write
+
+jobs:
+  generate-post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Wygeneruj nowy artykuł
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node auto-blog/generate-article.mjs
+
+      - name: Zapisz zmiany w repozytorium
+        run: |
+          git config user.name "xtrip-bot"
+          git config user.email "bot@xtrip.local"
+          git add posts.json blog/
+          git commit -m "Auto: nowy artykuł na blog" || echo "Brak zmian do zapisania"
+          git push
