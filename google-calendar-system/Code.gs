@@ -6,10 +6,16 @@
  *
  * Co robi:
  * 1) doPost(e)  — odbiera zgłoszenie z formularza na stronie, tworzy
- *                 wydarzenie w Twoim Kalendarzu Google I WYSYŁA klientowi
- *                 e-mail z potwierdzeniem rezerwacji (z Twojego konta Gmail).
+ *                 wydarzenie w Twoim Kalendarzu Google, WYSYŁA DO CIEBIE
+ *                 (OWNER_EMAIL) powiadomienie o nowej rezerwacji z pełnymi
+ *                 danymi klienta, i — jeśli klient podał e-mail — wysyła
+ *                 też jemu potwierdzenie ze wszystkimi szczegółami.
  * 2) doGet(e)   — wyświetla panel (Index.html) z listą najbliższych
  *                 rezerwacji i przyciskiem "Kopiuj dane dla kierowcy".
+ * 3) Jeśli klient poda numer lotu I skonfigurujesz AVIATIONSTACK_API_KEY
+ *    (patrz niżej) — system sam sprawdzi skąd leci ten samolot i doda
+ *    tę informację zarówno do Twojego powiadomienia, jak i do maila
+ *    z potwierdzeniem dla klienta.
  *
  * KONFIGURACJA (zrób raz):
  * 1. Wejdź na script.google.com -> Nowy projekt.
@@ -34,6 +40,35 @@
 const CALENDAR_ID = "primary"; // Twój główny kalendarz Google
 const COMPANY_NAME = "Katowice Pyrzowice Airport Transfers";
 const COMPANY_PHONE = "+48 728 814 659";
+const OWNER_EMAIL = "przewoz@legendarykrakow.pl"; // Twój adres — tu przychodzi powiadomienie o KAŻDEJ nowej rezerwacji
+
+// Klucz API do sprawdzania skąd leci dany numer lotu (opcjonalne — zostaw puste, żeby wyłączyć).
+// Załóż darmowe konto na aviationstack.com -> Dashboard -> "Your API Access Key" -> wklej poniżej.
+// Darmowy plan: 100 zapytań/miesiąc. Przy większej liczbie rezerwacji trzeba przejść na płatny plan.
+const AVIATIONSTACK_API_KEY = "";
+
+// Sprawdza skąd leci dany numer lotu (np. "FR1234"). Zwraca np. "Londyn (STN)" albo null, jeśli się nie uda.
+function lookupFlightOrigin(flightNo) {
+  if (!AVIATIONSTACK_API_KEY || !flightNo) return null;
+  try {
+    const clean = flightNo.replace(/\s+/g, "").toUpperCase();
+    const url = `https://api.aviationstack.com/v1/flights?access_key=${AVIATIONSTACK_API_KEY}&flight_iata=${encodeURIComponent(clean)}`;
+    const res = UrlFetchApp.fetch(url, { muteHttpExceptions: true });
+    const data = JSON.parse(res.getContentText());
+
+    if (!data.data || data.data.length === 0) return null;
+
+    const flight = data.data[0];
+    const airportName = flight.departure && flight.departure.airport;
+    const iata = flight.departure && flight.departure.iata;
+    if (!airportName) return null;
+
+    return iata ? `${airportName} (${iata})` : airportName;
+  } catch (err) {
+    console.error("Błąd sprawdzania lotu:", err.message);
+    return null; // nie przerywamy całej rezerwacji, jeśli sprawdzenie lotu się nie uda
+  }
+}
 
 // Krótkie etykiety pól e-maila w kilku językach — dopasowane do języka rezerwacji (data.lang)
 // UWAGA: pełne tłumaczenie e-maila jest tylko dla pl/en/de (najważniejsze rynki na start).
@@ -41,17 +76,20 @@ const COMPANY_PHONE = "+48 728 814 659";
 // Chcesz dodać pełne tłumaczenie dla reszty? Dopisz kolejne klucze wg tego samego wzoru.
 const EMAIL_LABELS = {
   pl: { subject: "Potwierdzenie rezerwacji transferu", greeting: "Dzień dobry", intro: "Dziękujemy za rezerwację! Oto podsumowanie:",
+        name: "Imię i nazwisko", phone: "Telefon",
         route: "Trasa", datetime: "Data i godzina", passengers: "Liczba osób", vehicle: "Pojazd", price: "Cena",
         payment: "Sposób płatności", paymentValue: "Gotówką lub kartą bezpośrednio u kierowcy — brak przedpłaty online.",
-        address: "Adres", flight: "Numer lotu", contact: "W razie pytań napisz do nas na WhatsApp", regards: "Do zobaczenia!" },
+        address: "Adres", flight: "Numer lotu", flightFrom: "skąd", contact: "W razie pytań napisz do nas na WhatsApp", regards: "Do zobaczenia!" },
   en: { subject: "Your transfer booking confirmation", greeting: "Hello", intro: "Thank you for your booking! Here's your summary:",
+        name: "Full name", phone: "Phone",
         route: "Route", datetime: "Date & time", passengers: "Passengers", vehicle: "Vehicle", price: "Price",
         payment: "Payment method", paymentValue: "Cash or card directly to the driver — no online prepayment required.",
-        address: "Address", flight: "Flight number", contact: "If you have any questions, message us on WhatsApp", regards: "See you soon!" },
+        address: "Address", flight: "Flight number", flightFrom: "from", contact: "If you have any questions, message us on WhatsApp", regards: "See you soon!" },
   de: { subject: "Bestätigung Ihrer Transferbuchung", greeting: "Hallo", intro: "Vielen Dank für Ihre Buchung! Hier ist Ihre Zusammenfassung:",
+        name: "Name", phone: "Telefon",
         route: "Strecke", datetime: "Datum & Uhrzeit", passengers: "Personenzahl", vehicle: "Fahrzeug", price: "Preis",
         payment: "Zahlungsart", paymentValue: "Bar oder Karte direkt beim Fahrer — keine Online-Vorauszahlung.",
-        address: "Adresse", flight: "Flugnummer", contact: "Bei Fragen schreiben Sie uns auf WhatsApp", regards: "Bis bald!" },
+        address: "Adresse", flight: "Flugnummer", flightFrom: "ab", contact: "Bei Fragen schreiben Sie uns auf WhatsApp", regards: "Bis bald!" },
 };
 
 function getEmailLabels(lang) {
@@ -63,6 +101,8 @@ function doPost(e) {
     const data = JSON.parse(e.postData.contents);
     const cal = CalendarApp.getCalendarById(CALENDAR_ID);
 
+    const flightOrigin = data.flightNo ? lookupFlightOrigin(data.flightNo) : null;
+
     const title = `Transfer: ${data.firstName || ""} ${data.lastName || ""} (${data.route || "trasa nieokreślona"})`;
     const start = data.datetime ? new Date(data.datetime) : new Date();
     const end = new Date(start.getTime() + 60 * 60 * 1000); // domyślnie 1h blok w kalendarzu
@@ -71,7 +111,7 @@ function doPost(e) {
       `Imię i nazwisko: ${data.firstName || ""} ${data.lastName || ""}`,
       `E-mail: ${data.email || "-"}`,
       `Telefon: ${data.phone || "-"}`,
-      `Numer lotu: ${data.flightNo || "-"}`,
+      `Numer lotu: ${data.flightNo || "-"}${flightOrigin ? ` (skąd: ${flightOrigin})` : ""}`,
       `Trasa: ${data.route || "-"}`,
       `Pojazd: ${data.vehicle || "-"}`,
       `Cena: ${data.price || "-"}`,
@@ -81,8 +121,12 @@ function doPost(e) {
 
     cal.createEvent(title, start, end, { description: description });
 
+    // Powiadomienie do Ciebie — wysyłane zawsze, niezależnie od tego, czy klient podał e-mail
+    sendOwnerNotification(data, title, flightOrigin);
+
+    // Potwierdzenie dla klienta — tylko jeśli podał e-mail
     if (data.email) {
-      sendConfirmationEmail(data);
+      sendConfirmationEmail(data, flightOrigin);
     }
 
     return ContentService
@@ -95,13 +139,43 @@ function doPost(e) {
   }
 }
 
-function sendConfirmationEmail(data) {
+function sendOwnerNotification(data, title, flightOrigin) {
+  const dateStr = data.datetime
+    ? Utilities.formatDate(new Date(data.datetime), Session.getScriptTimeZone(), "dd.MM.yyyy HH:mm")
+    : "-";
+
+  const body = [
+    `Nowa rezerwacja: ${title}`,
+    ``,
+    `Imię i nazwisko: ${data.firstName || ""} ${data.lastName || ""}`,
+    `E-mail klienta: ${data.email || "-"}`,
+    `Telefon: ${data.phone || "-"}`,
+    `Numer lotu: ${data.flightNo || "-"}${flightOrigin ? ` — skąd: ${flightOrigin}` : ""}`,
+    `Trasa: ${data.route || "-"}`,
+    `Data i godzina: ${dateStr}`,
+    `Pojazd/liczba osób: ${data.vehicle || "-"}`,
+    `Cena: ${data.price || "-"}`,
+    `Płatność: u kierowcy (gotówka/karta)`,
+    `Uwagi: ${data.notes || "-"}`,
+    `Język rezerwacji: ${data.lang || "-"}`,
+  ].join("\n");
+
+  MailApp.sendEmail({
+    to: OWNER_EMAIL,
+    subject: `Nowa rezerwacja — ${data.firstName || ""} ${data.lastName || ""} (${data.route || "trasa nieokreślona"})`,
+    body: body,
+  });
+}
+
+function sendConfirmationEmail(data, flightOrigin) {
   const L = getEmailLabels(data.lang);
   const dateStr = data.datetime
     ? Utilities.formatDate(new Date(data.datetime), Session.getScriptTimeZone(), "dd.MM.yyyy HH:mm")
     : "-";
 
   const rows = [
+    [L.name, `${data.firstName || ""} ${data.lastName || ""}`.trim()],
+    [L.phone, data.phone || "-"],
     [L.route, data.route || "-"],
     [L.datetime, dateStr],
     [L.passengers, data.passengers || "-"],
@@ -109,7 +183,9 @@ function sendConfirmationEmail(data) {
     [L.price, data.price || "-"],
   ];
   if (data.notes) rows.push([L.address, data.notes.replace("Adres: ", "")]);
-  if (data.flightNo) rows.push([L.flight, data.flightNo]);
+  if (data.flightNo) {
+    rows.push([L.flight, flightOrigin ? `${data.flightNo} (${L.flightFrom}: ${flightOrigin})` : data.flightNo]);
+  }
 
   const rowsHtml = rows.map(([label, value]) =>
     `<tr><td style="padding:6px 12px 6px 0;color:#5A6472;font-size:14px;">${label}</td>` +
@@ -142,24 +218,6 @@ function sendConfirmationEmail(data) {
 }
 
 function doGet(e) {
-  const template = HtmlService.createTemplateFromFile("Index");
-  template.events = getUpcomingEvents();
-  return template.evaluate().setTitle("Rezerwacje — Katowice Pyrzowice Airport Transfers");
-}
-
-function getUpcomingEvents() {
-  const cal = CalendarApp.getCalendarById(CALENDAR_ID);
-  const now = new Date();
-  const in60days = new Date(now.getTime() + 60 * 24 * 60 * 60 * 1000);
-  const events = cal.getEvents(now, in60days);
-
-  return events.map(ev => ({
-    title: ev.getTitle(),
-    start: Utilities.formatDate(ev.getStartTime(), Session.getScriptTimeZone(), "dd.MM.yyyy HH:mm"),
-    description: ev.getDescription(),
-  }));
-}
-
   const template = HtmlService.createTemplateFromFile("Index");
   template.events = getUpcomingEvents();
   return template.evaluate().setTitle("Rezerwacje — Katowice Pyrzowice Airport Transfers");
