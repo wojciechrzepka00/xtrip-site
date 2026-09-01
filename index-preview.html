@@ -712,6 +712,13 @@
       </div>
 
       <div class="form-row">
+        <div class="form-field" style="grid-column:1 / -1;">
+          <label for="email" data-i18n="label_email">Adres e-mail</label>
+          <input type="email" id="email" placeholder="jan.kowalski@email.com" required>
+        </div>
+      </div>
+
+      <div class="form-row">
         <div class="form-field">
           <label for="datetime" data-i18n="label_datetime">Data i godzina</label>
           <input type="datetime-local" id="datetime">
@@ -722,9 +729,12 @@
         </div>
       </div>
 
+      <p class="field-error" id="emailError" data-i18n="email_error">Podaj poprawny adres e-mail — wyślemy na niego potwierdzenie rezerwacji.</p>
       <p class="field-error" id="phoneError" data-i18n="phone_error">Podaj poprawny numer telefonu w formacie międzynarodowym (np. +48600000000).</p>
       <p class="field-hint" data-i18n="phone_hint">Upewnij się, że podany numer ma aktywne WhatsApp — tam potwierdzimy rezerwację.</p>
       <p class="field-error" id="urgentError" data-i18n="urgent_error">Rezerwacje na mniej niż 24 godziny przyjmujemy wyłącznie przez bezpośredni kontakt na WhatsApp — użyj przycisku poniżej.</p>
+
+      <p class="field-hint" data-i18n="payment_note">Płatność gotówką lub kartą bezpośrednio u kierowcy — nie pobieramy przedpłaty online.</p>
 
       <div class="price-box" id="priceBox">
         <div class="price-box-label" data-i18n="price_estimate_label">Szacowana cena</div>
@@ -754,6 +764,7 @@
       <span data-i18n="contact_cta">Napisz na WhatsApp</span>
     </a>
     <div class="phone-line"><span data-i18n="contact_phone_label">lub zadzwoń</span>: <span>+48 728 814 659</span></div>
+    <div class="phone-line"><span data-i18n="contact_email_label">lub napisz</span>: <span><a href="mailto:przewoz@legendarykrakow.pl" style="color:inherit;">przewoz@legendarykrakow.pl</a></span></div>
   </div>
 </section>
 
@@ -814,10 +825,12 @@ why_2_title:"Monitoring lotów",why_2_desc:"Śledzimy Twój lot — czekamy nawe
 why_3_title:"Stała cena",why_3_desc:"Cena ustalona przed podróżą, płatność bez niespodzianek.",
 why_4_title:"Dostępność 24/7",why_4_desc:"Odbieramy o każdej porze dnia i nocy.",
 contact_title:"Zarezerwuj transfer",contact_subtitle:"Napisz do nas na WhatsApp — odpowiemy w kilka minut i potwierdzimy termin.",
-contact_cta:"Napisz na WhatsApp",contact_phone_label:"lub zadzwoń",
+contact_cta:"Napisz na WhatsApp",contact_phone_label:"lub zadzwoń",contact_email_label:"lub napisz",
 footer_rights:"Wszelkie prawa zastrzeżone.",
 book_eyebrow:"FORMULARZ ZAMÓWIENIA",book_title:"Zamów transfer",book_subtitle:"Wypełnij dane, a przygotujemy wiadomość gotową do wysłania na WhatsApp — potwierdzimy termin i cenę.",
-label_firstname:"Imię",label_lastname:"Nazwisko",label_flight:"Numer lotu",label_phone:"Numer telefonu (WhatsApp)",
+label_firstname:"Imię",label_lastname:"Nazwisko",label_flight:"Numer lotu",label_phone:"Numer telefonu (WhatsApp)",label_email:"Adres e-mail",
+email_error:"Podaj poprawny adres e-mail — wyślemy na niego potwierdzenie rezerwacji.",
+payment_note:"Płatność gotówką lub kartą bezpośrednio u kierowcy — nie pobieramy przedpłaty online.",
 label_direction:"Kierunek",option_from_airport:"Z lotniska do miasta",option_to_airport:"Z miasta na lotnisko",
 label_city:"Miasto docelowe",fleet_route_krakow:"Kraków",fleet_route_zakopane:"Zakopane",
 label_address:"Adres docelowy",label_passengers:"Liczba osób",label_datetime:"Data i godzina",
@@ -861,10 +874,12 @@ why_2_title:"Flight monitoring",why_2_desc:"We track your flight — we wait eve
 why_3_title:"Fixed price",why_3_desc:"Price agreed before the trip, no surprises at payment.",
 why_4_title:"Available 24/7",why_4_desc:"We pick up at any hour, day or night.",
 contact_title:"Book your transfer",contact_subtitle:"Message us on WhatsApp — we'll reply within minutes and confirm your booking.",
-contact_cta:"Message on WhatsApp",contact_phone_label:"or call",
+contact_cta:"Message on WhatsApp",contact_phone_label:"or call",contact_email_label:"or email",
 footer_rights:"All rights reserved.",
 book_eyebrow:"BOOKING FORM",book_title:"Book your transfer",book_subtitle:"Fill in your details and we'll prepare a message ready to send on WhatsApp — we'll confirm the time and price.",
-label_firstname:"First name",label_lastname:"Last name",label_flight:"Flight number",label_phone:"Phone number (WhatsApp)",
+label_firstname:"First name",label_lastname:"Last name",label_flight:"Flight number",label_phone:"Phone number (WhatsApp)",label_email:"Email address",
+email_error:"Please enter a valid email address — we'll send your booking confirmation there.",
+payment_note:"Payment by cash or card directly to the driver — we don't charge online in advance.",
 label_direction:"Direction",option_from_airport:"Airport to city",option_to_airport:"City to airport",
 label_city:"Destination city",fleet_route_krakow:"Kraków",fleet_route_zakopane:"Zakopane",
 label_address:"Destination address",label_passengers:"Number of passengers",label_datetime:"Date & time",
@@ -908,10 +923,12 @@ why_2_title:"Flugüberwachung",why_2_desc:"Wir verfolgen Ihren Flug — wir wart
 why_3_title:"Festpreis",why_3_desc:"Preis vor der Fahrt vereinbart, keine Überraschungen bei der Zahlung.",
 why_4_title:"24/7 verfügbar",why_4_desc:"Wir holen Sie zu jeder Tages- und Nachtzeit ab.",
 contact_title:"Transfer buchen",contact_subtitle:"Schreiben Sie uns auf WhatsApp — wir antworten innerhalb weniger Minuten und bestätigen Ihre Buchung.",
-contact_cta:"Auf WhatsApp schreiben",contact_phone_label:"oder anrufen",
+contact_cta:"Auf WhatsApp schreiben",contact_phone_label:"oder anrufen",contact_email_label:"oder per E-Mail",
 footer_rights:"Alle Rechte vorbehalten.",
 book_eyebrow:"BUCHUNGSFORMULAR",book_title:"Transfer buchen",book_subtitle:"Füllen Sie Ihre Daten aus — wir bereiten eine Nachricht vor, die Sie direkt per WhatsApp senden können. Wir bestätigen Termin und Preis.",
-label_firstname:"Vorname",label_lastname:"Nachname",label_flight:"Flugnummer",label_phone:"Telefonnummer (WhatsApp)",
+label_firstname:"Vorname",label_lastname:"Nachname",label_flight:"Flugnummer",label_phone:"Telefonnummer (WhatsApp)",label_email:"E-Mail-Adresse",
+email_error:"Bitte geben Sie eine gültige E-Mail-Adresse ein — dorthin senden wir Ihre Buchungsbestätigung.",
+payment_note:"Zahlung bar oder per Karte direkt beim Fahrer — wir erheben keine Online-Vorauszahlung.",
 label_direction:"Richtung",option_from_airport:"Vom Flughafen in die Stadt",option_to_airport:"Von der Stadt zum Flughafen",
 label_city:"Zielort",fleet_route_krakow:"Krakau",fleet_route_zakopane:"Zakopane",
 label_address:"Zieladresse",label_passengers:"Anzahl Personen",label_datetime:"Datum & Uhrzeit",
@@ -955,10 +972,12 @@ why_2_title:"Suivi des vols",why_2_desc:"Nous suivons votre vol — nous attendo
 why_3_title:"Prix fixe",why_3_desc:"Prix convenu avant le trajet, aucune surprise au paiement.",
 why_4_title:"Disponible 24h/24",why_4_desc:"Prise en charge à toute heure, jour et nuit.",
 contact_title:"Réservez votre transfert",contact_subtitle:"Écrivez-nous sur WhatsApp — nous répondons en quelques minutes et confirmons votre réservation.",
-contact_cta:"Écrire sur WhatsApp",contact_phone_label:"ou appelez",
+contact_cta:"Écrire sur WhatsApp",contact_phone_label:"ou appelez",contact_email_label:"ou par e-mail",
 footer_rights:"Tous droits réservés.",
 book_eyebrow:"FORMULAIRE DE RÉSERVATION",book_title:"Réservez votre transfert",book_subtitle:"Remplissez vos coordonnées, nous préparerons un message prêt à envoyer sur WhatsApp — nous confirmerons l'horaire et le prix.",
-label_firstname:"Prénom",label_lastname:"Nom",label_flight:"Numéro de vol",label_phone:"Numéro de téléphone (WhatsApp)",
+label_firstname:"Prénom",label_lastname:"Nom",label_flight:"Numéro de vol",label_phone:"Numéro de téléphone (WhatsApp)",label_email:"Adresse e-mail",
+email_error:"Veuillez saisir une adresse e-mail valide — nous y enverrons la confirmation de votre réservation.",
+payment_note:"Paiement en espèces ou par carte directement auprès du chauffeur — aucun prépaiement en ligne n'est demandé.",
 label_direction:"Direction",option_from_airport:"De l'aéroport vers la ville",option_to_airport:"De la ville vers l'aéroport",
 label_city:"Ville de destination",fleet_route_krakow:"Cracovie",fleet_route_zakopane:"Zakopane",
 label_address:"Adresse de destination",label_passengers:"Nombre de passagers",label_datetime:"Date et heure",
@@ -1002,10 +1021,12 @@ why_2_title:"Monitoraggio del volo",why_2_desc:"Seguiamo il tuo volo — aspetti
 why_3_title:"Prezzo fisso",why_3_desc:"Prezzo concordato prima del viaggio, nessuna sorpresa al pagamento.",
 why_4_title:"Disponibili 24/7",why_4_desc:"Ritiro a qualsiasi ora, giorno e notte.",
 contact_title:"Prenota il tuo transfer",contact_subtitle:"Scrivici su WhatsApp — risponderemo in pochi minuti e confermeremo la tua prenotazione.",
-contact_cta:"Scrivi su WhatsApp",contact_phone_label:"oppure chiama",
+contact_cta:"Scrivi su WhatsApp",contact_phone_label:"oppure chiama",contact_email_label:"oppure scrivi una e-mail",
 footer_rights:"Tutti i diritti riservati.",
 book_eyebrow:"MODULO DI PRENOTAZIONE",book_title:"Prenota il tuo transfer",book_subtitle:"Compila i tuoi dati: prepareremo un messaggio pronto da inviare su WhatsApp — confermeremo orario e prezzo.",
-label_firstname:"Nome",label_lastname:"Cognome",label_flight:"Numero di volo",label_phone:"Numero di telefono (WhatsApp)",
+label_firstname:"Nome",label_lastname:"Cognome",label_flight:"Numero di volo",label_phone:"Numero di telefono (WhatsApp)",label_email:"Indirizzo e-mail",
+email_error:"Inserisci un indirizzo e-mail valido — ti invieremo lì la conferma della prenotazione.",
+payment_note:"Pagamento in contanti o con carta direttamente all'autista — nessun pagamento anticipato online.",
 label_direction:"Direzione",option_from_airport:"Dall'aeroporto alla città",option_to_airport:"Dalla città all'aeroporto",
 label_city:"Città di destinazione",fleet_route_krakow:"Cracovia",fleet_route_zakopane:"Zakopane",
 label_address:"Indirizzo di destinazione",label_passengers:"Numero di passeggeri",label_datetime:"Data e ora",
@@ -1049,10 +1070,12 @@ why_2_title:"Seguimiento de vuelos",why_2_desc:"Seguimos tu vuelo — esperamos 
 why_3_title:"Precio fijo",why_3_desc:"Precio acordado antes del viaje, sin sorpresas en el pago.",
 why_4_title:"Disponibles 24/7",why_4_desc:"Recogemos a cualquier hora, día o noche.",
 contact_title:"Reserva tu traslado",contact_subtitle:"Escríbenos por WhatsApp — responderemos en minutos y confirmaremos tu reserva.",
-contact_cta:"Escribir por WhatsApp",contact_phone_label:"o llama",
+contact_cta:"Escribir por WhatsApp",contact_phone_label:"o llama",contact_email_label:"o escribe un correo",
 footer_rights:"Todos los derechos reservados.",
 book_eyebrow:"FORMULARIO DE RESERVA",book_title:"Reserva tu traslado",book_subtitle:"Completa tus datos y prepararemos un mensaje listo para enviar por WhatsApp — confirmaremos el horario y el precio.",
-label_firstname:"Nombre",label_lastname:"Apellido",label_flight:"Número de vuelo",label_phone:"Número de teléfono (WhatsApp)",
+label_firstname:"Nombre",label_lastname:"Apellido",label_flight:"Número de vuelo",label_phone:"Número de teléfono (WhatsApp)",label_email:"Correo electrónico",
+email_error:"Introduce un correo electrónico válido — te enviaremos allí la confirmación de la reserva.",
+payment_note:"Pago en efectivo o con tarjeta directamente al conductor — no cobramos anticipo online.",
 label_direction:"Dirección",option_from_airport:"Del aeropuerto a la ciudad",option_to_airport:"De la ciudad al aeropuerto",
 label_city:"Ciudad de destino",fleet_route_krakow:"Cracovia",fleet_route_zakopane:"Zakopane",
 label_address:"Dirección de destino",label_passengers:"Número de pasajeros",label_datetime:"Fecha y hora",
@@ -1096,10 +1119,12 @@ why_2_title:"Monitoraġġ tat-titjira",why_2_desc:"Insegwu t-titjira tiegħek �
 why_3_title:"Prezz fiss",why_3_desc:"Prezz miftiehem qabel il-vjaġġ, l-ebda sorpriża fil-ħlas.",
 why_4_title:"Disponibbli 24/7",why_4_desc:"Niġbru fi kwalunkwe ħin, il-jum jew il-lejl.",
 contact_title:"Illibra t-trasferiment tiegħek",contact_subtitle:"Ikkuntattjana fuq WhatsApp — inwieġbu fi ftit minuti u nikkonfermaw il-btala tiegħek.",
-contact_cta:"Ikteb fuq WhatsApp",contact_phone_label:"jew ċempel",
+contact_cta:"Ikteb fuq WhatsApp",contact_phone_label:"jew ċempel",contact_email_label:"jew ibgħat email",
 footer_rights:"Id-drittijiet kollha riżervati.",
 book_eyebrow:"FORMOLA TA' PRENOTAZZJONI",book_title:"Illibra t-trasferiment tiegħek",book_subtitle:"Imla d-dettalji tiegħek u nippreparaw messaġġ lest biex jintbagħat fuq WhatsApp — nikkonfermaw il-ħin u l-prezz.",
-label_firstname:"Isem",label_lastname:"Kunjom",label_flight:"Numru tat-titjira",label_phone:"Numru tat-telefon (WhatsApp)",
+label_firstname:"Isem",label_lastname:"Kunjom",label_flight:"Numru tat-titjira",label_phone:"Numru tat-telefon (WhatsApp)",label_email:"Indirizz elettroniku",
+email_error:"Daħħal indirizz elettroniku validu — nibagħtu l-konferma tal-btala hemm.",
+payment_note:"Ħlas fi flus jew karta direttament lis-sewwieq — ma nitolbux ħlas bil-quddiem online.",
 label_direction:"Direzzjoni",option_from_airport:"Mill-ajruport lejn il-belt",option_to_airport:"Mill-belt lejn l-ajruport",
 label_city:"Belt tad-destinazzjoni",fleet_route_krakow:"Krakovja",fleet_route_zakopane:"Zakopane",
 label_address:"Indirizz tad-destinazzjoni",label_passengers:"Numru ta' passiġġieri",label_datetime:"Data u ħin",
@@ -1143,10 +1168,12 @@ why_2_title:"Моніторинг рейсів",why_2_desc:"Ми стежимо 
 why_3_title:"Фіксована ціна",why_3_desc:"Ціна узгоджена перед поїздкою, без сюрпризів при оплаті.",
 why_4_title:"Доступність 24/7",why_4_desc:"Забираємо в будь-який час доби.",
 contact_title:"Забронюйте трансфер",contact_subtitle:"Напишіть нам у WhatsApp — ми відповімо протягом кількох хвилин і підтвердимо бронювання.",
-contact_cta:"Написати в WhatsApp",contact_phone_label:"або зателефонуйте",
+contact_cta:"Написати в WhatsApp",contact_phone_label:"або зателефонуйте",contact_email_label:"або напишіть на пошту",
 footer_rights:"Усі права захищені.",
 book_eyebrow:"ФОРМА БРОНЮВАННЯ",book_title:"Замовити трансфер",book_subtitle:"Заповніть дані, і ми підготуємо повідомлення, готове для надсилання у WhatsApp — підтвердимо час і ціну.",
-label_firstname:"Ім'я",label_lastname:"Прізвище",label_flight:"Номер рейсу",label_phone:"Номер телефону (WhatsApp)",
+label_firstname:"Ім'я",label_lastname:"Прізвище",label_flight:"Номер рейсу",label_phone:"Номер телефону (WhatsApp)",label_email:"Електронна пошта",
+email_error:"Введіть дійсну електронну адресу — ми надішлемо туди підтвердження бронювання.",
+payment_note:"Оплата готівкою або карткою безпосередньо водієві — ми не стягуємо передоплату онлайн.",
 label_direction:"Напрямок",option_from_airport:"З аеропорту до міста",option_to_airport:"З міста до аеропорту",
 label_city:"Місто призначення",fleet_route_krakow:"Краків",fleet_route_zakopane:"Закопане",
 label_address:"Адреса призначення",label_passengers:"Кількість пасажирів",label_datetime:"Дата і час",
@@ -1190,10 +1217,12 @@ why_2_title:"مراقبة الرحلات الجوية",why_2_desc:"نتابع ر
 why_3_title:"سعر ثابت",why_3_desc:"يتم الاتفاق على السعر قبل الرحلة، بدون مفاجآت عند الدفع.",
 why_4_title:"متاح على مدار الساعة",why_4_desc:"نستقبلكم في أي وقت من اليوم أو الليل.",
 contact_title:"احجز نقلك",contact_subtitle:"راسلنا عبر واتساب — سنرد خلال دقائق ونؤكد حجزك.",
-contact_cta:"راسلنا عبر واتساب",contact_phone_label:"أو اتصل بنا",
+contact_cta:"راسلنا عبر واتساب",contact_phone_label:"أو اتصل بنا",contact_email_label:"أو راسلنا بالبريد الإلكتروني",
 footer_rights:"جميع الحقوق محفوظة.",
 book_eyebrow:"نموذج الحجز",book_title:"احجز نقلك",book_subtitle:"املأ بياناتك وسنجهز رسالة جاهزة للإرسال عبر واتساب — سنؤكد الوقت والسعر.",
-label_firstname:"الاسم الأول",label_lastname:"اسم العائلة",label_flight:"رقم الرحلة",label_phone:"رقم الهاتف (واتساب)",
+label_firstname:"الاسم الأول",label_lastname:"اسم العائلة",label_flight:"رقم الرحلة",label_phone:"رقم الهاتف (واتساب)",label_email:"البريد الإلكتروني",
+email_error:"يرجى إدخال بريد إلكتروني صحيح — سنرسل تأكيد الحجز إليه.",
+payment_note:"الدفع نقدًا أو بالبطاقة مباشرة للسائق — لا نطلب دفعًا مسبقًا عبر الإنترنت.",
 label_direction:"الاتجاه",option_from_airport:"من المطار إلى المدينة",option_to_airport:"من المدينة إلى المطار",
 label_city:"مدينة الوجهة",fleet_route_krakow:"كراكوف",fleet_route_zakopane:"زاكوباني",
 label_address:"عنوان الوجهة",label_passengers:"عدد الركاب",label_datetime:"التاريخ والوقت",
@@ -1415,11 +1444,22 @@ bookingForm.addEventListener('submit', (e)=>{
   const address = document.getElementById('address').value.trim();
   const flightNo = document.getElementById('flightNo').value.trim();
   const passengers = document.getElementById('passengers').value;
+  const emailInput = document.getElementById('email');
+  const email = emailInput.value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailError = document.getElementById('emailError');
   const phoneInput = document.getElementById('phone');
   const phone = phoneInput.value.trim();
   const phoneRegex = /^\+[1-9]\d{7,14}$/;
   const cleanPhone = phone.replace(/[\s-]/g,'');
   const phoneError = document.getElementById('phoneError');
+
+  if(!emailRegex.test(email)){
+    emailError.classList.add('show');
+    emailInput.focus();
+    return;
+  }
+  emailError.classList.remove('show');
 
   if(!phoneRegex.test(cleanPhone)){
     phoneError.classList.add('show');
@@ -1451,25 +1491,27 @@ bookingForm.addEventListener('submit', (e)=>{
     t.whatsapp_message,
     `${t.label_firstname || 'Imię'}: ${fName}`,
     `${t.label_lastname || 'Nazwisko'}: ${lName}`,
+    `${t.label_email || 'E-mail'}: ${email}`,
     `${t.label_direction || 'Kierunek'}: ${directionLabel}`,
     address ? `${t.label_address || 'Adres'}: ${address}` : null,
     (routeType === 'airport' && flightNo) ? `${t.label_flight || 'Nr lotu'}: ${flightNo}` : null,
     `${t.label_passengers || 'Liczba osób'}: ${passengers}`,
     document.getElementById('datetime').value ? `${t.label_datetime || 'Data/godzina'}: ${document.getElementById('datetime').value.replace('T',' ')}` : null,
     `${t.label_phone || 'Telefon'}: ${cleanPhone}`,
-    `${t.price_estimate_label || 'Szacowana cena'}: ${priceLabel} (${vehicleLabel})`
+    `${t.price_estimate_label || 'Szacowana cena'}: ${priceLabel} (${vehicleLabel})`,
+    t.payment_note || 'Płatność gotówką lub kartą u kierowcy.'
   ].filter(Boolean).join('\n');
 
-  // 1) Zapis do Kalendarza Google w tle (jeśli skonfigurowano BOOKING_ENDPOINT)
+  // 1) Zapis do Kalendarza Google + wysyłka maila z potwierdzeniem (jeśli skonfigurowano BOOKING_ENDPOINT)
   if (BOOKING_ENDPOINT) {
     fetch(BOOKING_ENDPOINT, {
       method: 'POST',
       mode: 'no-cors', // Apps Script Web App nie zwraca nagłówków CORS
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
-        firstName: fName, lastName: lName, phone: cleanPhone, flightNo: flightNo,
-        route: directionLabel, vehicle: vehicleLabel,
-        datetime: datetime, notes: address ? `Adres: ${address}` : ''
+        firstName: fName, lastName: lName, phone: cleanPhone, email: email, flightNo: flightNo,
+        route: directionLabel, vehicle: vehicleLabel, price: priceLabel,
+        datetime: datetime, notes: address ? `Adres: ${address}` : '', lang: lang
       })
     }).catch(()=>{ /* ciche niepowodzenie — WhatsApp i tak zadziała */ });
   }

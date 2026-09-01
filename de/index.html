@@ -1255,7 +1255,7 @@ function buildLangMenu(){
     const b = document.createElement('button');
     b.textContent = LANGS[code].name;
     b.dataset.code = code;
-    const LANG_URLS = {pl:'index.html',en:'en/index.html',de:'de/index.html',fr:'fr/index.html',it:'it/index.html',es:'es/index.html',mt:'mt/index.html',uk:'uk/index.html',ar:'ar/index.html'}; b.onclick = ()=>{ window.location.href = LANG_URLS[code]; };
+    const LANG_URLS = {pl:'../index.html',en:'../en/index.html',de:'index.html',fr:'../fr/index.html',it:'../it/index.html',es:'../es/index.html',mt:'../mt/index.html',uk:'../uk/index.html',ar:'../ar/index.html'}; b.onclick = ()=>{ window.location.href = LANG_URLS[code]; };
     menu.appendChild(b);
   });
 }
