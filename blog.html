@@ -485,10 +485,18 @@ fetch('posts.json')
   .then(r => r.ok ? r.json() : [])
   .then(posts => {
     const container = document.getElementById('autoPosts');
+    if (posts.length > 0) {
+      const heading = document.createElement('h3');
+      heading.className = 'cat-head';
+      heading.textContent = 'Najnowsze (automatycznie dodane)';
+      container.appendChild(heading);
+    }
     posts.forEach(p => {
       const div = document.createElement('div');
       div.className = 'post';
-      div.innerHTML = `<h2><a href="${p.url || '#'}">${p.title}</a></h2><p>${p.meta || ''}</p>`;
+      const dateStr = p.date ? `<span style="color:#C4872F; font-weight:600;">${p.date}</span> · ` : '';
+      const langBadge = p.lang ? ` <span style="font-size:11px; color:#9B9584; text-transform:uppercase;">[${p.lang}]</span>` : '';
+      div.innerHTML = `<div style="font-size:12px; color:#9B9584; margin-bottom:4px;">${dateStr}Dodano automatycznie</div><h2><a href="${p.url || '#'}">${p.title}</a>${langBadge}</h2><p>${p.meta || ''}</p>`;
       container.appendChild(div);
     });
   })
