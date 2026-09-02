@@ -1,8 +1,8 @@
-name: Auto-publikacja artykułu na blog
+name: Auto-publikacja artykułów na blog (9 języków naraz)
 
 on:
   schedule:
-    # Uruchamia się co 3 dni o 6:00 UTC
+    # Uruchamia się co 3 dni o 6:00 UTC — generuje TEN SAM temat w 9 językach na raz
     - cron: "0 6 */3 * *"
   workflow_dispatch: {}   # pozwala też uruchomić ręcznie z zakładki Actions
 
@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 20
 
-      - name: Wygeneruj nowy artykuł
+      - name: Wygeneruj nowe artykuły (9 języków)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: node auto-blog/generate-article.mjs
@@ -29,5 +29,5 @@ jobs:
           git config user.name "xtrip-bot"
           git config user.email "bot@xtrip.local"
           git add posts.json blog/
-          git commit -m "Auto: nowy artykuł na blog" || echo "Brak zmian do zapisania"
+          git commit -m "Auto: nowe artykuly na blog (9 jezykow)" || echo "Brak zmian do zapisania"
           git push

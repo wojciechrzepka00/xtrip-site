@@ -1,19 +1,27 @@
 // generate-article.mjs
-// Generuje JEDEN nowy artykuł, w RÓŻNYM języku przy każdym uruchomieniu (rotacja przez 9 języków),
-// jako osobną, indeksowalną podstronę w blog/{lang}/, i dopisuje wpis do posts.json.
+// Generuje JEDEN temat, ale od razu W KAŻDYM z 9 języków przy każdym uruchomieniu
+// (nie rotację "jeden język na raz" jak wcześniej) — jako osobne, indeksowalne
+// podstrony w blog/{lang}/, i dopisuje 9 wpisów do posts.json.
 // Wymaga zmiennej środowiskowej ANTHROPIC_API_KEY (sekret w GitHub Actions).
 //
-// Jak to działa: workflow uruchamia się co 3 dni. Każde uruchomienie bierze KOLEJNY język
-// z listy LANGS (na podstawie tego, ile już powstało artykułów), więc w ciągu 27 dni (9 x 3 dni)
-// powstaje po jednym nowym artykule w każdym z 9 języków, i tak w kółko.
+// UWAGA O KOSZTACH: to wywołuje API Anthropic 9 razy przy KAŻDYM uruchomieniu
+// (raz na język), zamiast 1 raz jak w poprzedniej wersji skryptu. Przy stawce
+// workflow co 3 dni to ok. 9 artykułów / 3 dni = 3 artykuły dziennie łącznie
+// (po jednym w każdym języku co 3 dni). Sprawdź limity/koszty na koncie
+// console.anthropic.com, zanim zostawisz to długo działające bez nadzoru.
+//
+// Kolejność języków w tablicy LANGS nie ma już znaczenia dla priorytetu —
+// wszystkie powstają w tym samym uruchomieniu. Angielski jest pierwszy na
+// liście czysto porządkowo (najważniejszy rynek), ale wszystkie 9 i tak
+// powstają razem.
 
 import fs from "fs";
 import path from "path";
 
 const LANGS = [
-  { code: "pl", name: "polski",     dir: "ltr" },
   { code: "en", name: "angielski",  dir: "ltr" },
   { code: "de", name: "niemiecki",  dir: "ltr" },
+  { code: "pl", name: "polski",     dir: "ltr" },
   { code: "fr", name: "francuski",  dir: "ltr" },
   { code: "it", name: "włoski",     dir: "ltr" },
   { code: "es", name: "hiszpański", dir: "ltr" },
@@ -22,7 +30,7 @@ const LANGS = [
   { code: "ar", name: "arabski",    dir: "rtl" },
 ];
 
-// Tematy bazowe (po polsku — model tłumaczy/pisze od razu w docelowym języku, nie tłumaczy dosłownie tytułu)
+// Tematy bazowe (po polsku — model pisze od razu w docelowym języku, nie tłumaczy dosłownie tytułu)
 const TOPICS = [
   "Bezpieczeństwo na drodze zimą w rejonie Tatr",
   "Jak zaplanować transfer, gdy lecisz z przesiadką",
@@ -46,16 +54,14 @@ function slugify(text) {
     .replace(/(^-|-$)/g, "");
 }
 
-function pickLanguage() {
-  const postsPath = "posts.json";
-  let posts = [];
-  try { posts = JSON.parse(fs.readFileSync(postsPath, "utf-8")); } catch (e) { posts = []; }
-  const idx = posts.length % LANGS.length;
-  return { lang: LANGS[idx], posts };
+function loadPosts() {
+  try { return JSON.parse(fs.readFileSync("posts.json", "utf-8")); } catch (e) { return []; }
 }
 
-function pickTopic(existingTitlesForLang) {
-  const unused = TOPICS.filter(t => !existingTitlesForLang.includes(t));
+function pickTopic(posts) {
+  // Temat uznajemy za "użyty", jeśli powstał w KTÓRYMKOLWIEK języku — unikamy powtórek między turami
+  const usedTopics = new Set(posts.map(p => p.topicKey));
+  const unused = TOPICS.filter(t => !usedTopics.has(t));
   const pool = unused.length ? unused : TOPICS;
   return pool[Math.floor(Math.random() * pool.length)];
 }
@@ -69,7 +75,7 @@ async function generateArticle(topic, lang) {
       "anthropic-version": "2023-06-01",
     },
     body: JSON.stringify({
-      model: "claude-sonnet-4-6",
+      model: "claude-sonnet-5",
       max_tokens: 1400,
       messages: [
         {
@@ -118,27 +124,36 @@ const TEMPLATE = (title, body, lang) => `<!DOCTYPE html>
 </html>`;
 
 async function main() {
-  const { lang, posts } = pickLanguage();
+  const posts = loadPosts();
+  const topic = pickTopic(posts);
 
-  const existingTitlesForLang = posts.filter(p => p.lang === lang.code).map(p => p.topicKey);
-  const topic = pickTopic(existingTitlesForLang);
-  const { translatedTitle, body } = await generateArticle(topic, lang);
+  console.log(`Temat tej tury: "${topic}" — generuję w ${LANGS.length} językach...`);
 
-  const slug = slugify(translatedTitle || topic) + "-" + Date.now().toString().slice(-5);
-  const dir = path.join("blog", lang.code);
-  fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, `${slug}.html`), TEMPLATE(translatedTitle, body, lang));
+  for (const lang of LANGS) {
+    try {
+      const { translatedTitle, body } = await generateArticle(topic, lang);
+      const slug = slugify(translatedTitle || topic) + "-" + Date.now().toString().slice(-5);
+      const dir = path.join("blog", lang.code);
+      fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(path.join(dir, `${slug}.html`), TEMPLATE(translatedTitle, body, lang));
 
-  posts.unshift({
-    title: translatedTitle,
-    topicKey: topic,
-    lang: lang.code,
-    url: `blog/${lang.code}/${slug}.html`,
-    meta: "Nowy artykuł dodany automatycznie.",
-    date: new Date().toISOString().slice(0, 10),
-  });
+      posts.unshift({
+        title: translatedTitle,
+        topicKey: topic,
+        lang: lang.code,
+        url: `blog/${lang.code}/${slug}.html`,
+        meta: "Nowy artykuł dodany automatycznie.",
+        date: new Date().toISOString().slice(0, 10),
+      });
+      console.log(`  [${lang.code}] OK: ${translatedTitle} -> ${slug}`);
+    } catch (err) {
+      console.error(`  [${lang.code}] BŁĄD:`, err.message);
+      // Kontynuujemy z pozostałymi językami, nawet jeśli jeden się nie uda
+    }
+  }
+
   fs.writeFileSync("posts.json", JSON.stringify(posts, null, 2));
-  console.log(`Dodano nowy artykuł [${lang.code}]:`, translatedTitle, "->", slug);
+  console.log("Gotowe — zapisano posts.json");
 }
 
 main().catch(err => { console.error(err); process.exit(1); });
