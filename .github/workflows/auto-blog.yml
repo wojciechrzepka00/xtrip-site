@@ -22,12 +22,14 @@ jobs:
       - name: Wygeneruj nowe artykuły (9 języków)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: node auto-blog/generate-article.mjs
+        run: |
+          node auto-blog/generate-article.mjs
+          node auto-blog/build-sitemap.mjs
 
       - name: Zapisz zmiany w repozytorium
         run: |
           git config user.name "xtrip-bot"
           git config user.email "bot@xtrip.local"
-          git add posts.json blog/
+          git add -A
           git commit -m "Auto: nowe artykuly na blog (9 jezykow)" || echo "Brak zmian do zapisania"
           git push

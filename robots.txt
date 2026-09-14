@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://xtrip.przewoz-osob-krakow.pl/sitemap.xml
+Sitemap: https://krakow-transfers.com/sitemap.xml

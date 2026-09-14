@@ -96,12 +96,31 @@ async function generateArticle(topic, lang) {
   return { translatedTitle, body };
 }
 
-const TEMPLATE = (title, body, lang) => `<!DOCTYPE html>
+const DOMAIN = "https://krakow-transfers.com";
+const OG_LOCALES = { pl:"pl_PL", en:"en_US", de:"de_DE", fr:"fr_FR", it:"it_IT", es:"es_ES", mt:"mt_MT", uk:"uk_UA", ar:"ar_AR" };
+const TEMPLATE = (title, body, lang, slug) => {
+  const url = `${DOMAIN}/blog/${lang.code}/${slug}.html`;
+  const desc = body.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 155);
+  const esc = s => String(s).replace(/"/g, "&quot;");
+  return `<!DOCTYPE html>
 <html lang="${lang.code}"${lang.dir === "rtl" ? ' dir="rtl"' : ""}>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${title} | Katowice Pyrzowice Airport Transfers</title>
+<meta name="description" content="${esc(desc)}">
+<link rel="canonical" href="${url}">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Katowice Pyrzowice Airport Transfers">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(desc)}">
+<meta property="og:url" content="${url}">
+<meta property="og:image" content="${DOMAIN}/images/vito.jpg">
+<meta property="og:locale" content="${OG_LOCALES[lang.code] || 'en_US'}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${esc(title)}">
+<meta name="twitter:description" content="${esc(desc)}">
+<meta name="twitter:image" content="${DOMAIN}/images/vito.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   body{ font-family:'Inter',sans-serif; background:#FAF8F2; color:#13161B; margin:0; line-height:1.7; }
@@ -122,6 +141,7 @@ const TEMPLATE = (title, body, lang) => `<!DOCTYPE html>
 </div>
 </body>
 </html>`;
+};
 
 async function main() {
   const posts = loadPosts();
@@ -135,7 +155,7 @@ async function main() {
       const slug = slugify(translatedTitle || topic) + "-" + Date.now().toString().slice(-5);
       const dir = path.join("blog", lang.code);
       fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(path.join(dir, `${slug}.html`), TEMPLATE(translatedTitle, body, lang));
+      fs.writeFileSync(path.join(dir, `${slug}.html`), TEMPLATE(translatedTitle, body, lang, slug));
 
       posts.unshift({
         title: translatedTitle,
