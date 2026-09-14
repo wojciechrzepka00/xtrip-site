@@ -500,15 +500,16 @@ fetch('posts.json')
     if (posts.length > 0) {
       const heading = document.createElement('h3');
       heading.className = 'cat-head';
-      heading.textContent = 'Najnowsze (automatycznie dodane)';
+      heading.textContent = 'Najnowsze artykuły';
       container.appendChild(heading);
     }
     posts.forEach(p => {
       const div = document.createElement('div');
       div.className = 'post';
-      const dateStr = p.date ? `<span style="color:#C4872F; font-weight:600;">${p.date}</span> · ` : '';
+      const dateStr = p.date ? `<span style="color:#C4872F; font-weight:600;">${p.date}</span>` : '';
       const langBadge = p.lang ? ` <span style="font-size:11px; color:#9B9584; text-transform:uppercase;">[${p.lang}]</span>` : '';
-      div.innerHTML = `<div style="font-size:12px; color:#9B9584; margin-bottom:4px;">${dateStr}Dodano automatycznie</div><h2><a href="${p.url || '#'}">${p.title}</a>${langBadge}</h2><p>${p.meta || ''}</p>`;
+      const excerpt = p.meta && !/dodany automatycznie/i.test(p.meta) ? `<p>${p.meta}</p>` : '';
+      div.innerHTML = `<div style="font-size:12px; color:#9B9584; margin-bottom:4px;">${dateStr}</div><h2><a href="${p.url || '#'}">${p.title}</a>${langBadge}</h2>${excerpt}`;
       container.appendChild(div);
     });
   })

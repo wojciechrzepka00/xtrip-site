@@ -98,7 +98,7 @@ async function generateArticle(topic, lang) {
 
 const DOMAIN = "https://krakow-transfers.com";
 const OG_LOCALES = { pl:"pl_PL", en:"en_US", de:"de_DE", fr:"fr_FR", it:"it_IT", es:"es_ES", mt:"mt_MT", uk:"uk_UA", ar:"ar_AR" };
-const TEMPLATE = (title, body, lang, slug) => {
+const TEMPLATE = (title, body, lang, slug, hreflang = "") => {
   const url = `${DOMAIN}/blog/${lang.code}/${slug}.html`;
   const desc = body.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 155);
   const esc = s => String(s).replace(/"/g, "&quot;");
@@ -121,6 +121,7 @@ const TEMPLATE = (title, body, lang, slug) => {
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
 <meta name="twitter:image" content="${DOMAIN}/images/vito.jpg">
+${hreflang}
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   body{ font-family:'Inter',sans-serif; background:#FAF8F2; color:#13161B; margin:0; line-height:1.7; }
@@ -149,27 +150,39 @@ async function main() {
 
   console.log(`Temat tej tury: "${topic}" — generuję w ${LANGS.length} językach...`);
 
+  // 1) Wygeneruj treść we wszystkich językach (zbierz, żeby zbudować hreflang)
+  const generated = [];
   for (const lang of LANGS) {
     try {
       const { translatedTitle, body } = await generateArticle(topic, lang);
-      const slug = slugify(translatedTitle || topic) + "-" + Date.now().toString().slice(-5);
-      const dir = path.join("blog", lang.code);
-      fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(path.join(dir, `${slug}.html`), TEMPLATE(translatedTitle, body, lang, slug));
-
-      posts.unshift({
-        title: translatedTitle,
-        topicKey: topic,
-        lang: lang.code,
-        url: `blog/${lang.code}/${slug}.html`,
-        meta: "Nowy artykuł dodany automatycznie.",
-        date: new Date().toISOString().slice(0, 10),
-      });
-      console.log(`  [${lang.code}] OK: ${translatedTitle} -> ${slug}`);
+      // slug z tytułu; gdy nie-łaciński (ar/uk) i pusty — łaciński z tematu
+      const base = slugify(translatedTitle) || slugify(topic) || "article";
+      const slug = base + "-" + lang.code + "-" + Date.now().toString().slice(-5);
+      generated.push({ lang, translatedTitle, body, slug, url: `blog/${lang.code}/${slug}.html` });
     } catch (err) {
       console.error(`  [${lang.code}] BŁĄD:`, err.message);
-      // Kontynuujemy z pozostałymi językami, nawet jeśli jeden się nie uda
     }
+  }
+
+  // 2) hreflang dla tej tury (wszystkie wersje językowe tego samego artykułu)
+  const xdef = generated.find(g => g.lang.code === "en") || generated[0];
+  const hreflang = generated.map(g => `<link rel="alternate" hreflang="${g.lang.code}" href="${DOMAIN}/${g.url}">`).join("\n")
+    + (xdef ? `\n<link rel="alternate" hreflang="x-default" href="${DOMAIN}/${xdef.url}">` : "");
+
+  // 3) Zapisz pliki z hreflang + dopisz do posts.json
+  for (const g of generated) {
+    const dir = path.join("blog", g.lang.code);
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, `${g.slug}.html`), TEMPLATE(g.translatedTitle, g.body, g.lang, g.slug, hreflang));
+    posts.unshift({
+      title: g.translatedTitle,
+      topicKey: topic,
+      lang: g.lang.code,
+      url: g.url,
+      meta: g.body.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 140),
+      date: new Date().toISOString().slice(0, 10),
+    });
+    console.log(`  [${g.lang.code}] OK: ${g.translatedTitle} -> ${g.slug}`);
   }
 
   fs.writeFileSync("posts.json", JSON.stringify(posts, null, 2));
