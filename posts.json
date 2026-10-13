@@ -1,5 +1,77 @@
 [
   {
+    "title": "رحلة التزلج إلى زاكوباني من الخارج — دليل عملي شامل",
+    "topicKey": "Podróż na narty do Zakopanego z zagranicy — praktyczny przewodnik",
+    "lang": "ar",
+    "url": "blog/ar/podroz-na-narty-do-zakopanego-z-zagranicy-praktyczny-przewodnik-ar-60776.html",
+    "meta": "يُعد زاكوباني الوجهة الأولى لعشاق التزلج في بولندا، ويختار الكثير من المسافرين القادمين من الخارج مطار كاتوفيتسه-بيجوفيتسه (Katowice-Pyrzowi",
+    "date": "2026-10-13"
+  },
+  {
+    "title": "Подорож на лижі до Закопане з-за кордону — практичний путівник",
+    "topicKey": "Podróż na narty do Zakopanego z zagranicy — praktyczny przewodnik",
+    "lang": "uk",
+    "url": "blog/uk/podroz-na-narty-do-zakopanego-z-zagranicy-praktyczny-przewodnik-uk-45702.html",
+    "meta": "Закопане щороку приваблює тисячі любителів зимового відпочинку з усієї Європи. Але перш ніж опинитися на схилах Губалівки чи Каспрового Верх",
+    "date": "2026-10-13"
+  },
+  {
+    "title": "Vjaġġ għall-Iskijar f'Zakopane mill-Barra: Gwida Prattika",
+    "topicKey": "Podróż na narty do Zakopanego z zagranicy — praktyczny przewodnik",
+    "lang": "mt",
+    "url": "blog/mt/vjagg-g-all-iskijar-f-zakopane-mill-barra-gwida-prattika-mt-17884.html",
+    "meta": "Zakopane hija waħda mid-destinazzjonijiet favoriti fl-Ewropa Ċentrali għall-iskijar, u kull sena eluf ta' turisti jaslu l-Polonja bl-ajru bi",
+    "date": "2026-10-13"
+  },
+  {
+    "title": "Viaje a esquiar a Zakopane desde el extranjero — guía práctica",
+    "topicKey": "Podróż na narty do Zakopanego z zagranicy — praktyczny przewodnik",
+    "lang": "es",
+    "url": "blog/es/viaje-a-esquiar-a-zakopane-desde-el-extranjero-guia-practica-es-84400.html",
+    "meta": "Cada invierno, miles de viajeros de toda Europa eligen Zakopane como destino para practicar esquí y disfrutar de los paisajes de las montaña",
+    "date": "2026-10-13"
+  },
+  {
+    "title": "Viaggio sugli sci a Zakopane dall'estero: la guida pratica",
+    "topicKey": "Podróż na narty do Zakopanego z zagranicy — praktyczny przewodnik",
+    "lang": "it",
+    "url": "blog/it/viaggio-sugli-sci-a-zakopane-dall-estero-la-guida-pratica-it-69655.html",
+    "meta": "Zakopane, la capitale polacca degli sport invernali ai piedi dei Monti Tatra, è una destinazione sempre più amata dagli sciatori stranieri. ",
+    "date": "2026-10-13"
+  },
+  {
+    "title": "Voyage au ski à Zakopane depuis l'étranger — guide pratique",
+    "topicKey": "Podróż na narty do Zakopanego z zagranicy — praktyczny przewodnik",
+    "lang": "fr",
+    "url": "blog/fr/voyage-au-ski-a-zakopane-depuis-l-etranger-guide-pratique-fr-53345.html",
+    "meta": "Zakopane, la capitale polonaise des sports d'hiver nichée au pied des Tatras, attire chaque saison des milliers de skieurs venus de l'étrang",
+    "date": "2026-10-13"
+  },
+  {
+    "title": "Podróż na narty do Zakopanego z zagranicy — praktyczny przewodnik",
+    "topicKey": "Podróż na narty do Zakopanego z zagranicy — praktyczny przewodnik",
+    "lang": "pl",
+    "url": "blog/pl/podroz-na-narty-do-zakopanego-z-zagranicy-praktyczny-przewodnik-pl-37411.html",
+    "meta": "Zakopane i Tatry przyciągają co roku tysiące narciarzy z całej Europy. Lotnisko Katowice-Pyrzowice jest jednym z najwygodniejszych punktów s",
+    "date": "2026-10-13"
+  },
+  {
+    "title": "Skireise nach Zakopane aus dem Ausland — ein praktischer Leitfaden",
+    "topicKey": "Podróż na narty do Zakopanego z zagranicy — praktyczny przewodnik",
+    "lang": "de",
+    "url": "blog/de/skireise-nach-zakopane-aus-dem-ausland-ein-praktischer-leitfaden-de-17629.html",
+    "meta": "Zakopane, das Wintersportzentrum am Fuße der Tatra, zieht jedes Jahr tausende Skifahrer aus ganz Europa an. Der nächstgelegene international",
+    "date": "2026-10-13"
+  },
+  {
+    "title": "Skiing Trip to Zakopane from Abroad — A Practical Guide",
+    "topicKey": "Podróż na narty do Zakopanego z zagranicy — praktyczny przewodnik",
+    "lang": "en",
+    "url": "blog/en/skiing-trip-to-zakopane-from-abroad-a-practical-guide-en-02881.html",
+    "meta": "Planning a skiing holiday in Zakopane but flying in from abroad? Katowice-Pyrzowice Airport (KTW) is the most convenient gateway to Poland's",
+    "date": "2026-10-13"
+  },
+  {
     "title": "كراكوف للسائحين الأجانب — الخطوات الأولى بعد الوصول",
     "topicKey": "Kraków dla turystów zagranicznych — pierwsze kroki po przylocie",
     "lang": "ar",
