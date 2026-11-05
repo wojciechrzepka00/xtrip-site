@@ -271,6 +271,23 @@ function addVersion(posts, topicKey, date, lang, art) {
   console.log(`  [${lang.code}] OK: ${art.title} -> ${url}`);
 }
 
+// ---------- raport stanu (blog-status.json, czyta go konektor) ----------
+function writeStatus(posts, handmade, failures) {
+  const topics = [...new Set(posts.map((p) => p.topicKey))];
+  let missing = 0;
+  for (const t of topics) for (const l of LANGS) {
+    if (!posts.some((p) => p.topicKey === t && p.lang === l.code && !brokenReason(p, t))) missing++;
+  }
+  const status = {
+    strona: "krakow-transfers.com", przebieg: new Date().toISOString(), ok: !failures, problemy: failures,
+    artykuly_auto: topics.length, artykuly_reczne: handmade.length, stron_auto: posts.length,
+    ostatni_nowy: posts.map((p) => p.date).sort().pop() || null, co_ile_dni: NEW_EVERY_DAYS,
+    jezyki: LANGS.length, braki_jezykow: missing,
+    najnowsze: topics.slice(0, 5),
+  };
+  fs.writeFileSync("blog-status.json", JSON.stringify(status, null, 1) + "\n");
+}
+
 // ---------- główny przebieg ----------
 async function main() {
   if (!MOCK && !process.env.ANTHROPIC_API_KEY) throw new Error("Brak ANTHROPIC_API_KEY (GitHub → Settings → Secrets → Actions).");
@@ -334,6 +351,7 @@ async function main() {
   posts.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
   fs.writeFileSync("posts.json", JSON.stringify(posts, null, 2));
   console.log(`Gotowe — posts.json: ${posts.length} wpisów.`);
+  writeStatus(posts, handmade, failures);
   if (failures) { console.error(`Uwaga: ${failures} problem(ów) — szczegóły wyżej.`); process.exitCode = 1; }
 }
 
