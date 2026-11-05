@@ -1,13 +1,27 @@
-name: Auto-publikacja artykułów na blog (9 języków naraz)
+name: Auto-publikacja artykułów na blog (9 języków)
 
+# Codziennie: naprawia brakujące/uszkodzone wersje językowe, a co 3 dni dodaje nowy artykuł
+# (temat sprawdzany względem całej historii bloga — bez powtórek).
 on:
   schedule:
-    # Uruchamia się co 3 dni o 6:00 UTC — generuje TEN SAM temat w 9 językach na raz
-    - cron: "0 6 */3 * *"
-  workflow_dispatch: {}   # pozwala też uruchomić ręcznie z zakładki Actions
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+    inputs:
+      force_new:
+        description: "Napisz nowy artykuł od razu (bez czekania 3 dni)"
+        type: boolean
+        default: false
+      mock:
+        description: "Test bez API (nic nie kosztuje, NIE publikuje)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
+
+concurrency:
+  group: auto-blog
+  cancel-in-progress: false
 
 jobs:
   generate-post:
@@ -19,17 +33,25 @@ jobs:
         with:
           node-version: 20
 
-      - name: Wygeneruj nowe artykuły (9 języków)
+      - name: Naprawa + nowy artykuł (9 języków)
+        id: gen
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          node auto-blog/generate-article.mjs
-          node auto-blog/build-sitemap.mjs
+          BLOG_MODEL: ${{ vars.BLOG_MODEL }}
+          BLOG_FORCE_NEW: ${{ inputs.force_new && '1' || '0' }}
+          BLOG_MOCK: ${{ inputs.mock && '1' || '0' }}
+        run: node auto-blog/generate-article.mjs
+
+      - name: Sitemap
+        if: always()
+        run: node auto-blog/build-sitemap.mjs
 
       - name: Zapisz zmiany w repozytorium
+        if: always() && !inputs.mock
         run: |
           git config user.name "xtrip-bot"
           git config user.email "bot@xtrip.local"
           git add -A
-          git commit -m "Auto: nowe artykuly na blog (9 jezykow)" || echo "Brak zmian do zapisania"
+          git diff --cached --quiet && { echo "Brak zmian"; exit 0; }
+          git commit -m "Auto: blog $(date -u +%F)"
           git push
