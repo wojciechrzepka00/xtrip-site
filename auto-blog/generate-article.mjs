@@ -37,6 +37,13 @@ const MIN_WORDS = 300;          // nowy artykuł: minimum słów
 const BROKEN_WORDS = 150;       // istniejący artykuł poniżej tego = uszkodzony, do naprawy
 const DOMAIN = "https://krakow-transfers.com";
 const TODAY = new Date().toISOString().slice(0, 10);
+// Linki do podstron tras (generowane przez auto-blog/build-routes.py) — pod każdym artykułem.
+const ROUTE_LINKS = {"pl": {"label": "Zarezerwuj transfer", "links": [["https://krakow-transfers.com/transfer-pyrzowice-krakow.html", "Transfer z lotniska Pyrzowice do Krakowa"], ["https://krakow-transfers.com/transfer-pyrzowice-zakopane.html", "Transfer z lotniska Pyrzowice do Zakopanego"], ["https://krakow-transfers.com/transfer-krakow-zakopane.html", "Prywatny transfer Kraków – Zakopane"]]}, "en": {"label": "Book a private transfer", "links": [["https://krakow-transfers.com/en/katowice-airport-to-krakow-transfer.html", "Private transfer from Katowice Airport to Kraków"], ["https://krakow-transfers.com/en/katowice-airport-to-zakopane-transfer.html", "Private transfer from Katowice Airport to Zakopane"], ["https://krakow-transfers.com/en/krakow-to-zakopane-transfer.html", "Private transfer Kraków – Zakopane"]]}, "de": {"label": "Privaten Transfer buchen", "links": [["https://krakow-transfers.com/de/transfer-flughafen-kattowitz-krakau.html", "Privater Transfer vom Flughafen Kattowitz nach Krakau"], ["https://krakow-transfers.com/de/transfer-flughafen-kattowitz-zakopane.html", "Privater Transfer vom Flughafen Kattowitz nach Zakopane"], ["https://krakow-transfers.com/de/transfer-krakau-zakopane.html", "Privater Transfer Krakau – Zakopane"]]}, "fr": {"label": "Réserver un transfert privé", "links": [["https://krakow-transfers.com/fr/transfert-aeroport-katowice-cracovie.html", "Transfert privé de l'aéroport de Katowice à Cracovie"], ["https://krakow-transfers.com/fr/transfert-aeroport-katowice-zakopane.html", "Transfert privé de l'aéroport de Katowice à Zakopane"], ["https://krakow-transfers.com/fr/transfert-cracovie-zakopane.html", "Transfert privé Cracovie – Zakopane"]]}, "it": {"label": "Prenota un transfer privato", "links": [["https://krakow-transfers.com/it/transfer-aeroporto-katowice-cracovia.html", "Transfer privato dall'aeroporto di Katowice a Cracovia"], ["https://krakow-transfers.com/it/transfer-aeroporto-katowice-zakopane.html", "Transfer privato dall'aeroporto di Katowice a Zakopane"], ["https://krakow-transfers.com/it/transfer-cracovia-zakopane.html", "Transfer privato Cracovia – Zakopane"]]}, "es": {"label": "Reserve un traslado privado", "links": [["https://krakow-transfers.com/es/traslado-aeropuerto-katowice-cracovia.html", "Traslado privado del aeropuerto de Katowice a Cracovia"], ["https://krakow-transfers.com/es/traslado-aeropuerto-katowice-zakopane.html", "Traslado privado del aeropuerto de Katowice a Zakopane"], ["https://krakow-transfers.com/es/traslado-cracovia-zakopane.html", "Traslado privado Cracovia – Zakopane"]]}};
+function routesBox(code) {
+  const r = ROUTE_LINKS[code] || ROUTE_LINKS.en;
+  return `<div class="routes-box"><p><strong>${r.label}</strong></p><ul>${r.links.map(([u, t]) => `<li><a href="${u}">${t}</a></li>`).join("")}</ul></div>`;
+}
+
 
 const COMPANY = `Firma: "Katowice Pyrzowice Airport Transfers" (krakow-transfers.com) — prywatne i grupowe transfery z lotniska
 Katowice-Pyrzowice (KTW) do Krakowa i Zakopanego (i z powrotem), 20 lat doświadczenia. Flota: Chrysler Pacifica, Mercedes Vito,
@@ -128,6 +135,18 @@ const ARTICLE_TOOL = {
 
 async function proposeTopic(history) {
   if (MOCK) return `Test automatu ${Date.now().toString(36)} — sprawdzenie publikacji`;
+  // Tematy z Google Trends / podpowiedzi Google (W, 11.2026) — idą pierwsze, jeśli jeszcze ich nie ma na blogu.
+  const PRIORYTET = [
+    "Zakopianka w weekend — o której wyjechać z Krakowa do Zakopanego, żeby ominąć korki",
+    "Baseny termalne pod Tatrami — Chochołów, Bukowina czy Szaflary: który wybrać na jeden dzień",
+    "Morskie Oko: wejściówki do parku i dorożki — co trzeba wiedzieć przed wyjazdem",
+    "Taksówka czy transfer z lotniska Katowice do Krakowa — co wybrać i na co uważać",
+    "Lotnisko Katowice czy Kraków-Balice — które wybrać, jadąc do Zakopanego",
+  ];
+  for (const t of PRIORYTET) {
+    const twin = closestInHistory(t, history);
+    if (twin.score < 0.5) { console.log(`Temat priorytetowy: "${t}" (najbliższy: "${twin.title}", ${twin.score.toFixed(2)})`); return t; }
+  }
   const system = `Planujesz bloga firmy transferowej. ${COMPANY}
 Czytelnicy: turyści i biznes przylatujący do Katowic-Pyrzowic. Tematy muszą być praktyczne i związane z przylotem,
 dojazdem do Krakowa/Zakopanego, okolicą, sezonami, grupami, rodzinami, biznesem. Nie wymyślaj cen ani faktów o lotnisku.`;
@@ -214,6 +233,8 @@ ${hreflang}
   h3{ font-family:'Fraunces',serif; font-size:21px; margin:30px 0 12px; color:#0F2038; }
   p, li{ font-size:16px; color:#333; margin:0 0 18px; }
   .back{ display:inline-block; margin-bottom:28px; font-size:13px; color:#C4872F; text-decoration:none; }
+  .routes-box{ margin-top:36px; padding:20px 22px; background:#fff; border:1px solid #e6dfcf; border-radius:12px; }
+  .routes-box ul{ margin:0; padding-left:18px; } .routes-box a{ color:#0F2038; font-weight:600; }
 </style>
 </head>
 <body>
@@ -222,6 +243,7 @@ ${hreflang}
   <a class="back" href="../../blog.html">← ${lang.code === "pl" ? "Wszystkie artykuły" : "All articles"}</a>
   <h1>${esc(title)}</h1>
   ${body}
+  ${routesBox(lang.code)}
 </div>
 </body>
 </html>`;
