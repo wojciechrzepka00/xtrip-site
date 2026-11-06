@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /index-preview.html
+Disallow: /google-calendar-system/
+Disallow: /payments-backend/
+Disallow: /auto-blog/
 
 Sitemap: https://krakow-transfers.com/sitemap.xml
