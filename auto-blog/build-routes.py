@@ -1,7 +1,9 @@
 # Generuje podstrony tras (SEO) dla krakow-transfers.com w 6 językach.
 # Uruchom z katalogu repo: python3 auto-blog/build-routes.py
 # Ceny i style bierze z index.html, więc po zmianie cennika wystarczy uruchomić ponownie.
-import json, os, re, html, glob, urllib.parse
+import json, os, re, html, glob, urllib.parse, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import routes_extra as X  # trasy bez cennika (cena na zapytanie)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOMAIN = "https://krakow-transfers.com"
@@ -9,7 +11,7 @@ PHONE = "48728814659"
 BRAND = "Kraków Transfers"
 ORG = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "org.json"), encoding="utf-8"))
 LANGS = ["pl", "en", "de", "fr", "it", "es"]
-ROUTES = ["kr", "zak", "kz"]
+ROUTES = ["kr", "zak", "kz"] + X.NEW_ROUTES
 SRC = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
 CSS = re.search(r"<style>(.*?)</style>", SRC, re.S).group(1)
 
@@ -29,6 +31,8 @@ SLUG = {
     "it": {"kr": "transfer-aeroporto-katowice-cracovia", "zak": "transfer-aeroporto-katowice-zakopane", "kz": "transfer-cracovia-zakopane"},
     "es": {"kr": "traslado-aeropuerto-katowice-cracovia", "zak": "traslado-aeropuerto-katowice-zakopane", "kz": "traslado-cracovia-zakopane"},
 }
+
+for _l in SLUG: SLUG[_l].update(X.SLUG[_l])
 
 def path_of(lang, r):
     return ("" if lang == "pl" else lang + "/") + SLUG[lang][r] + ".html"
@@ -106,6 +110,7 @@ UI = {
 # ---------- teksty tras ----------
 # a/b = skąd/dokąd, km, t = czas, title/desc/h1/sub/intro, steps (4), faq (lista par)
 def R(lang, r):
+    if r in X.NEW_ROUTES: return X.route(lang, r)
     p = P[r]; c = UI[lang]["cur"]
     d3, n3, d8, d20 = p["d3"], p["n3"], p["d8"], p["d20"]
     airport = r != "kz"
@@ -323,12 +328,15 @@ def fit_desc(text, tails):
 
 BLOGKEYS = {"kr": ["krakow", "krakau", "cracov", "cracovie"], "zak": ["zakopane"], "kz": ["zakopane", "morskie", "krupowki"]}
 
+NEWKEYS = {"krk": [], "krkzak": ["zakopane"], "osw": ["auschwitz"], "wiel": ["wieliczka"], "ener": ["energylandia"]}
+
 def articles(lang, r):
     d = "blog" if lang == "pl" else f"blog/{lang}"
     files = sorted(os.path.basename(f) for f in glob.glob(os.path.join(ROOT, d, "*.html")))
     out = []
     for f in files:
-        if any(k in f for k in BLOGKEYS[r]) and "pyrzow" in f or (r == "kz" and any(k in f for k in ["morskie", "krupowki", "kasprowy"])) or (r != "kz" and ("pyrzowice-" + ("krak" if r == "kr" else "zakop")) in f):
+        if (any(k in f for k in NEWKEYS[r]) if r in NEWKEYS else
+            (any(k in f for k in BLOGKEYS[r]) and "pyrzow" in f or (r == "kz" and any(k in f for k in ["morskie", "krupowki", "kasprowy"])) or (r != "kz" and ("pyrzowice-" + ("krak" if r == "kr" else "zakop")) in f))):
             t = re.search(r"<title>(.*?)</title>", open(os.path.join(ROOT, d, f), encoding="utf-8").read(), re.S)
             if t: out.append((DOMAIN + "/" + d + "/" + f, html.unescape(t.group(1)).split(" | ")[0]))
     seen, uniq = set(), []
@@ -351,6 +359,9 @@ EXTRA_CSS = """
   .rt-links{display:flex;flex-wrap:wrap;gap:10px}
   .rt-links a{display:inline-block;padding:10px 14px;border-radius:999px;background:#fff;border:1px solid rgba(0,0,0,.1);color:inherit;text-decoration:none;font-weight:500}
   .rt-note{font-size:14px;opacity:.8;margin-top:12px}
+  .rt-about{max-width:820px}.rt-about h3{margin:22px 0 8px}.rt-about p{margin:0;line-height:1.7}
+  .rt-quote{max-width:760px;line-height:1.7;margin:0 0 18px}
+  .rt-formlink{font-weight:600;color:inherit;margin-left:14px}
   .crumbs{font-size:13px;color:var(--mist);margin-bottom:14px}.crumbs a{color:inherit}
   @media (max-width:820px){.rt-facts{grid-template-columns:1fr}.rt-steps{grid-template-columns:1fr 1fr}}
   @media (max-width:520px){.rt-steps{grid-template-columns:1fr}}
@@ -360,7 +371,8 @@ def esc(s): return html.escape(s, quote=True)
 
 def page(lang, r):
     u, d = UI[lang], R(lang, r)
-    p = P[r]; c = u["cur"]
+    priced = r in P
+    p = P.get(r); c = u["cur"]; x = X.UI[lang]
     wa = "https://wa.me/" + PHONE + "?text=" + urllib.parse.quote(f"{d['h1']} — ")
     home = home_of(lang)
     rel_home = "index.html" if lang == "pl" else "./"
@@ -369,20 +381,42 @@ def page(lang, r):
     svc_ld = {"@context": "https://schema.org", "@type": "TaxiService", "@id": url_of(lang, r) + "#service", "name": d["h1"], "url": url_of(lang, r),
               "serviceType": "Private transfer", "description": d["desc"], "inLanguage": lang,
               "provider": {"@id": ORG["@id"]},
-              "areaServed": [{"@type": "Place", "name": d["a"]}, {"@type": "City", "name": d["b"]}],
-              "offers": {"@type": "Offer", "price": str(p["d3"]), "priceCurrency": "PLN", "url": url_of(lang, r),
-                         "description": u["c3"] + ", " + u["day"].lower() + " — " + u["per"]}}
+              "areaServed": [{"@type": "Place", "name": d["a"]}, {"@type": "Place", "name": d["b"]}] if not priced else [{"@type": "Place", "name": d["a"]}, {"@type": "City", "name": d["b"]}]}
+    if priced:
+        svc_ld["offers"] = {"@type": "Offer", "price": str(p["d3"]), "priceCurrency": "PLN", "url": url_of(lang, r),
+                            "description": u["c3"] + ", " + u["day"].lower() + " — " + u["per"]}
     bc_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
               {"@type": "ListItem", "position": 1, "name": u["home"], "item": home},
               {"@type": "ListItem", "position": 2, "name": d["h1"], "item": url_of(lang, r)}]}
-    rows = "".join(f'<tr><td class="veh">{u[k]}</td><td class="price mono">{p["d"+n]} {c}</td><td class="price mono">{p["n"+n]} {c}</td></tr>' for k, n in [("c3", "3"), ("c8", "8"), ("c20", "20")])
-    rows += f'<tr><td class="veh">{u["c30"]}</td><td class="price mono" colspan="2" style="text-align:left;">{u["req"]}</td></tr>'
+    rows = "" if not priced else "".join(f'<tr><td class="veh">{u[k]}</td><td class="price mono">{p["d"+n]} {c}</td><td class="price mono">{p["n"+n]} {c}</td></tr>' for k, n in [("c3", "3"), ("c8", "8"), ("c20", "20")])
+    if priced: rows += f'<tr><td class="veh">{u["c30"]}</td><td class="price mono" colspan="2" style="text-align:left;">{u["req"]}</td></tr>'
     steps = "".join(f'<div class="why-item"><div class="num mono">0{i+1}</div><h3>{esc(t)}</h3><p>{esc(x.replace("..", "."))}</p></div>' for i, (t, x) in enumerate(d["steps"]))
     why = "".join(f'<div class="why-item"><div class="num mono">0{i+1}</div><h3>{esc(t)}</h3><p>{esc(x)}</p></div>' for i, (t, x) in enumerate(u["why"]))
     faq = "".join(f"<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>" for q, a in d["faq"])
     others = "".join(f'<a href="{url_of(lang, o)}">{esc(R(lang, o)["h1"])}</a>' for o in ROUTES if o != r)
     arts = articles(lang, r)
     arts_html = (f'<h3 style="margin:28px 0 12px">{u["read"]}</h3><div class="rt-links">' + "".join(f'<a href="{a}">{esc(t)}</a>' for a, t in arts) + "</div>") if arts else ""
+    if priced:
+        facts = [(u["dist"], d["km"], ""), (u["time"], d["t"], ""), (u["from_"], f"{p['d3']} {c}", u["per"])]
+    else:
+        facts = [(k, v, "") for k, v in [(u["dist"], d["km"]), (u["time"], d["t"]), (x["pick"], "24/7"), (x["pay"], x["pay_v"])] if v][:2]
+        facts.append((u["from_"].split(" ")[0] if lang != "pl" else "Cena", x["onreq"], x["onreq_k"]))
+    facts_html = "".join(f'<div class="rt-fact"><div class="k">{esc(k)}</div><div class="v mono">{esc(v)}</div>' + (f'<div class="k" style="margin-top:4px">{esc(s2)}</div>' if s2 else "") + '</div>' for k, v, s2 in facts)
+    about_html = ""
+    if d.get("about"):
+        about_html = (f'<section id="about"><div class="wrap"><div class="section-head"><h2>{esc(x["about"])}</h2></div><div class="rt-about">'
+                      + "".join(f'<h3>{esc(h)}</h3><p>{esc(t)}</p>' for h, t in d["about"]) + '</div></div></section>')
+    if priced:
+        price_html = f"""<div class="section-head"><h2>{u['pricet']}: {esc(d['a'])} ↔ {esc(d['b'])}</h2></div>
+    <div class="price-table-wrap"><table class="price-table">
+      <thead><tr><th>{u['cap']}</th><th>{u['day']}</th><th>{u['night']}</th></tr></thead>
+      <tbody>{rows}</tbody>
+    </table></div>
+    <p class="rt-note">{u['pnote']}</p>"""
+    else:
+        price_html = f"""<div class="section-head"><h2>{esc(x['quote_t'])}</h2></div>
+    <p class="rt-quote">{esc(x['quote_s'])}</p>
+    <div class="cta-row"><a href="{wa}" class="btn-wa" target="_blank" rel="noopener">{WA_SVG}<span>{u['wa']}</span></a> <a href="{rel_home}#book" class="rt-formlink">{u['form']} →</a></div>"""
     langs_html = " · ".join(f'<a href="{url_of(l, r)}"{" aria-current=\"page\"" if l == lang else ""}>{l.upper()}</a>' for l in LANGS)
     return f"""<!DOCTYPE html>
 <html lang="{lang}">
@@ -432,13 +466,11 @@ def page(lang, r):
         <span class="hero-note">{u['wa_note']}</span>
       </div>
     </div>
-    <div class="rt-facts">
-      <div class="rt-fact"><div class="k">{u['dist']}</div><div class="v mono">{esc(d['km'])}</div></div>
-      <div class="rt-fact"><div class="k">{u['time']}</div><div class="v mono">{esc(d['t'])}</div></div>
-      <div class="rt-fact"><div class="k">{u['from_']}</div><div class="v mono">{p['d3']} {c}</div><div class="k" style="margin-top:4px">{u['per']}</div></div>
-    </div>
+    <div class="rt-facts">{facts_html}</div>
   </div>
 </section>
+
+{about_html}
 
 <section id="how">
   <div class="wrap">
@@ -449,12 +481,7 @@ def page(lang, r):
 
 <section id="routes" style="background:var(--fog);">
   <div class="wrap">
-    <div class="section-head"><h2>{u['pricet']}: {esc(d['a'])} ↔ {esc(d['b'])}</h2></div>
-    <div class="price-table-wrap"><table class="price-table">
-      <thead><tr><th>{u['cap']}</th><th>{u['day']}</th><th>{u['night']}</th></tr></thead>
-      <tbody>{rows}</tbody>
-    </table></div>
-    <p class="rt-note">{u['pnote']}</p>
+    {price_html}
   </div>
 </section>
 
@@ -491,7 +518,38 @@ def page(lang, r):
 </html>
 """
 
+# ---------- linki do nowych tras na stronach głównych (między znacznikami, idempotentnie) ----------
+HOME_LINKS = {
+ "pl": ("Więcej tras", ["Lotnisko Balice → centrum Krakowa", "Lotnisko Balice → Zakopane", "Kraków → Auschwitz-Birkenau", "Kraków → Kopalnia Soli Wieliczka", "Kraków / Pyrzowice → Energylandia"]),
+ "en": ("More routes", ["Kraków Airport → city centre", "Kraków Airport → Zakopane", "Kraków → Auschwitz-Birkenau", "Kraków → Wieliczka Salt Mine", "Kraków / Katowice Airport → Energylandia"]),
+ "de": ("Weitere Strecken", ["Flughafen Krakau → Stadtzentrum", "Flughafen Krakau → Zakopane", "Krakau → Auschwitz-Birkenau", "Krakau → Salzbergwerk Wieliczka", "Krakau / Flughafen Kattowitz → Energylandia"]),
+ "fr": ("Autres trajets", ["Aéroport de Cracovie → centre-ville", "Aéroport de Cracovie → Zakopane", "Cracovie → Auschwitz-Birkenau", "Cracovie → mine de sel de Wieliczka", "Cracovie / aéroport de Katowice → Energylandia"]),
+ "it": ("Altre tratte", ["Aeroporto di Cracovia → centro", "Aeroporto di Cracovia → Zakopane", "Cracovia → Auschwitz-Birkenau", "Cracovia → miniera di sale di Wieliczka", "Cracovia / aeroporto di Katowice → Energylandia"]),
+ "es": ("Más rutas", ["Aeropuerto de Cracovia → centro", "Aeropuerto de Cracovia → Zakopane", "Cracovia → Auschwitz-Birkenau", "Cracovia → mina de sal de Wieliczka", "Cracovia / aeropuerto de Katowice → Energylandia"]),
+}
+HOME_OTHER = {"uk": "Інші маршрути", "mt": "Aktar rotot", "ar": "مسارات أخرى"}  # te strony linkują do wersji EN
+
+def update_homepages():
+    S, E = "<!-- routes-more:start -->", "<!-- routes-more:end -->"
+    for hl in LANGS + list(HOME_OTHER):
+        fp = os.path.join(ROOT, "index.html" if hl == "pl" else f"{hl}/index.html")
+        if not os.path.exists(fp): continue
+        tl = hl if hl in HOME_LINKS else "en"
+        head = HOME_LINKS[tl][0] if hl in HOME_LINKS else HOME_OTHER[hl] + " (EN)"
+        extra = "" if hl in HOME_LINKS else ' hreflang="en"'
+        links = "".join(f'<a href="{url_of(tl, r)}"{extra} style="display:inline-block;padding:9px 14px;border-radius:999px;background:#fff;border:1px solid rgba(0,0,0,.1);color:inherit;text-decoration:none;font-weight:500;font-size:14px;">{esc(t)}</a>'
+                        for r, t in zip(X.NEW_ROUTES, HOME_LINKS[tl][1]))
+        block = f'{S}\n    <h3 class="price-city-head">{esc(head)}</h3>\n    <div class="routes-more" style="display:flex;flex-wrap:wrap;gap:10px;margin:0 0 28px;">{links}</div>\n    {E}'
+        h = open(fp, encoding="utf-8").read()
+        if S in h:
+            h = re.sub(re.escape(S) + r".*?" + re.escape(E), lambda m: block, h, flags=re.S)
+        else:
+            i = h.index('<div class="route-other">')
+            h = h[:i] + block + "\n\n    " + h[i:]
+        open(fp, "w", encoding="utf-8").write(h)
+
 if __name__ == "__main__":
+    update_homepages()
     n = 0
     for lang in LANGS:
         for r in ROUTES:
