@@ -10,7 +10,8 @@
 //      się znaleźć tematu bez powtórki — nie publikuje nic (nigdy duplikatu).
 //
 // Zmienne: ANTHROPIC_API_KEY (sekret), BLOG_MODEL (opcjonalnie), BLOG_FORCE_NEW=1
-// (nowy artykuł niezależnie od odstępu), BLOG_MOCK=1 (test bez API, nic nie kosztuje).
+// (nowy artykuł niezależnie od odstępu), BLOG_MOCK=1 (test bez API, nic nie kosztuje),
+// --refresh lub BLOG_REFRESH=1 (bez API: przepisuje istniejące artykuły aktualnym szablonem SEO i listę w blog.html).
 
 import fs from "fs";
 import path from "path";
@@ -31,6 +32,7 @@ const LATIN_SLUG = new Set(["pl", "en", "de", "fr", "it", "es", "mt"]); // uk/ar
 const MODEL = process.env.BLOG_MODEL || "claude-sonnet-5";
 const MOCK = process.env.BLOG_MOCK === "1";
 const FORCE_NEW = process.env.BLOG_FORCE_NEW === "1";
+const REFRESH_ONLY = process.argv.includes("--refresh") || process.env.BLOG_REFRESH === "1"; // tylko szablon + lista w blog.html, bez API
 const NEW_EVERY_DAYS = Number(process.env.BLOG_NEW_EVERY_DAYS || 3);
 const REPAIR_MAX = Number(process.env.BLOG_REPAIR_MAX || 9);
 const MIN_WORDS = 300;          // nowy artykuł: minimum słów
@@ -39,13 +41,73 @@ const DOMAIN = "https://krakow-transfers.com";
 const TODAY = new Date().toISOString().slice(0, 10);
 // Linki do podstron tras (generowane przez auto-blog/build-routes.py) — pod każdym artykułem.
 const ROUTE_LINKS = {"pl": {"label": "Zarezerwuj transfer", "links": [["https://krakow-transfers.com/transfer-pyrzowice-krakow.html", "Transfer z lotniska Pyrzowice do Krakowa"], ["https://krakow-transfers.com/transfer-pyrzowice-zakopane.html", "Transfer z lotniska Pyrzowice do Zakopanego"], ["https://krakow-transfers.com/transfer-krakow-zakopane.html", "Prywatny transfer Kraków – Zakopane"]]}, "en": {"label": "Book a private transfer", "links": [["https://krakow-transfers.com/en/katowice-airport-to-krakow-transfer.html", "Private transfer from Katowice Airport to Kraków"], ["https://krakow-transfers.com/en/katowice-airport-to-zakopane-transfer.html", "Private transfer from Katowice Airport to Zakopane"], ["https://krakow-transfers.com/en/krakow-to-zakopane-transfer.html", "Private transfer Kraków – Zakopane"]]}, "de": {"label": "Privaten Transfer buchen", "links": [["https://krakow-transfers.com/de/transfer-flughafen-kattowitz-krakau.html", "Privater Transfer vom Flughafen Kattowitz nach Krakau"], ["https://krakow-transfers.com/de/transfer-flughafen-kattowitz-zakopane.html", "Privater Transfer vom Flughafen Kattowitz nach Zakopane"], ["https://krakow-transfers.com/de/transfer-krakau-zakopane.html", "Privater Transfer Krakau – Zakopane"]]}, "fr": {"label": "Réserver un transfert privé", "links": [["https://krakow-transfers.com/fr/transfert-aeroport-katowice-cracovie.html", "Transfert privé de l'aéroport de Katowice à Cracovie"], ["https://krakow-transfers.com/fr/transfert-aeroport-katowice-zakopane.html", "Transfert privé de l'aéroport de Katowice à Zakopane"], ["https://krakow-transfers.com/fr/transfert-cracovie-zakopane.html", "Transfert privé Cracovie – Zakopane"]]}, "it": {"label": "Prenota un transfer privato", "links": [["https://krakow-transfers.com/it/transfer-aeroporto-katowice-cracovia.html", "Transfer privato dall'aeroporto di Katowice a Cracovia"], ["https://krakow-transfers.com/it/transfer-aeroporto-katowice-zakopane.html", "Transfer privato dall'aeroporto di Katowice a Zakopane"], ["https://krakow-transfers.com/it/transfer-cracovia-zakopane.html", "Transfer privato Cracovia – Zakopane"]]}, "es": {"label": "Reserve un traslado privado", "links": [["https://krakow-transfers.com/es/traslado-aeropuerto-katowice-cracovia.html", "Traslado privado del aeropuerto de Katowice a Cracovia"], ["https://krakow-transfers.com/es/traslado-aeropuerto-katowice-zakopane.html", "Traslado privado del aeropuerto de Katowice a Zakopane"], ["https://krakow-transfers.com/es/traslado-cracovia-zakopane.html", "Traslado privado Cracovia – Zakopane"]]}};
+// uk/mt/ar nie mają własnych podstron tras — linki prowadzą do wersji EN, ale nagłówek jest w języku artykułu
+const ROUTE_LABEL_EXTRA = { uk: "Забронювати приватний трансфер", mt: "Ibbukkja trasferiment privat", ar: "احجز نقلاً خاصًا" };
 function routesBox(code) {
   const r = ROUTE_LINKS[code] || ROUTE_LINKS.en;
-  return `<div class="routes-box"><p><strong>${r.label}</strong></p><ul>${r.links.map(([u, t]) => `<li><a href="${u}">${t}</a></li>`).join("")}</ul></div>`;
+  const label = ROUTE_LINKS[code] ? r.label : (ROUTE_LABEL_EXTRA[code] || r.label);
+  return `<div class="routes-box"><p><strong>${label}</strong></p><ul>${r.links.map(([u, t]) => `<li><a href="${u}">${t}</a></li>`).join("")}</ul></div>`;
+}
+
+// ---------- SEO: marka, tytuł <title>, meta description, dane strukturalne ----------
+const BRAND = "Kraków Transfers";
+const TITLE_MAX = 62;              // ~50–60 znaków; marka doklejana tylko, gdy się mieści
+const ORG = JSON.parse(fs.readFileSync(path.join(path.dirname(new URL(import.meta.url).pathname), "org.json"), "utf-8"));
+const SEO_TITLES = (() => { try { return JSON.parse(fs.readFileSync(path.join(path.dirname(new URL(import.meta.url).pathname), "seo-titles.json"), "utf-8")); } catch { return {}; } })();
+const BACK = { pl: "Wszystkie artykuły", en: "All articles", de: "Alle Artikel", fr: "Tous les articles", it: "Tutti gli articoli",
+  es: "Todos los artículos", mt: "L-artikli kollha", uk: "Усі статті", ar: "جميع المقالات" };
+const HOME_NAME = { pl: "Strona główna", en: "Home", de: "Startseite", fr: "Accueil", it: "Home", es: "Inicio", mt: "Paġna ewlenija", uk: "Головна", ar: "الرئيسية" };
+const homeUrl = (code) => `${DOMAIN}/${code === "pl" ? "" : code + "/"}`;
+const plain = (h) => String(h).replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s+/g, " ").trim();
+
+// <title>: preferuje pełny H1 + marka; za długi H1 -> część przed myślnikiem/dwukropkiem; potem ręczne skróty (seo-titles.json)
+function seoTitle(h1, url, given) {
+  const B = " | " + BRAND, t = String(h1).trim();
+  const withBrand = (x) => ((x + B).length <= TITLE_MAX ? x + B : x);
+  if (given && given.length >= 25 && given.length <= 60) return withBrand(given.trim());
+  if (SEO_TITLES[url]) return withBrand(SEO_TITLES[url]);
+  if ((t + B).length <= TITLE_MAX) return t + B;
+  const m = t.match(/^(.{20,}?)(\s[—–-]\s|:\s|\?\s)/);
+  const head = m ? (m[1] + (m[2].startsWith("?") ? "?" : "")).trim() : null;
+  if (head && head.length >= 30 && (head + B).length <= TITLE_MAX) return head + B;
+  if (t.length <= TITLE_MAX) return t;
+  if (head && (head + B).length <= TITLE_MAX) return head + B;
+  if (head && head.length >= 30 && head.length <= TITLE_MAX) return head;
+  return t.slice(0, 58).replace(/\s+\S*$/, "") + "…";
+}
+
+// meta description 120–160 znaków (cel 150–160): całe zdania z początku treści, w razie potrzeby cięcie na słowie
+function metaDesc(bodyHtml, given) {
+  if (given && given.length >= 120 && given.length <= 160) return given.trim();
+  const text = plain(bodyHtml);
+  const sentences = text.match(/[^.!?。؟]+[.!?。؟]+(\s|$)/g) || [text];
+  let out = "";
+  for (const s of sentences) {
+    const next = (out + " " + s.trim()).trim();
+    if (next.length > 160) break;
+    out = next;
+    if (out.length >= 150) break;
+  }
+  if (out.length < 120) out = text.length <= 160 ? text : text.slice(0, 157).replace(/\s+\S*$/, "").replace(/[,;:—–-]$/, "") + "…";
+  return out;
+}
+
+function articleLd({ url, lang, title, desc, date, modified, words: wc }) {
+  const blogPosting = { "@context": "https://schema.org", "@type": "BlogPosting", "@id": url + "#article", mainEntityOfPage: url,
+    headline: title.length > 110 ? title.slice(0, 107) + "…" : title, description: desc, inLanguage: lang,
+    image: `${DOMAIN}/images/vito.jpg`, datePublished: date, dateModified: modified || date, wordCount: wc,
+    author: { "@type": "Organization", name: BRAND, url: DOMAIN + "/" }, publisher: { "@id": ORG["@id"] },
+    isPartOf: { "@type": "Blog", "@id": `${DOMAIN}/blog.html#blog`, name: `${BRAND} Blog`, url: `${DOMAIN}/blog.html` } };
+  const crumbs = { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [
+    { "@type": "ListItem", position: 1, name: HOME_NAME[lang] || "Home", item: homeUrl(lang) },
+    { "@type": "ListItem", position: 2, name: "Blog", item: `${DOMAIN}/blog.html` },
+    { "@type": "ListItem", position: 3, name: title, item: url }] };
+  const j = (o) => JSON.stringify(o).replace(/</g, "\\u003c");
+  return `<script type="application/ld+json">${j(ORG)}</script>\n<script type="application/ld+json">${j(blogPosting)}</script>\n<script type="application/ld+json">${j(crumbs)}</script>`;
 }
 
 
-const COMPANY = `Firma: "Katowice Pyrzowice Airport Transfers" (krakow-transfers.com) — prywatne i grupowe transfery z lotniska
+const COMPANY = `Firma: "Kraków Transfers" / "Katowice Pyrzowice Airport Transfers" (krakow-transfers.com) — prywatne i grupowe transfery z lotniska
 Katowice-Pyrzowice (KTW) do Krakowa i Zakopanego (i z powrotem), 20 lat doświadczenia. Flota: Chrysler Pacifica, Mercedes Vito,
 Mercedes Sprinter, autobusy. Kierowca czeka w hali przylotów z tabliczką z nazwiskiem.`;
 
@@ -130,7 +192,9 @@ const ARTICLE_TOOL = {
     title: { type: "string", description: "tytuł w języku docelowym, czysty tekst" },
     title_en: { type: "string", description: "ten sam tytuł po angielsku (do adresu URL)" },
     body_html: { type: "string", description: "treść HTML: tylko <p>, <h3>, <ul>, <li>, <strong>; bez H1" },
-  }, required: ["title", "title_en", "body_html"] },
+    seo_title: { type: "string", description: "krótki tytuł do Google w języku docelowym, 30–41 znaków, z główną frazą (np. lotnisko Katowice, Kraków, Zakopane, transfer); bez nazwy firmy" },
+    meta_description: { type: "string", description: "opis do Google w języku docelowym, DOKŁADNIE 150–160 znaków, konkretny, z frazą kluczową i zachętą; bez cudzysłowów" },
+  }, required: ["title", "title_en", "body_html", "seo_title", "meta_description"] },
 };
 
 async function proposeTopic(history) {
@@ -192,7 +256,12 @@ zmian na lotnisku — jeśli coś się zmienia, odeślij do oficjalnej strony. B
     if (lang.code !== "pl" && title.toLowerCase() === topic.toLowerCase()) problems.push("tytuł nieprzetłumaczony");
     if (!/<p>/i.test(body)) problems.push("brak akapitów");
     if (words(body) < MIN_WORDS) problems.push(`za krótki (${words(body)} słów)`);
-    if (!problems.length) return { title, title_en: String(r.input.title_en || title), body };
+    if (!problems.length) {
+      const st = String(r.input.seo_title || "").replace(/<[^>]+>/g, "").trim();
+      const md = String(r.input.meta_description || "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+      return { title, title_en: String(r.input.title_en || title), body,
+        seoTitle: st.length >= 25 && st.length <= 60 ? st : "", desc: md.length >= 120 && md.length <= 160 ? md : "" };
+    }
     console.log(`  [${lang.code}] próba ${attempt} odrzucona: ${problems.join("; ")}`);
   }
   throw new Error("nie udało się napisać poprawnego artykułu");
@@ -200,29 +269,36 @@ zmian na lotnisku — jeśli coś się zmienia, odeślij do oficjalnej strony. B
 
 // ---------- pliki ----------
 const OG_LOCALES = { pl: "pl_PL", en: "en_US", de: "de_DE", fr: "fr_FR", it: "it_IT", es: "es_ES", mt: "mt_MT", uk: "uk_UA", ar: "ar_AR" };
-const TEMPLATE = (title, body, lang, slug, hreflang = "") => {
+// opts: { date, modified, seoTitle, desc } — zapisane w posts.json, więc --refresh odtwarza identyczne strony
+const TEMPLATE = (title, body, lang, slug, hreflang = "", opts = {}) => {
   const url = `${DOMAIN}/blog/${lang.code}/${slug}.html`;
-  const desc = body.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 155);
+  const rel = `blog/${lang.code}/${slug}.html`;
+  const desc = metaDesc(body, opts.desc);
+  const pageTitle = seoTitle(title, rel, opts.seoTitle);
+  const date = opts.date || TODAY;
+  const homeRel = lang.code === "pl" ? "../../index.html" : `../../${lang.code}/`;
   return `<!DOCTYPE html>
 <html lang="${lang.code}"${lang.dir === "rtl" ? ' dir="rtl"' : ""}>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${esc(title)} | Katowice Pyrzowice Airport Transfers</title>
+<title>${esc(pageTitle)}</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${url}">
 <meta property="og:type" content="article">
-<meta property="og:site_name" content="Katowice Pyrzowice Airport Transfers">
+<meta property="og:site_name" content="${BRAND}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
 <meta property="og:url" content="${url}">
 <meta property="og:image" content="${DOMAIN}/images/vito.jpg">
 <meta property="og:locale" content="${OG_LOCALES[lang.code] || "en_US"}">
+<meta property="article:published_time" content="${date}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
 <meta name="twitter:image" content="${DOMAIN}/images/vito.jpg">
 ${hreflang}
+${articleLd({ url, lang: lang.code, title, desc, date, modified: opts.modified, words: words(body) })}
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   body{ font-family:'Inter',sans-serif; background:#FAF8F2; color:#13161B; margin:0; line-height:1.7; }
@@ -233,15 +309,17 @@ ${hreflang}
   h3{ font-family:'Fraunces',serif; font-size:21px; margin:30px 0 12px; color:#0F2038; }
   p, li{ font-size:16px; color:#333; margin:0 0 18px; }
   .back{ display:inline-block; margin-bottom:28px; font-size:13px; color:#C4872F; text-decoration:none; }
+  .date{ font-size:13px; color:#9B9584; margin:-12px 0 22px; }
   .routes-box{ margin-top:36px; padding:20px 22px; background:#fff; border:1px solid #e6dfcf; border-radius:12px; }
   .routes-box ul{ margin:0; padding-left:18px; } .routes-box a{ color:#0F2038; font-weight:600; }
 </style>
 </head>
 <body>
-<header><a href="../../index.html">← KATOWICE PYRZOWICE AIRPORT TRANSFERS</a></header>
+<header><a href="${homeRel}">← KATOWICE PYRZOWICE AIRPORT TRANSFERS</a></header>
 <div class="wrap">
-  <a class="back" href="../../blog.html">← ${lang.code === "pl" ? "Wszystkie artykuły" : "All articles"}</a>
+  <a class="back" href="../../blog.html">← ${BACK[lang.code] || BACK.en}</a>
   <h1>${esc(title)}</h1>
+  <p class="date"><time datetime="${date}">${date}</time></p>
   ${body}
   ${routesBox(lang.code)}
 </div>
@@ -287,10 +365,53 @@ function addVersion(posts, topicKey, date, lang, art) {
   const slug = uniqueSlug(lang, art.title, art.title_en);
   const url = `blog/${lang.code}/${slug}.html`;
   fs.mkdirSync(path.join("blog", lang.code), { recursive: true });
-  fs.writeFileSync(url, TEMPLATE(art.title, art.body, lang, slug));
+  const opts = { date, seoTitle: art.seoTitle || "", desc: art.desc || "" };
+  fs.writeFileSync(url, TEMPLATE(art.title, art.body, lang, slug, "", opts));
   posts.push({ title: art.title, topicKey, lang: lang.code, url,
-    meta: art.body.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 140), date });
+    meta: metaDesc(art.body, art.desc), date, ...(art.seoTitle ? { seoTitle: art.seoTitle } : {}), ...(art.desc ? { desc: art.desc } : {}) });
   console.log(`  [${lang.code}] OK: ${art.title} -> ${url}`);
+}
+
+// ---------- odświeżanie szablonu istniejących artykułów (bez API) ----------
+// Każdy przebieg (i `node auto-blog/generate-article.mjs --refresh`) przepisuje wszystkie automatyczne artykuły
+// aktualnym szablonem TEMPLATE — treść zostaje, zmienia się tylko oprawa (head, schema, linki).
+function refreshAll(posts) {
+  let n = 0;
+  for (const p of posts) {
+    if (!fs.existsSync(p.url)) continue;
+    const s = fs.readFileSync(p.url, "utf-8");
+    const m = s.match(/<\/h1>\s*(?:<p class="date">[\s\S]*?<\/p>\s*)?([\s\S]*?)\s*<div class="routes-box">/);
+    const lang = LANGS.find((l) => l.code === p.lang);
+    if (!m || !lang) { console.log(`  refresh: pominięto ${p.url} (nietypowa struktura)`); continue; }
+    const slug = path.basename(p.url, ".html");
+    const group = posts.filter((q) => q.topicKey === p.topicKey && fs.existsSync(q.url));
+    const html = TEMPLATE(p.title, m[1], lang, slug, hreflangBlock(group), { date: p.date, modified: p.modified, seoTitle: p.seoTitle, desc: p.desc });
+    if (html !== s) { fs.writeFileSync(p.url, html); n++; }
+  }
+  console.log(`Odświeżono szablon: zmienionych ${n} plików z ${posts.length}.`);
+}
+
+// ---------- statyczna lista artykułów w blog.html (linki widoczne dla Google bez JavaScriptu) ----------
+const LANG_NAMES = { pl: "Polski", en: "English", de: "Deutsch", fr: "Français", it: "Italiano", es: "Español", mt: "Malti", uk: "Українська", ar: "العربية" };
+const excerpt = (p) => {
+  if (p.desc) return p.desc;
+  const m = String(p.meta || "").trim();
+  return m.length >= 135 && !/[.!?…]$/.test(m) ? m.replace(/\s+\S*$/, "") + "…" : m;
+};
+function renderBlogIndex(posts) {
+  if (!fs.existsSync("blog.html")) return;
+  let html = fs.readFileSync("blog.html", "utf-8");
+  const START = "<!-- AUTO-POSTS:START -->", END = "<!-- AUTO-POSTS:END -->";
+  if (!html.includes(START)) { console.log("blog.html: brak znacznika AUTO-POSTS — lista nie zaktualizowana"); return; }
+  const sorted = [...posts].sort((a, b) => (b.date || "").localeCompare(a.date || "") || LANGS.findIndex((l) => l.code === a.lang) - LANGS.findIndex((l) => l.code === b.lang));
+  const items = sorted.map((p) => {
+    const dir = p.lang === "ar" ? ' dir="rtl"' : "";
+    return `  <div class="post" lang="${p.lang}"${dir}>\n    <div class="post-date">${p.date || ""} · ${LANG_NAMES[p.lang] || p.lang}</div>\n` +
+      `    <h2 class="auto"><a href="${p.url}">${esc(p.title)}</a></h2>\n    <p>${esc(excerpt(p))}</p>\n  </div>`;
+  }).join("\n");
+  const block = `${START}\n<h3 class="cat-head">${sorted.length ? "Najnowsze artykuły" : ""}</h3>\n${items}\n${END}`;
+  html = html.slice(0, html.indexOf(START)) + block + html.slice(html.indexOf(END) + END.length);
+  fs.writeFileSync("blog.html", html);
 }
 
 // ---------- raport stanu (blog-status.json, czyta go konektor) ----------
@@ -312,6 +433,12 @@ function writeStatus(posts, handmade, failures) {
 
 // ---------- główny przebieg ----------
 async function main() {
+  if (REFRESH_ONLY) {
+    const posts = loadPosts();
+    refreshAll(posts);
+    renderBlogIndex(posts);
+    return;
+  }
   if (!MOCK && !process.env.ANTHROPIC_API_KEY) throw new Error("Brak ANTHROPIC_API_KEY (GitHub → Settings → Secrets → Actions).");
   let posts = loadPosts();
   const handmade = loadHandmade();
@@ -373,6 +500,7 @@ async function main() {
   posts.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
   fs.writeFileSync("posts.json", JSON.stringify(posts, null, 2));
   console.log(`Gotowe — posts.json: ${posts.length} wpisów.`);
+  if (!MOCK) { refreshAll(posts); renderBlogIndex(posts); }
   writeStatus(posts, handmade, failures);
   if (failures) { console.error(`Uwaga: ${failures} problem(ów) — szczegóły wyżej.`); process.exitCode = 1; }
 }

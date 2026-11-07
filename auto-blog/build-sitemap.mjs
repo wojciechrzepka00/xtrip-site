@@ -2,11 +2,28 @@
 // (strona główna + wersje językowe + blog + artykuły). Uruchamiane po generacji.
 import fs from "fs";
 import path from "path";
+import { execFileSync } from "child_process";
 
 const DOMAIN = "https://krakow-transfers.com";
 const ROOT = process.cwd();
 const SKIP = new Set(["payments-backend", "auto-blog", "google-calendar-system", ".github", "node_modules", ".git"]);
 const SKIP_FILES = new Set(["index-preview.html"]);
+
+// lastmod: data z treści (JSON-LD dateModified artykułu), potem data ostatniego commita pliku w git,
+// na końcu mtime. Sam mtime w GitHub Actions = czas checkoutu (codziennie "dziś"), więc Google by go ignorował.
+function lastmodOf(abs, rel) {
+  const html = fs.readFileSync(abs, "utf-8");
+  const m = html.match(/"dateModified":\s*"(\d{4}-\d{2}-\d{2})/);
+  if (m) return m[1];
+  try {
+    const dirty = execFileSync("git", ["status", "--porcelain", "--", rel], { cwd: ROOT, encoding: "utf-8" }).trim();
+    if (!dirty) {
+      const d = execFileSync("git", ["log", "-1", "--format=%cs", "--", rel], { cwd: ROOT, encoding: "utf-8" }).trim();
+      if (d) return d;
+    }
+  } catch {}
+  return fs.statSync(abs).mtime.toISOString().slice(0, 10);
+}
 
 const urls = [];
 function walk(dir) {
@@ -18,8 +35,7 @@ function walk(dir) {
       let rel = path.relative(ROOT, path.join(dir, e.name)).split(path.sep).join("/");
       // index.html -> katalog; reszta -> pełna ścieżka
       let loc = rel === "index.html" ? "/" : rel.endsWith("/index.html") ? "/" + rel.slice(0, -"index.html".length) : "/" + rel;
-      const stat = fs.statSync(path.join(dir, e.name));
-      urls.push({ loc: DOMAIN + loc, lastmod: stat.mtime.toISOString().slice(0, 10) });
+      urls.push({ loc: DOMAIN + loc, lastmod: lastmodOf(path.join(dir, e.name), rel) });
     }
   }
 }

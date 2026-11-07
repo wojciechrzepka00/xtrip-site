@@ -6,6 +6,8 @@ import json, os, re, html, glob, urllib.parse
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOMAIN = "https://krakow-transfers.com"
 PHONE = "48728814659"
+BRAND = "Kraków Transfers"
+ORG = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "org.json"), encoding="utf-8"))
 LANGS = ["pl", "en", "de", "fr", "it", "es"]
 ROUTES = ["kr", "zak", "kz"]
 SRC = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
@@ -39,7 +41,7 @@ def home_of(lang):
 
 # ---------- teksty wspólne ----------
 UI = {
- "pl": dict(cur="zł", locale="pl_PL", brand="Katowice Pyrzowice Airport Transfers",
+ "pl": dict(dtail=["Płatność u kierowcy.", "Odbiór 24/7.", "Bez przedpłaty."], cur="zł", locale="pl_PL", brand=BRAND,
    home="Strona główna", routes="Trasy", book="Zarezerwuj", cap="Liczba osób", day="Dzień", night="Noc",
    c3="Do 3 osób", c8="Do 8 osób", c20="Do 20 osób", c30="Do 30 i 60 osób", req="na zapytanie",
    dist="Dystans", time="Czas jazdy", from_="Cena od", per="za cały pojazd",
@@ -49,7 +51,7 @@ UI = {
    cta_t="Zarezerwuj transfer", cta_s="Napisz na WhatsApp: data, godzina (lub numer lotu), liczba osób i adres — potwierdzimy cenę i termin.",
    form="Formularz rezerwacji", rights="Wszelkie prawa zastrzeżone.",
    why=[("Stała cena","Cena ustalona przed podróżą — bez taksometru i ukrytych opłat."),("Płatność u kierowcy","Gotówką lub kartą, bez przedpłaty online."),("24/7","Odbieramy o każdej porze dnia i nocy."),("Od drzwi do drzwi","Bez przesiadek i bez czekania na innych pasażerów.")]),
- "en": dict(cur="PLN", locale="en_GB", brand="Katowice Pyrzowice Airport Transfers",
+ "en": dict(dtail=["Pay the driver.", "24/7 pick-up.", "No prepayment."], cur="PLN", locale="en_GB", brand=BRAND,
    home="Home", routes="Routes", book="Book", cap="Passengers", day="Day", night="Night",
    c3="Up to 3 people", c8="Up to 8 people", c20="Up to 20 people", c30="Up to 30 and 60 people", req="on request",
    dist="Distance", time="Driving time", from_="Price from", per="per vehicle",
@@ -59,7 +61,7 @@ UI = {
    cta_t="Book your transfer", cta_s="Send us on WhatsApp: date, time (or flight number), number of people and address — we will confirm the price and time.",
    form="Booking form", rights="All rights reserved.",
    why=[("Fixed price","Agreed before the trip — no meter, no hidden fees."),("Pay the driver","Cash or card, no online prepayment."),("24/7","Pick-ups at any time of day or night."),("Door to door","No changes and no waiting for other passengers.")]),
- "de": dict(cur="PLN", locale="de_DE", brand="Katowice Pyrzowice Airport Transfers",
+ "de": dict(dtail=["Zahlung beim Fahrer.", "Abholung 24/7.", "Ohne Vorauszahlung."], cur="PLN", locale="de_DE", brand=BRAND,
    home="Startseite", routes="Strecken", book="Buchen", cap="Personen", day="Tag", night="Nacht",
    c3="Bis 3 Personen", c8="Bis 8 Personen", c20="Bis 20 Personen", c30="Bis 30 und 60 Personen", req="auf Anfrage",
    dist="Entfernung", time="Fahrzeit", from_="Preis ab", per="pro Fahrzeug",
@@ -69,7 +71,7 @@ UI = {
    cta_t="Transfer buchen", cta_s="Schreiben Sie uns per WhatsApp: Datum, Uhrzeit (oder Flugnummer), Personenzahl und Adresse — wir bestätigen Preis und Termin.",
    form="Buchungsformular", rights="Alle Rechte vorbehalten.",
    why=[("Festpreis","Vor der Fahrt vereinbart — kein Taxameter, keine versteckten Kosten."),("Zahlung beim Fahrer","Bar oder mit Karte, keine Online-Vorauszahlung."),("24/7","Abholung zu jeder Tages- und Nachtzeit."),("Von Tür zu Tür","Ohne Umsteigen und ohne Warten auf andere Fahrgäste.")]),
- "fr": dict(cur="PLN", locale="fr_FR", brand="Katowice Pyrzowice Airport Transfers",
+ "fr": dict(dtail=["Paiement au chauffeur.", "Service 24h/24.", "Sans prépaiement."], cur="PLN", locale="fr_FR", brand=BRAND,
    home="Accueil", routes="Trajets", book="Réserver", cap="Passagers", day="Jour", night="Nuit",
    c3="Jusqu'à 3 personnes", c8="Jusqu'à 8 personnes", c20="Jusqu'à 20 personnes", c30="Jusqu'à 30 et 60 personnes", req="sur demande",
    dist="Distance", time="Durée du trajet", from_="Prix à partir de", per="par véhicule",
@@ -79,7 +81,7 @@ UI = {
    cta_t="Réservez votre transfert", cta_s="Écrivez-nous sur WhatsApp : date, heure (ou numéro de vol), nombre de personnes et adresse — nous confirmons le prix et l'horaire.",
    form="Formulaire de réservation", rights="Tous droits réservés.",
    why=[("Prix fixe","Convenu avant le trajet — pas de compteur, pas de frais cachés."),("Paiement au chauffeur","En espèces ou par carte, sans prépaiement en ligne."),("24h/24","Prise en charge à toute heure du jour et de la nuit."),("Porte à porte","Sans changement ni attente d'autres passagers.")]),
- "it": dict(cur="PLN", locale="it_IT", brand="Katowice Pyrzowice Airport Transfers",
+ "it": dict(dtail=["Pagamento all'autista.", "Servizio 24/7.", "Nessun anticipo."], cur="PLN", locale="it_IT", brand=BRAND,
    home="Home", routes="Tratte", book="Prenota", cap="Passeggeri", day="Giorno", night="Notte",
    c3="Fino a 3 persone", c8="Fino a 8 persone", c20="Fino a 20 persone", c30="Fino a 30 e 60 persone", req="su richiesta",
    dist="Distanza", time="Tempo di viaggio", from_="Prezzo da", per="per veicolo",
@@ -89,7 +91,7 @@ UI = {
    cta_t="Prenota il transfer", cta_s="Scrivici su WhatsApp: data, ora (o numero del volo), numero di persone e indirizzo — confermiamo prezzo e orario.",
    form="Modulo di prenotazione", rights="Tutti i diritti riservati.",
    why=[("Prezzo fisso","Concordato prima del viaggio — niente tassametro né costi nascosti."),("Pagamento all'autista","In contanti o con carta, senza pagamento anticipato online."),("24/7","Prelievo a qualsiasi ora del giorno e della notte."),("Porta a porta","Senza cambi e senza attendere altri passeggeri.")]),
- "es": dict(cur="PLN", locale="es_ES", brand="Katowice Pyrzowice Airport Transfers",
+ "es": dict(dtail=["Pago al conductor.", "Servicio 24/7.", "Sin prepago."], cur="PLN", locale="es_ES", brand=BRAND,
    home="Inicio", routes="Rutas", book="Reservar", cap="Pasajeros", day="Día", night="Noche",
    c3="Hasta 3 personas", c8="Hasta 8 personas", c20="Hasta 20 personas", c30="Hasta 30 y 60 personas", req="bajo consulta",
    dist="Distancia", time="Tiempo de viaje", from_="Precio desde", per="por vehículo",
@@ -110,85 +112,85 @@ def R(lang, r):
     data = {
     "pl": {
      "kr": dict(a="Lotnisko Katowice-Pyrzowice", b="Kraków", km="110 km", t="ok. 1,5 godz.",
-        title="Transfer Pyrzowice – Kraków | Prywatny kierowca od 600 zł",
+        title=f"Transfer Pyrzowice – Kraków od {d3} zł" + " | " + BRAND,
         h1="Transfer z lotniska Pyrzowice do Krakowa",
         sub=f"Prywatny przejazd z lotniska Katowice-Pyrzowice pod wskazany adres w Krakowie — hotel, mieszkanie, biuro. Stała cena od {d3} zł za auto, kierowca czeka w hali przylotów."),
      "zak": dict(a="Lotnisko Katowice-Pyrzowice", b="Zakopane", km="ok. 200 km", t="ponad 3 godz.",
-        title="Transfer Pyrzowice – Zakopane | Prywatny przejazd od 1200 zł",
+        title=f"Transfer Pyrzowice – Zakopane od {d3} zł" + " | " + BRAND,
         h1="Transfer z lotniska Pyrzowice do Zakopanego",
         sub=f"Bezpośredni przejazd z lotniska Katowice-Pyrzowice prosto pod Twój pensjonat lub hotel w Zakopanem i okolicy. Bez przesiadki w Krakowie, stała cena od {d3} zł za auto."),
      "kz": dict(a="Kraków", b="Zakopane", km="ok. 100 km", t="zwykle ok. 2 godz.",
-        title="Transfer Kraków – Zakopane | Prywatny kierowca od 600 zł",
+        title=f"Transfer Kraków – Zakopane od {d3} zł" + " | " + BRAND,
         h1="Prywatny transfer Kraków – Zakopane",
         sub=f"Przejazd od drzwi do drzwi między Krakowem a Zakopanem — z hotelu w Krakowie pod pensjonat w Tatrach lub z powrotem. Stała cena od {d3} zł za auto."),
     },
     "en": {
      "kr": dict(a="Katowice Airport (Pyrzowice)", b="Kraków", km="110 km", t="approx. 1.5 hr",
-        title="Katowice Airport to Kraków Transfer | Private Driver",
+        title="Katowice Airport to Kraków Transfer" + " | " + BRAND,
         h1="Private transfer from Katowice Airport to Kraków",
         sub=f"Door-to-door ride from Katowice-Pyrzowice Airport (KTW) to your hotel, apartment or office in Kraków. Fixed price from {d3} {c} per vehicle — your driver meets you in the arrivals hall."),
      "zak": dict(a="Katowice Airport (Pyrzowice)", b="Zakopane", km="approx. 200 km", t="3+ hours",
-        title="Katowice Airport to Zakopane Transfer | Private Driver",
+        title="Katowice Airport to Zakopane Transfer" + " | " + BRAND,
         h1="Private transfer from Katowice Airport to Zakopane",
         sub=f"Direct ride from Katowice-Pyrzowice Airport (KTW) to your guesthouse or hotel in Zakopane and the Tatra area. No change in Kraków, fixed price from {d3} {c} per vehicle."),
      "kz": dict(a="Kraków", b="Zakopane", km="approx. 100 km", t="usually about 2 hr",
-        title="Kraków to Zakopane Private Transfer | Fixed Price",
+        title="Kraków to Zakopane Private Transfer" + " | " + BRAND,
         h1="Private transfer Kraków – Zakopane",
         sub=f"Door-to-door ride between Kraków and Zakopane — from your Kraków hotel to your accommodation in the Tatras, or back. Fixed price from {d3} {c} per vehicle."),
     },
     "de": {
      "kr": dict(a="Flughafen Kattowitz (Pyrzowice)", b="Krakau", km="110 km", t="ca. 1,5 Std.",
-        title="Transfer Flughafen Kattowitz – Krakau | Privatfahrer",
+        title="Transfer Flughafen Kattowitz – Krakau" + " | " + BRAND,
         h1="Privater Transfer vom Flughafen Kattowitz nach Krakau",
         sub=f"Fahrt von Tür zu Tür vom Flughafen Katowice-Pyrzowice (KTW) zu Ihrem Hotel, Ihrer Wohnung oder Ihrem Büro in Krakau. Festpreis ab {d3} {c} pro Fahrzeug — der Fahrer erwartet Sie in der Ankunftshalle."),
      "zak": dict(a="Flughafen Kattowitz (Pyrzowice)", b="Zakopane", km="ca. 200 km", t="über 3 Std.",
-        title="Transfer Flughafen Kattowitz – Zakopane | Privatfahrer",
+        title="Transfer Flughafen Kattowitz – Zakopane" + " | " + BRAND,
         h1="Privater Transfer vom Flughafen Kattowitz nach Zakopane",
         sub=f"Direkte Fahrt vom Flughafen Katowice-Pyrzowice (KTW) zu Ihrer Pension oder Ihrem Hotel in Zakopane und der Tatra-Region. Ohne Umsteigen in Krakau, Festpreis ab {d3} {c} pro Fahrzeug."),
      "kz": dict(a="Krakau", b="Zakopane", km="ca. 100 km", t="meist ca. 2 Std.",
-        title="Privater Transfer Krakau – Zakopane | Festpreis",
+        title="Privater Transfer Krakau – Zakopane" + " | " + BRAND,
         h1="Privater Transfer Krakau – Zakopane",
         sub=f"Fahrt von Tür zu Tür zwischen Krakau und Zakopane — vom Hotel in Krakau zu Ihrer Unterkunft in der Tatra oder zurück. Festpreis ab {d3} {c} pro Fahrzeug."),
     },
     "fr": {
      "kr": dict(a="Aéroport de Katowice (Pyrzowice)", b="Cracovie", km="110 km", t="env. 1 h 30",
-        title="Transfert aéroport Katowice – Cracovie | Chauffeur privé",
+        title="Transfert aéroport Katowice – Cracovie" + " | " + BRAND,
         h1="Transfert privé de l'aéroport de Katowice à Cracovie",
         sub=f"Trajet porte à porte de l'aéroport de Katowice-Pyrzowice (KTW) jusqu'à votre hôtel, appartement ou bureau à Cracovie. Prix fixe à partir de {d3} {c} par véhicule — le chauffeur vous attend dans le hall des arrivées."),
      "zak": dict(a="Aéroport de Katowice (Pyrzowice)", b="Zakopane", km="env. 200 km", t="plus de 3 h",
-        title="Transfert aéroport Katowice – Zakopane | Chauffeur privé",
+        title="Transfert aéroport Katowice – Zakopane" + " | " + BRAND,
         h1="Transfert privé de l'aéroport de Katowice à Zakopane",
         sub=f"Trajet direct de l'aéroport de Katowice-Pyrzowice (KTW) jusqu'à votre pension ou hôtel à Zakopane et dans les Tatras. Sans changement à Cracovie, prix fixe à partir de {d3} {c} par véhicule."),
      "kz": dict(a="Cracovie", b="Zakopane", km="env. 100 km", t="généralement env. 2 h",
-        title="Transfert privé Cracovie – Zakopane | Prix fixe",
+        title="Transfert privé Cracovie – Zakopane" + " | " + BRAND,
         h1="Transfert privé Cracovie – Zakopane",
         sub=f"Trajet porte à porte entre Cracovie et Zakopane — de votre hôtel à Cracovie jusqu'à votre hébergement dans les Tatras, ou retour. Prix fixe à partir de {d3} {c} par véhicule."),
     },
     "it": {
      "kr": dict(a="Aeroporto di Katowice (Pyrzowice)", b="Cracovia", km="110 km", t="circa 1 h 30",
-        title="Transfer aeroporto Katowice – Cracovia | Autista privato",
+        title="Transfer aeroporto Katowice – Cracovia" + " | " + BRAND,
         h1="Transfer privato dall'aeroporto di Katowice a Cracovia",
         sub=f"Viaggio porta a porta dall'aeroporto di Katowice-Pyrzowice (KTW) al tuo hotel, appartamento o ufficio a Cracovia. Prezzo fisso da {d3} {c} per veicolo — l'autista ti aspetta nella sala arrivi."),
      "zak": dict(a="Aeroporto di Katowice (Pyrzowice)", b="Zakopane", km="circa 200 km", t="oltre 3 ore",
-        title="Transfer aeroporto Katowice – Zakopane | Autista privato",
+        title="Transfer aeroporto Katowice – Zakopane" + " | " + BRAND,
         h1="Transfer privato dall'aeroporto di Katowice a Zakopane",
         sub=f"Viaggio diretto dall'aeroporto di Katowice-Pyrzowice (KTW) alla tua pensione o al tuo hotel a Zakopane e nei Tatra. Senza cambi a Cracovia, prezzo fisso da {d3} {c} per veicolo."),
      "kz": dict(a="Cracovia", b="Zakopane", km="circa 100 km", t="di solito circa 2 ore",
-        title="Transfer privato Cracovia – Zakopane | Prezzo fisso",
+        title="Transfer privato Cracovia – Zakopane" + " | " + BRAND,
         h1="Transfer privato Cracovia – Zakopane",
         sub=f"Viaggio porta a porta tra Cracovia e Zakopane — dal tuo hotel a Cracovia all'alloggio nei Tatra, o ritorno. Prezzo fisso da {d3} {c} per veicolo."),
     },
     "es": {
      "kr": dict(a="Aeropuerto de Katowice (Pyrzowice)", b="Cracovia", km="110 km", t="aprox. 1 h 30",
-        title="Traslado aeropuerto Katowice – Cracovia | Conductor privado",
+        title="Traslado aeropuerto Katowice – Cracovia" + " | " + BRAND,
         h1="Traslado privado del aeropuerto de Katowice a Cracovia",
         sub=f"Trayecto puerta a puerta desde el aeropuerto de Katowice-Pyrzowice (KTW) hasta su hotel, apartamento u oficina en Cracovia. Precio fijo desde {d3} {c} por vehículo — el conductor le espera en la sala de llegadas."),
      "zak": dict(a="Aeropuerto de Katowice (Pyrzowice)", b="Zakopane", km="aprox. 200 km", t="más de 3 h",
-        title="Traslado aeropuerto Katowice – Zakopane | Conductor privado",
+        title="Traslado aeropuerto Katowice – Zakopane" + " | " + BRAND,
         h1="Traslado privado del aeropuerto de Katowice a Zakopane",
         sub=f"Trayecto directo desde el aeropuerto de Katowice-Pyrzowice (KTW) hasta su pensión u hotel en Zakopane y los Tatras. Sin transbordo en Cracovia, precio fijo desde {d3} {c} por vehículo."),
      "kz": dict(a="Cracovia", b="Zakopane", km="aprox. 100 km", t="normalmente unas 2 h",
-        title="Traslado privado Cracovia – Zakopane | Precio fijo",
+        title="Traslado privado Cracovia – Zakopane" + " | " + BRAND,
         h1="Traslado privado Cracovia – Zakopane",
         sub=f"Trayecto puerta a puerta entre Cracovia y Zakopane — desde su hotel en Cracovia hasta su alojamiento en los Tatras, o de vuelta. Precio fijo desde {d3} {c} por vehículo."),
     }}[lang][r]
@@ -284,8 +286,40 @@ def R(lang, r):
                ("¿Cómo se paga?", "En efectivo o con tarjeta directamente al conductor. Sin prepago online."),
                ("¿Cómo reservo?", "Lo más rápido es WhatsApp, o el formulario de la página de inicio. Las reservas con menos de 24 horas de antelación solo por WhatsApp.")]
     data["steps"], data["faq"] = steps, faq
-    data["desc"] = data["sub"][:158].rsplit(" ", 1)[0].rstrip(",—– ") + ("." if not data["sub"][:158].endswith(".") else "") if len(data["sub"]) > 158 else data["sub"]
+    data["desc"] = DESC[(lang, r)].format(d3=d3) if (lang, r) in DESC else fit_desc(data["sub"], UI[lang]["dtail"])
     return data
+
+# meta description (150-160 znaków) dla każdej trasy i języka
+DESC={
+('pl','kr'):"Prywatny transfer z lotniska Katowice-Pyrzowice pod adres w Krakowie. Stała cena od {d3} zł za auto, kierowca z tabliczką w hali przylotów, płatność u kierowcy.",
+('pl','zak'):"Bezpośredni transfer z lotniska Katowice-Pyrzowice do Zakopanego, bez przesiadki w Krakowie. Stała cena od {d3} zł za auto, odbiór 24/7, płatność u kierowcy.",
+('pl','kz'):"Prywatny przejazd Kraków – Zakopane od drzwi do drzwi, z hotelu pod pensjonat w Tatrach lub z powrotem. Stała cena od {d3} zł za auto, płatność u kierowcy.",
+('en','kr'):"Private transfer from Katowice Airport (KTW) to any address in Kraków. Fixed price from {d3} PLN per vehicle, meet & greet in arrivals, pay the driver.",
+('en','zak'):"Direct private transfer from Katowice Airport (KTW) to Zakopane, no change in Kraków. Fixed price from {d3} PLN per vehicle, 24/7 pick-up, pay the driver.",
+('en','kz'):"Door-to-door private transfer between Kraków and Zakopane, from your Kraków hotel to your Tatra accommodation or back. Fixed price from {d3} PLN per vehicle.",
+('de','kr'):"Privater Transfer vom Flughafen Kattowitz (KTW) zu jeder Adresse in Krakau. Festpreis ab {d3} PLN pro Fahrzeug, Abholung mit Namensschild, Zahlung beim Fahrer.",
+('de','zak'):"Direkter Privattransfer vom Flughafen Kattowitz (KTW) nach Zakopane, ohne Umsteigen in Krakau. Festpreis ab {d3} PLN pro Fahrzeug, Abholung rund um die Uhr.",
+('de','kz'):"Privater Transfer von Tür zu Tür zwischen Krakau und Zakopane – vom Hotel zu Ihrer Unterkunft in der Tatra oder zurück. Festpreis ab {d3} PLN pro Fahrzeug.",
+('fr','kr'):"Transfert privé de l'aéroport de Katowice (KTW) à votre adresse à Cracovie. Prix fixe dès {d3} PLN par véhicule, accueil avec pancarte, paiement au chauffeur.",
+('fr','zak'):"Transfert privé direct de l'aéroport de Katowice (KTW) à Zakopane, sans changement à Cracovie. Prix fixe dès {d3} PLN par véhicule, prise en charge 24h/24.",
+('fr','kz'):"Transfert privé porte à porte entre Cracovie et Zakopane, de votre hôtel à votre hébergement dans les Tatras ou retour. Prix fixe dès {d3} PLN par véhicule.",
+('it','kr'):"Transfer privato dall'aeroporto di Katowice (KTW) al tuo indirizzo a Cracovia. Prezzo fisso da {d3} PLN per veicolo, autista con cartello, pagamento a bordo.",
+('it','zak'):"Transfer privato diretto dall'aeroporto di Katowice (KTW) a Zakopane, senza cambi a Cracovia. Prezzo fisso da {d3} PLN per veicolo, servizio 24 ore su 24.",
+('it','kz'):"Transfer privato porta a porta tra Cracovia e Zakopane, dal tuo hotel all'alloggio nei Tatra o ritorno. Prezzo fisso da {d3} PLN per veicolo, pagamento a bordo.",
+('es','kr'):"Traslado privado del aeropuerto de Katowice (KTW) a su dirección en Cracovia. Precio fijo desde {d3} PLN por vehículo, recogida con cartel, pago al conductor.",
+('es','zak'):"Traslado privado directo del aeropuerto de Katowice (KTW) a Zakopane, sin transbordo en Cracovia. Precio fijo desde {d3} PLN por vehículo, servicio 24 horas.",
+('es','kz'):"Traslado privado puerta a puerta entre Cracovia y Zakopane, de su hotel a su alojamiento en los Tatras o de vuelta. Precio fijo desde {d3} PLN por vehículo.",
+}
+
+def fit_desc(text, tails):
+    # meta description 150-160 znaków: dokleja krótkie zdania z listy, a za długi tekst tnie na słowie
+    out = text
+    for t in tails:
+        if len(out) >= 150: break
+        if len(out) + 1 + len(t) <= 160: out = out + " " + t
+    if len(out) > 160:
+        out = out[:157].rsplit(" ", 1)[0].rstrip(",—–:; ") + "…"
+    return out
 
 BLOGKEYS = {"kr": ["krakow", "krakau", "cracov", "cracovie"], "zak": ["zakopane"], "kz": ["zakopane", "morskie", "krupowki"]}
 
@@ -332,10 +366,12 @@ def page(lang, r):
     rel_home = "index.html" if lang == "pl" else "./"
     alts = "\n".join(f'<link rel="alternate" hreflang="{l}" href="{url_of(l, r)}">' for l in LANGS) + f'\n<link rel="alternate" hreflang="x-default" href="{url_of("pl", r)}">'
     faq_ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in d["faq"]]}
-    svc_ld = {"@context": "https://schema.org", "@type": "TaxiService", "name": d["h1"], "url": url_of(lang, r),
-              "provider": {"@type": "LocalBusiness", "name": u["brand"], "url": DOMAIN + "/", "telephone": "+" + PHONE, "image": DOMAIN + "/images/vito.jpg"},
+    svc_ld = {"@context": "https://schema.org", "@type": "TaxiService", "@id": url_of(lang, r) + "#service", "name": d["h1"], "url": url_of(lang, r),
+              "serviceType": "Private transfer", "description": d["desc"], "inLanguage": lang,
+              "provider": {"@id": ORG["@id"]},
               "areaServed": [{"@type": "Place", "name": d["a"]}, {"@type": "City", "name": d["b"]}],
-              "offers": {"@type": "Offer", "price": str(p["d3"]), "priceCurrency": "PLN", "description": u["c3"] + ", " + u["day"].lower()}}
+              "offers": {"@type": "Offer", "price": str(p["d3"]), "priceCurrency": "PLN", "url": url_of(lang, r),
+                         "description": u["c3"] + ", " + u["day"].lower() + " — " + u["per"]}}
     bc_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
               {"@type": "ListItem", "position": 1, "name": u["home"], "item": home},
               {"@type": "ListItem", "position": 2, "name": d["h1"], "item": url_of(lang, r)}]}
@@ -364,6 +400,7 @@ def page(lang, r):
 <meta property="og:url" content="{url_of(lang, r)}">
 <meta property="og:image" content="{DOMAIN}/images/vito.jpg">
 <meta property="og:locale" content="{u['locale']}">
+<script type="application/ld+json">{json.dumps(ORG, ensure_ascii=False)}</script>
 <script type="application/ld+json">{json.dumps(svc_ld, ensure_ascii=False)}</script>
 <script type="application/ld+json">{json.dumps(faq_ld, ensure_ascii=False)}</script>
 <script type="application/ld+json">{json.dumps(bc_ld, ensure_ascii=False)}</script>

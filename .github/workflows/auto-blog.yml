@@ -28,6 +28,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # pełna historia: sitemap bierze lastmod z daty ostatniego commita pliku
 
       - uses: actions/setup-node@v4
         with:
@@ -45,6 +47,10 @@ jobs:
       - name: Sitemap
         if: always()
         run: node auto-blog/build-sitemap.mjs
+
+      - name: Kontrola SEO (canonical, hreflang, H1, title, description, JSON-LD)
+        if: always()
+        run: python3 auto-blog/seo_check.py || echo "::warning::seo_check.py zgłosił problemy — szczegóły w logu"
 
       - name: Zapisz zmiany w repozytorium
         if: always() && !inputs.mock
