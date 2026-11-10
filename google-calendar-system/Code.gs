@@ -40,7 +40,8 @@
 const CALENDAR_ID = "primary"; // Twój główny kalendarz Google
 const COMPANY_NAME = "Katowice Pyrzowice Airport Transfers";
 const COMPANY_PHONE = "+48 728 814 659";
-const OWNER_EMAIL = "przewoz@legendarykrakow.pl"; // Twój adres — tu przychodzi powiadomienie o KAŻDEJ nowej rezerwacji
+const OWNER_EMAIL = "office@vibekrakow.pl"; // skrzynka Vibe Krakow (SOR → zakładka Poczta) — tu przychodzi powiadomienie o KAŻDEJ nowej rezerwacji
+const OWNER_SUBJECT_TAG = "[KT-REZ]"; // stały znacznik w temacie — po nim SOR/robocik i filtry rozpoznają rezerwacje z krakow-transfers.com
 
 // Klucz API do sprawdzania skąd leci dany numer lotu (opcjonalne — zostaw puste, żeby wyłączyć).
 // Załóż darmowe konto na aviationstack.com -> Dashboard -> "Your API Access Key" -> wklej poniżej.
@@ -144,27 +145,41 @@ function sendOwnerNotification(data, title, flightOrigin) {
     ? Utilities.formatDate(new Date(data.datetime), Session.getScriptTimeZone(), "dd.MM.yyyy HH:mm")
     : "-";
 
+  const name = `${data.firstName || ""} ${data.lastName || ""}`.trim() || "-";
+  const address = data.notes ? String(data.notes).replace(/^Adres:\s*/, "") : "";
+
+  // Stały format: każda linia "POLE: wartość", zawsze te same pola w tej samej kolejności
+  // (puste = "-"), żeby rezerwację dało się automatycznie przenieść do SOR.
   const body = [
-    `Nowa rezerwacja: ${title}`,
+    `ZRODLO: krakow-transfers.com`,
+    `DATA: ${dateStr}`,
+    `TRASA: ${data.route || "-"}`,
+    `OSOBY: ${data.passengers || "-"}`,
+    `POJAZD: ${data.vehicle || "-"}`,
+    `CENA: ${data.price || "-"}`,
+    `PLATNOSC: u kierowcy (gotówka/karta)`,
+    `LOT: ${data.flightNo || "-"}${flightOrigin ? ` (skąd: ${flightOrigin})` : ""}`,
+    `ADRES: ${address || "-"}`,
+    `KLIENT: ${name}`,
+    `TELEFON: ${data.phone || "-"}`,
+    `EMAIL: ${data.email || "-"}`,
+    `JEZYK: ${data.lang || "-"}`,
     ``,
-    `Imię i nazwisko: ${data.firstName || ""} ${data.lastName || ""}`,
-    `E-mail klienta: ${data.email || "-"}`,
-    `Telefon: ${data.phone || "-"}`,
-    `Numer lotu: ${data.flightNo || "-"}${flightOrigin ? ` — skąd: ${flightOrigin}` : ""}`,
-    `Trasa: ${data.route || "-"}`,
-    `Data i godzina: ${dateStr}`,
-    `Pojazd/liczba osób: ${data.vehicle || "-"}`,
-    `Cena: ${data.price || "-"}`,
-    `Płatność: u kierowcy (gotówka/karta)`,
-    `Uwagi: ${data.notes || "-"}`,
-    `Język rezerwacji: ${data.lang || "-"}`,
+    `Odpowiedź na tego maila trafi bezpośrednio do klienta (jeśli podał e-mail).`,
   ].join("\n");
 
-  MailApp.sendEmail({
+  const shortDate = data.datetime
+    ? Utilities.formatDate(new Date(data.datetime), Session.getScriptTimeZone(), "dd.MM HH:mm")
+    : "brak daty";
+
+  const mail = {
     to: OWNER_EMAIL,
-    subject: `Nowa rezerwacja — ${data.firstName || ""} ${data.lastName || ""} (${data.route || "trasa nieokreślona"})`,
+    subject: `${OWNER_SUBJECT_TAG} ${shortDate} ${data.route || "trasa nieokreślona"} — ${data.passengers || "?"} os. — ${name}`,
     body: body,
-  });
+    name: "Kraków Transfers – rezerwacja",
+  };
+  if (data.email) mail.replyTo = data.email;
+  MailApp.sendEmail(mail);
 }
 
 function sendConfirmationEmail(data, flightOrigin) {

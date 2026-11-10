@@ -1512,7 +1512,7 @@ bookingForm.addEventListener('submit', (e)=>{
       body: JSON.stringify({
         firstName: fName, lastName: lName, phone: cleanPhone, email: email, flightNo: flightNo,
         route: directionLabel, vehicle: vehicleLabel, price: priceLabel,
-        datetime: datetime, notes: address ? `Adres: ${address}` : '', lang: lang
+        datetime: datetime, passengers: passengers, notes: address ? `Adres: ${address}` : '', lang: lang
       })
     }).catch(()=>{ /* ciche niepowodzenie — WhatsApp i tak zadziała */ });
   }
