@@ -65,3 +65,8 @@ jobs:
           git diff --cached --quiet && { echo "Brak zmian"; exit 0; }
           git commit -m "Auto: blog $(date -u +%F)"
           git push
+
+      - name: IndexNow (Bing) – strony zmienione w ostatniej dobie
+        if: always() && !inputs.mock
+        continue-on-error: true
+        run: node auto-blog/indexnow.mjs 26
