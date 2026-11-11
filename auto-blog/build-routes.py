@@ -4,6 +4,7 @@
 import json, os, re, html, glob, urllib.parse, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import routes_extra as X  # trasy bez cennika (cena na zapytanie)
+import route_guides as G  # sekcje poradnikowe pod główne frazy
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOMAIN = "https://krakow-transfers.com"
@@ -131,8 +132,8 @@ def R(lang, r):
     },
     "en": {
      "kr": dict(a="Katowice Airport (Pyrzowice)", b="Kraków", km="110 km", t="approx. 1.5 hr",
-        title="Katowice Airport to Kraków Transfer" + " | " + BRAND,
-        h1="Private transfer from Katowice Airport to Kraków",
+        title="Katowice Airport Transfer to Kraków" + " | " + BRAND,
+        h1="Katowice Airport transfer to Kraków",
         sub=f"Door-to-door ride from Katowice-Pyrzowice Airport (KTW) to your hotel, apartment or office in Kraków. Fixed price from {d3} {c} per vehicle — your driver meets you in the arrivals hall."),
      "zak": dict(a="Katowice Airport (Pyrzowice)", b="Zakopane", km="approx. 200 km", t="3+ hours",
         title="Katowice Airport to Zakopane Transfer" + " | " + BRAND,
@@ -403,6 +404,10 @@ def page(lang, r):
     if d.get("about"):
         about_html = (f'<section id="about"><div class="wrap"><div class="section-head"><h2>{esc(x["about"])}</h2></div><div class="rt-about">'
                       + "".join(f'<h3>{esc(h)}</h3><p>{esc(t)}</p>' for h, t in d["about"]) + '</div></div></section>')
+    g = G.GUIDES.get((lang, r))
+    if g:
+        about_html += (f'<section id="guide"><div class="wrap"><div class="section-head"><h2>{esc(g[0])}</h2></div><div class="rt-about">'
+                       + "".join(f'<h3>{esc(h)}</h3><p>{esc(t)}</p>' for h, t in g[1]) + '</div></div></section>')
     if priced:
         price_html = f"""<div class="section-head"><h2>{u['pricet']}: {esc(d['a'])} ↔ {esc(d['b'])}</h2></div>
     <div class="price-table-wrap"><table class="price-table">
