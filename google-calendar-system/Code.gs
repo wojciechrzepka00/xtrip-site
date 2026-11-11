@@ -31,8 +31,8 @@
  *    zrób DRUGIE wdrożenie tego samego kodu z dostępem "Każdy",
  *    i ten adres wklej do zmiennej BOOKING_ENDPOINT w index.html strony.
  *
- * UWAGA o mailach: GmailApp.sendEmail wysyła z Twojego konta Gmail jako office@vibekrakow.pl
- * (alias "Wyślij jako" w Gmailu przez SMTP MyDevil). Liczy się do limitu Google
+ * UWAGA o mailach: wysyłka idzie z office@vibekrakow.pl przez serwer Vibe (wyslijZVibe);
+ * awaryjnie MailApp z konta Google, który liczy się do limitu Google
  * Workspace i liczy się do dziennego limitu (100 maili/dzień na zwykłym
  * koncie Gmail, więcej na Google Workspace) — dla startu w zupełności
  * wystarczy, ale warto o tym pamiętać przy większej skali.
@@ -42,7 +42,31 @@ const CALENDAR_ID = "primary"; // Twój główny kalendarz Google
 const COMPANY_NAME = "Katowice Pyrzowice Airport Transfers";
 const COMPANY_PHONE = "+48 728 814 659";
 const OWNER_EMAIL = "office@vibekrakow.pl"; // skrzynka Vibe Krakow (SOR → zakładka Poczta) — tu przychodzi powiadomienie o KAŻDEJ nowej rezerwacji
-const SENDER_EMAIL = "office@vibekrakow.pl"; // nadawca wszystkich maili (alias "Wyślij jako" w Gmailu, SMTP MyDevil)
+const SENDER_EMAIL = "office@vibekrakow.pl"; // nadawca wszystkich maili
+// Maile idą przez serwer pocztowy Vibe (MyDevil) — funkcja Netlify vibe-mail-mcp, nie przez Gmaila.
+const VIBE_MAIL_URL = "https://vibe-mail-mcp.netlify.app/rezerwacja-mail";
+const VIBE_MAIL_KEY = "WKLEJ_KLUCZ"; // klucz tylko w Apps Script, nie w publicznym repo
+
+// Wysyła maila z office@vibekrakow.pl. Gdyby serwer Vibe nie odpowiedział — awaryjnie z Gmaila (MailApp),
+// żeby żadna rezerwacja nie przepadła.
+function wyslijZVibe(m) {
+  try {
+    const res = UrlFetchApp.fetch(VIBE_MAIL_URL, {
+      method: "post", contentType: "application/json", headers: { "x-token": VIBE_MAIL_KEY },
+      payload: JSON.stringify(m), muteHttpExceptions: true,
+    });
+    const out = JSON.parse(res.getContentText() || "{}");
+    if (out.ok) return;
+    console.error("Vibe SMTP błąd:", res.getResponseCode(), res.getContentText());
+  } catch (err) {
+    console.error("Vibe SMTP niedostępny:", err.message);
+  }
+  const fb = { to: m.to, subject: m.subject, name: m.name };
+  if (m.html) fb.htmlBody = m.html; else fb.body = m.text;
+  if (m.replyTo) fb.replyTo = m.replyTo;
+  else fb.replyTo = SENDER_EMAIL;
+  MailApp.sendEmail(fb);
+}
 const OWNER_SUBJECT_TAG = "[KT-REZ]"; // stały znacznik w temacie — po nim SOR/robocik i filtry rozpoznają rezerwacje z krakow-transfers.com
 
 // Klucz API do sprawdzania skąd leci dany numer lotu (opcjonalne — zostaw puste, żeby wyłączyć).
@@ -179,12 +203,9 @@ function sendOwnerNotification(data, title, flightOrigin) {
     subject: `${OWNER_SUBJECT_TAG} ${shortDate} ${data.route || "trasa nieokreślona"} — ${data.passengers || "?"} os. — ${name}`,
     body: body,
     name: "Kraków Transfers – rezerwacja",
-    from: SENDER_EMAIL,
   };
   if (data.email) mail.replyTo = data.email;
-  const opts = { name: mail.name, from: mail.from };
-  if (mail.replyTo) opts.replyTo = mail.replyTo;
-  GmailApp.sendEmail(mail.to, mail.subject, mail.body, opts);
+  wyslijZVibe({ to: mail.to, subject: mail.subject, text: mail.body, name: mail.name, replyTo: mail.replyTo });
 }
 
 function sendConfirmationEmail(data, flightOrigin) {
@@ -230,12 +251,7 @@ function sendConfirmationEmail(data, flightOrigin) {
     </div>
   `;
 
-  GmailApp.sendEmail(data.email, `${L.subject} — ${COMPANY_NAME}`, "", {
-    htmlBody: htmlBody,
-    from: SENDER_EMAIL,
-    name: COMPANY_NAME,
-    replyTo: SENDER_EMAIL,
-  });
+  wyslijZVibe({ to: data.email, subject: `${L.subject} — ${COMPANY_NAME}`, html: htmlBody, name: COMPANY_NAME, zapisz: true });
 }
 
 function doGet(e) {
@@ -257,9 +273,3 @@ function getUpcomingEvents() {
   }));
 }
 
-// Uruchom raz ręcznie w edytorze, żeby nadać uprawnienia Gmaila i sprawdzić alias nadawcy.
-function sprawdzNadawce() {
-  const aliasy = GmailApp.getAliases();
-  console.log("Aliasy: " + aliasy.join(", "));
-  if (aliasy.indexOf(SENDER_EMAIL) === -1) throw new Error("Brak aliasu " + SENDER_EMAIL + " w Gmailu");
-}
