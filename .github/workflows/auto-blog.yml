@@ -44,6 +44,10 @@ jobs:
           BLOG_MOCK: ${{ inputs.mock && '1' || '0' }}
         run: node auto-blog/generate-article.mjs
 
+      - name: Linkowanie wewnętrzne (artykuły ↔ podstrony tras)
+        if: always() && !inputs.mock
+        run: python3 auto-blog/link-routes.py && python3 auto-blog/build-routes.py
+
       - name: Sitemap
         if: always()
         run: node auto-blog/build-sitemap.mjs

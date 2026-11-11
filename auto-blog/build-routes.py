@@ -326,23 +326,20 @@ def fit_desc(text, tails):
         out = out[:157].rsplit(" ", 1)[0].rstrip(",—–:; ") + "…"
     return out
 
-BLOGKEYS = {"kr": ["krakow", "krakau", "cracov", "cracovie"], "zak": ["zakopane"], "kz": ["zakopane", "morskie", "krupowki"]}
+import route_topics as RT  # dopasowanie artykułów do tras po temacie (wspólne z link-routes.py)
 
-NEWKEYS = {"krk": [], "krkzak": ["zakopane"], "osw": ["auschwitz"], "wiel": ["wieliczka"], "ener": ["energylandia"]}
-
-def articles(lang, r):
+def articles(lang, r, n=6):
+    """Najlepiej pasujące artykuły w tym języku (temat oceniany na wersji PL), max n."""
     d = "blog" if lang == "pl" else f"blog/{lang}"
-    files = sorted(os.path.basename(f) for f in glob.glob(os.path.join(ROOT, d, "*.html")))
     out = []
-    for f in files:
-        if (any(k in f for k in NEWKEYS[r]) if r in NEWKEYS else
-            (any(k in f for k in BLOGKEYS[r]) and "pyrzow" in f or (r == "kz" and any(k in f for k in ["morskie", "krupowki", "kasprowy"])) or (r != "kz" and ("pyrzowice-" + ("krak" if r == "kr" else "zakop")) in f))):
-            t = re.search(r"<title>(.*?)</title>", open(os.path.join(ROOT, d, f), encoding="utf-8").read(), re.S)
-            if t: out.append((DOMAIN + "/" + d + "/" + f, html.unescape(t.group(1)).split(" | ")[0]))
-    seen, uniq = set(), []
-    for u, t in out:
-        if u not in seen: seen.add(u); uniq.append((u, t))
-    return uniq[:3]
+    for f in sorted(glob.glob(os.path.join(ROOT, d, "*.html"))):
+        rel = os.path.relpath(f, ROOT)
+        s = RT.post_scores(rel)
+        if s[r] <= 0 or r not in RT.routes_for(rel): continue
+        t = re.search(r"<title>(.*?)</title>", open(f, encoding="utf-8").read(), re.S)
+        if t: out.append((-s[r], DOMAIN + "/" + rel, html.unescape(t.group(1)).split(" | ")[0]))
+    out.sort()
+    return [(u, t) for _, u, t in out[:n]]
 
 WA_SVG = re.search(r'(<svg viewBox="0 0 24 24" fill="#08331b">.*?</svg>)', SRC, re.S).group(1)
 

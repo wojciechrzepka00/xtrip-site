@@ -206,6 +206,13 @@ async function proposeTopic(history) {
     "Morskie Oko: wejściówki do parku i dorożki — co trzeba wiedzieć przed wyjazdem",
     "Taksówka czy transfer z lotniska Katowice do Krakowa — co wybrać i na co uważać",
     "Lotnisko Katowice czy Kraków-Balice — które wybrać, jadąc do Zakopanego",
+    // Trasy z najmniejszą liczbą artykułów (W, 11.2026: klastry tematyczne pod podstrony tras)
+    "Z lotniska Kraków-Balice do centrum Krakowa — pociąg, taksówka czy prywatny transfer",
+    "Kraków – Kopalnia Soli Wieliczka: jak dojechać i ile czasu zaplanować na zwiedzanie",
+    "Kraków – Auschwitz-Birkenau: jak dojechać do Oświęcimia i zaplanować cały dzień",
+    "Z lotniska Kraków-Balice prosto do Zakopanego — jak zaplanować przejazd w góry",
+    "Energylandia w Zatorze z dziećmi — dojazd z Krakowa i z lotniska Katowice",
+    "Przylot do Katowic i nocleg w Krakowie — pierwsze godziny w mieście krok po kroku",
   ];
   for (const t of PRIORYTET) {
     const twin = closestInHistory(t, history);
