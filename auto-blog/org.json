@@ -11,7 +11,7 @@
   "email": "przewoz@legendarykrakow.pl",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "ul. Klonowica 24/123",
+    "streetAddress": "ul. Klonowica 24/124",
     "postalCode": "30-654",
     "addressLocality": "Kraków",
     "addressCountry": "PL"
