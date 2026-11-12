@@ -68,7 +68,7 @@ def url_of(rel): return DOMAIN + "/" + rel
 def J(o): return json.dumps(o, ensure_ascii=False).replace("</", "<\\/")
 
 auto = {p["url"] for p in json.load(open("posts.json", encoding="utf-8"))}
-files = sorted(set(glob.glob("blog/**/*.html", recursive=True)) - auto)
+files = sorted(f for f in set(glob.glob("blog/**/*.html", recursive=True)) - auto if "<!--redirect-->" not in open(f, encoding="utf-8").read(200))
 n = 0
 for rel in files:
     s = open(rel, encoding="utf-8").read()

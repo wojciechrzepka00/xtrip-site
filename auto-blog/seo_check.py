@@ -18,6 +18,7 @@ def pages():
         for f in files:
             if f.endswith(".html") and f not in SKIP_FILES:
                 fp = os.path.join(d, f)
+                if "<!--redirect-->" in open(fp, encoding="utf-8").read(200): continue  # stare adresy -> redirects.json
                 rel = os.path.relpath(fp, ROOT).replace(os.sep, "/")
                 yield rel, fp
 

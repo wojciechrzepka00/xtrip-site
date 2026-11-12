@@ -78,7 +78,11 @@ def routes_for(path, n=4):
     return picked
 
 def blog_files():
-    return sorted(os.path.relpath(f, ROOT) for f in glob.glob(os.path.join(ROOT, "blog", "**", "*.html"), recursive=True))
+    return sorted(os.path.relpath(f, ROOT) for f in glob.glob(os.path.join(ROOT, "blog", "**", "*.html"), recursive=True) if not is_redirect(f))
+
+def is_redirect(f):
+    """Strony-przekierowania (stare adresy usuniętych wpisów, redirects.json) – pomijane przez skrypty."""
+    with open(f, encoding="utf-8") as fh: return "<!--redirect-->" in fh.read(200)
 
 def lang_of(path):
     p = path.split("/")

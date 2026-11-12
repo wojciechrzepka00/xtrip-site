@@ -335,6 +335,7 @@ def articles(lang, r, n=6):
     out = []
     for f in sorted(glob.glob(os.path.join(ROOT, d, "*.html"))):
         rel = os.path.relpath(f, ROOT)
+        if RT.is_redirect(f): continue
         s = RT.post_scores(rel)
         if s[r] <= 0 or r not in RT.routes_for(rel): continue
         t = re.search(r"<title>(.*?)</title>", open(f, encoding="utf-8").read(), re.S)

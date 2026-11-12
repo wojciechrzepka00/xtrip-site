@@ -31,7 +31,8 @@ function walk(dir) {
     if (e.isDirectory()) {
       if (SKIP.has(e.name)) continue;
       walk(path.join(dir, e.name));
-    } else if (e.isFile() && e.name.endsWith(".html") && !SKIP_FILES.has(e.name)) {
+    } else if (e.isFile() && e.name.endsWith(".html") && !SKIP_FILES.has(e.name)
+               && !fs.readFileSync(path.join(dir, e.name), "utf8").slice(0, 200).includes("<!--redirect-->")) {
       let rel = path.relative(ROOT, path.join(dir, e.name)).split(path.sep).join("/");
       // index.html -> katalog; reszta -> pełna ścieżka
       let loc = rel === "index.html" ? "/" : rel.endsWith("/index.html") ? "/" + rel.slice(0, -"index.html".length) : "/" + rel;
