@@ -860,7 +860,7 @@
       <div class="form-row">
         <div class="form-field">
           <label for="datetime" data-i18n="label_datetime">Date & time</label>
-          <input type="datetime-local" id="datetime">
+          <input type="datetime-local" id="datetime" required>
         </div>
         <div class="form-field">
           <label for="phone" data-i18n="label_phone">Phone number (WhatsApp)</label>
@@ -1572,6 +1572,7 @@ bookingForm.addEventListener('submit', (e)=>{
   e.preventDefault();
 
   const datetime = document.getElementById('datetime').value;
+  if(!datetime){ const dt=document.getElementById('datetime'); dt.focus(); dt.reportValidity && dt.reportValidity(); return; }
   const hrs = hoursUntil(datetime);
   if(hrs !== null && hrs < 24){
     // Rezerwacja poniżej 24h — blokujemy standardowy formularz, kierujemy na bezpośredni WhatsApp
