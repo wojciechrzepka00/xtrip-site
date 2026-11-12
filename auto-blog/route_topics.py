@@ -6,7 +6,7 @@ import os, re, html, glob, json, unicodedata
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOMAIN = "https://krakow-transfers.com"
 ROUTE_LANGS = ["pl", "en", "de", "fr", "it", "es"]
-ORDER = ["kr", "zak", "kz", "krk", "krkzak", "osw", "wiel", "ener"]
+ORDER = ["kr", "zak", "kz", "krk", "krkzak", "osw", "wiel", "ener", "bialka", "bus"]
 DEFAULT = ["kr", "zak", "kz"]
 
 def norm(s):
@@ -25,6 +25,8 @@ C = {
     "osw": r"auschwitz|oswiecim|birkenau",
     "wiel": r"wielicz|kopalni",
     "ener": r"energyland|zator",
+    "bialka": r"bialk",
+    "bus": r"przewoz osob|wynajem busa|bus z kierowca|wesel|konferencj|wycieczk[a-z]* szkoln|grup[a-z]* zorganizowan",
 }
 
 def concepts(text):
@@ -41,6 +43,8 @@ def _route_scores(c):
         "osw": c["osw"] * 2,
         "wiel": c["wiel"] * 2,
         "ener": c["ener"] * 2,
+        "bialka": c["bialka"] * 2,
+        "bus": c["bus"] * 2,
     }
 
 def score(title, body):
