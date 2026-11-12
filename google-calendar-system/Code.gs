@@ -67,6 +67,87 @@ function wyslijZVibe(m) {
   else fb.replyTo = SENDER_EMAIL;
   MailApp.sendEmail(fb);
 }
+// ==== SOR (logistyka.przewoz-osob-krakow.pl) — każda rezerwacja zakładana automatycznie ====
+// Klucz API NIE jest w kodzie: Apps Script → Ustawienia projektu → Właściwości skryptu → KT_API_KEY
+const SOR_ENDPOINT = "https://logistyka.przewoz-osob-krakow.pl/api/rezerwacje";
+const SOR_LOTNISKO = "Lotnisko Katowice-Pyrzowice (KTW)";
+const SOR_AUTA = { cap_3: "Sedan", cap_8: "Van", cap_20: "Minibus", cap_30: "Minibus", cap_60: "Minibus" };
+const SOR_MIASTA = { krakow: "Kraków", zakopane: "Zakopane" };
+
+function sorPayload(data, flightOrigin) {
+  const dt = String(data.datetime || "");
+  const adres = data.address || (data.notes ? String(data.notes).replace(/^Adres:\s*/, "") : "");
+  const miasto = SOR_MIASTA[data.city] || data.city || "";
+  let skad = "", dokad = "", odbior = "";
+  if (data.routeType === "airport") {
+    if (data.direction === "to_airport") { skad = miasto; dokad = SOR_LOTNISKO; odbior = adres ? `${miasto}, ${adres}` : miasto; }
+    else { skad = SOR_LOTNISKO; dokad = adres ? `${miasto}, ${adres}` : miasto; odbior = SOR_LOTNISKO; }
+  } else if (data.routeType) {
+    const kz = data.kzDirection === "zakopane_to_krakow";
+    skad = kz ? "Zakopane" : "Kraków"; dokad = kz ? "Kraków" : "Zakopane";
+    odbior = adres ? `${skad}, ${adres}` : skad;
+  }
+  const cena = Number(data.priceValue) || 0;
+  const uwagi = [
+    "Rezerwacja ze strony krakow-transfers.com",
+    `Trasa (formularz): ${data.route || "-"}`,
+    adres ? `Adres: ${adres}` : "",
+    flightOrigin ? `Lot z: ${flightOrigin}` : "",
+    cena ? "" : "CENA NA ZAPYTANIE — ustal z klientem",
+    "Płatność: u kierowcy (gotówka/karta)",
+  ].filter(Boolean).join("\n");
+  const p = {
+    data: dt.slice(0, 10),
+    godzina: dt.slice(11, 16),
+    liczba_osob: parseInt(data.passengers, 10) || 1,
+    cena: cena,
+    waluta: "PLN",
+    imie_nazwisko: `${data.firstName || ""} ${data.lastName || ""}`.trim() || "-",
+    skad: skad || data.route || "",
+    dokad: dokad,
+    adres_odbioru: odbior,
+    numer_lotu: data.flightNo || "",
+    typ_auta: SOR_AUTA[data.vehicleCode] || data.vehicle || "",
+    telefon: data.phone || "",
+    email: data.email || "",
+    uwagi: uwagi,
+    jezyk: data.lang || "",
+    oplacone: false,
+    zewnetrzny_id: `KT-WEB-${dt}-${String(data.phone || "").replace(/\D/g, "")}`,
+  };
+  Object.keys(p).forEach(k => { if (p[k] === "") delete p[k]; });
+  return p;
+}
+
+// Zakłada rezerwację w SOR. Zwraca krótki opis wyniku (trafia do maila [KT-REZ]); nigdy nie przerywa rezerwacji.
+function wyslijDoSOR(data, flightOrigin) {
+  const key = PropertiesService.getScriptProperties().getProperty("KT_API_KEY");
+  if (!key) return "SOR: brak klucza KT_API_KEY w ustawieniach skryptu — nie wysłano";
+  try {
+    const res = UrlFetchApp.fetch(SOR_ENDPOINT, {
+      method: "post", contentType: "application/json", headers: { "X-API-Key": key },
+      payload: JSON.stringify(sorPayload(data, flightOrigin)), muteHttpExceptions: true,
+    });
+    const code = res.getResponseCode();
+    let out = {}; try { out = JSON.parse(res.getContentText() || "{}"); } catch (e) {}
+    if (code === 201) return `SOR: założona rezerwacja #${out.reservation_id}` + (out.price_pln ? ` (${out.price_pln} zł)` : "");
+    if (code === 200 && out.status === "exists") return `SOR: rezerwacja już była (#${out.reservation_id}) — duplikat zgłoszenia`;
+    return `SOR: BŁĄD HTTP ${code} — ${res.getContentText().slice(0, 300)} — ZAŁÓŻ RĘCZNIE`;
+  } catch (err) {
+    return `SOR: BŁĄD połączenia — ${err.message} — ZAŁÓŻ RĘCZNIE`;
+  }
+}
+
+// Test ręczny z edytora (tworzy prawdziwą rezerwację w SOR — potem ją usuń).
+function testSOR() {
+  console.log(wyslijDoSOR({
+    firstName: "TEST", lastName: "Claude (usunąć)", phone: "+48539004008", email: "office@vibekrakow.pl",
+    flightNo: "FR1234", route: "Z lotniska do miasta (Kraków)", routeType: "airport", city: "krakow",
+    direction: "from_airport", address: "Rynek Główny 1", passengers: "2", vehicleCode: "cap_3",
+    priceValue: 250, datetime: "2026-12-31T12:00", lang: "pl",
+  }, null));
+}
+
 const OWNER_SUBJECT_TAG = "[KT-REZ]"; // stały znacznik w temacie — po nim SOR/robocik i filtry rozpoznają rezerwacje z krakow-transfers.com
 
 // Klucz API do sprawdzania skąd leci dany numer lotu (opcjonalne — zostaw puste, żeby wyłączyć).
@@ -148,8 +229,11 @@ function doPost(e) {
 
     cal.createEvent(title, start, end, { description: description });
 
+    // Rezerwacja w SOR (wynik dopisany do maila [KT-REZ])
+    const sorWynik = wyslijDoSOR(data, flightOrigin);
+
     // Powiadomienie do Ciebie — wysyłane zawsze, niezależnie od tego, czy klient podał e-mail
-    sendOwnerNotification(data, title, flightOrigin);
+    sendOwnerNotification(data, title, flightOrigin, sorWynik);
 
     // Potwierdzenie dla klienta — tylko jeśli podał e-mail
     if (data.email) {
@@ -166,7 +250,7 @@ function doPost(e) {
   }
 }
 
-function sendOwnerNotification(data, title, flightOrigin) {
+function sendOwnerNotification(data, title, flightOrigin, sorWynik) {
   const dateStr = data.datetime
     ? Utilities.formatDate(new Date(data.datetime), Session.getScriptTimeZone(), "dd.MM.yyyy HH:mm")
     : "-";
@@ -190,6 +274,8 @@ function sendOwnerNotification(data, title, flightOrigin) {
     `TELEFON: ${data.phone || "-"}`,
     `EMAIL: ${data.email || "-"}`,
     `JEZYK: ${data.lang || "-"}`,
+    ``,
+    sorWynik || "SOR: nie wysłano",
     ``,
     `Odpowiedź na tego maila trafi bezpośrednio do klienta (jeśli podał e-mail).`,
   ].join("\n");

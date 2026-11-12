@@ -1658,7 +1658,9 @@ bookingForm.addEventListener('submit', (e)=>{
       body: JSON.stringify({
         firstName: fName, lastName: lName, phone: cleanPhone, email: email, flightNo: flightNo,
         route: directionLabel, vehicle: vehicleLabel, price: priceLabel,
-        datetime: datetime, passengers: passengers, notes: address ? `Adres: ${address}` : '', lang: lang
+        datetime: datetime, passengers: passengers, notes: address ? `Adres: ${address}` : '', lang: lang,
+        routeType: routeType, city: city, direction: direction, kzDirection: kzDirection, address: address,
+        vehicleCode: calc.vehicle, priceValue: calc.price || null
       })
     }).catch(()=>{ /* ciche niepowodzenie — wpis i tak trafia lokalnie w formularzu */ });
 
