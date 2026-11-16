@@ -468,9 +468,11 @@ async function main() {
       repairs++;
       try {
         const art = await writeArticle(topicKey, lang);
-        for (const bad of existing) { if (fs.existsSync(bad.url)) fs.unlinkSync(bad.url); }
         posts = posts.filter((p) => !existing.includes(p));
         addVersion(posts, topicKey, date, lang, art);
+        // stary adres nie może dawać 404 w Google – zamiast kasować, zostawiamy przekierowanie do nowej wersji
+        const fresh = posts.find((p) => p.topicKey === topicKey && p.lang === lang.code);
+        for (const bad of existing) { if (fs.existsSync(bad.url) && fresh && fresh.url !== bad.url) przekieruj(bad.url, fresh.url); }
         changed = true;
       } catch (e) { failures++; console.error(`  [${lang.code}] BŁĄD: ${e.message}`); }
     }
@@ -513,3 +515,12 @@ async function main() {
 }
 
 main().catch((err) => { console.error(err.message || err); process.exit(1); });
+
+// Strona-przekierowanie dla usuniętego adresu (+ wpis w redirects.json, pomijana przez mapę i kontrolę SEO).
+function przekieruj(oldPath, newPath) {
+  const url = "https://krakow-transfers.com/" + newPath.replace(/^\.?\//, "");
+  fs.writeFileSync(oldPath, `<!DOCTYPE html><!--redirect-->\n<html><head><meta charset="utf-8"><title>Moved</title>\n<link rel="canonical" href="${url}"><meta name="robots" content="noindex,follow">\n<meta http-equiv="refresh" content="0; url=${url}">\n<script>location.replace("${url}")</script></head>\n<body><p><a href="${url}">${url}</a></p></body></html>\n`);
+  let red = {}; try { red = JSON.parse(fs.readFileSync("redirects.json", "utf8")); } catch {}
+  red[oldPath.replace(/^\.?\//, "")] = newPath.replace(/^\.?\//, "");
+  fs.writeFileSync("redirects.json", JSON.stringify(red, null, 1) + "\n");
+}
