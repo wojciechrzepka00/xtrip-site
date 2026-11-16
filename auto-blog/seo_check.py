@@ -8,7 +8,7 @@ from collections import defaultdict
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOMAIN = "https://krakow-transfers.com"
 SKIP_DIRS = {"payments-backend", "auto-blog", "google-calendar-system", ".github", "node_modules", ".git", "images"}
-SKIP_FILES = {"index-preview.html"}
+SKIP_FILES = {"index-preview.html", "404.html"}
 TITLE_MIN, TITLE_MAX = 30, 65      # target ~50-60
 DESC_MIN, DESC_MAX = 120, 160      # target 150-160
 

@@ -7,7 +7,7 @@ import { execFileSync } from "child_process";
 const DOMAIN = "https://krakow-transfers.com";
 const ROOT = process.cwd();
 const SKIP = new Set(["payments-backend", "auto-blog", "google-calendar-system", ".github", "node_modules", ".git"]);
-const SKIP_FILES = new Set(["index-preview.html"]);
+const SKIP_FILES = new Set(["index-preview.html", "404.html"]);
 
 // lastmod: data z treści (JSON-LD dateModified artykułu), potem data ostatniego commita pliku w git,
 // na końcu mtime. Sam mtime w GitHub Actions = czas checkoutu (codziennie "dziś"), więc Google by go ignorował.
