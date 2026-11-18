@@ -368,6 +368,20 @@ EXTRA_CSS = """
 
 def esc(s): return html.escape(s, quote=True)
 
+# Zakopane routes: link to Vibe Krakow's audio-guide day trips (sister brand), in the page language where it exists
+AUDIO_TXT = {
+    "pl": "Zakopane z audioprzewodnikiem w 40 językach", "en": "Zakopane day trips with an audio guide in 40 languages",
+    "de": "Zakopane-Tagesausflug mit Audioguide in 40 Sprachen", "es": "Zakopane con audioguía en 40 idiomas",
+    "fr": "Zakopane avec audioguide en 40 langues", "it": "Zakopane con audioguida in 40 lingue",
+    "ar": "زاكوباني مع دليل صوتي بـ40 لغة", "uk": "Закопане з аудіогідом 40 мовами",
+}
+def audio_link(lang, r):
+    if "zakopane" not in str(r).lower() and "zakopane" not in path_of(lang, r).lower():
+        return ""
+    l = lang if lang in AUDIO_TXT else "en"
+    pre = "" if l == "en" else l + "/"
+    return f' · <a href="https://vibekrakow.pl/{pre}guides/audio-guide-tours-from-krakow.html">{AUDIO_TXT[l]}</a>'
+
 def page(lang, r):
     u, d = UI[lang], R(lang, r)
     priced = r in P
@@ -514,7 +528,7 @@ def page(lang, r):
 <footer>
   <div class="wrap footer-row">
     <div>Wojciech Rzepka — Xtrip · {u['rights']} © 2026</div>
-    <div>{langs_html} · <a href="{DOMAIN}/blog.html">Blog</a> · <a href="https://vibekrakow.pl/">Day trips from Kraków – Vibe Krakow</a></div>
+    <div>{langs_html} · <a href="{DOMAIN}/blog.html">Blog</a> · <a href="https://vibekrakow.pl/">Day trips from Kraków – Vibe Krakow</a>{audio_link(lang, r)}</div>
   </div>
 </footer>
 </body>
