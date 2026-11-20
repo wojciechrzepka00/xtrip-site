@@ -1,0 +1,39 @@
+# Kraków Transfers (Xtrip)
+
+> Kraków Transfers is a private door-to-door transfer service in southern Poland run by Wojciech Rzepka Xtrip: Katowice-Pyrzowice Airport (KTW) and Kraków-Balice Airport (KRK) to Kraków, Zakopane and Białka Tatrzańska, plus transfers from Kraków to Auschwitz, Wieliczka and Energylandia, and minibus hire with a driver.
+
+- Booking: online form with a live price calculator on the home page; bookings less than 24 hours ahead go through WhatsApp
+- Contact: office@vibekrakow.pl
+- Pricing: fixed prices per vehicle, day and night rates, +25% on 24–26 December
+- Languages: Polish (default) and /en/, /de/, /es/, /fr/, /it/, /uk/, /ar/, /mt/
+
+## Routes (English)
+
+- [Energylandia Transfer from Kraków or Katowice](https://krakow-transfers.com/en/energylandia-transfer-krakow-katowice.html): Private transfer to Energylandia in Zator from your Kraków hotel or straight from Katowice Airport (KTW). Family-friendly, door to door, fixed price.
+- [Katowice Airport to Kraków & Zakopane](https://krakow-transfers.com/en/): Private and group transfers from Katowice Airport (KTW) to Kraków and Zakopane. Fixed price from 600 PLN per vehicle, your driver waits in arrivals, 24/7.
+- [Katowice Airport to Białka Tatrzańska Transfer](https://krakow-transfers.com/en/katowice-airport-to-bialka-tatrzanska-transfer.html): Private transfer from Katowice Airport or Kraków to Białka Tatrzańska ski resort. Skis and big luggage welcome, flight tracking, pay the driver.
+- [Katowice Airport Transfer to Kraków](https://krakow-transfers.com/en/katowice-airport-to-krakow-transfer.html): Private transfer from Katowice Airport (KTW) to any address in Kraków. Fixed price from 600 PLN per vehicle, meet & greet in arrivals, pay the driver.
+- [Katowice Airport to Zakopane Transfer](https://krakow-transfers.com/en/katowice-airport-to-zakopane-transfer.html): Direct private transfer from Katowice Airport (KTW) to Zakopane, no change in Kraków. Fixed price from 1200 PLN per vehicle, 24/7 pick-up, pay the driver.
+- [Kraków Airport to City Centre Transfer](https://krakow-transfers.com/en/krakow-airport-to-city-centre-transfer.html): Private transfer from Kraków Airport (KRK, Balice) to your hotel or apartment in Kraków. Meet & greet in arrivals, flight tracking, fixed price upfront.
+- [Kraków Airport to Zakopane Transfer](https://krakow-transfers.com/en/krakow-airport-to-zakopane-transfer.html): Direct private transfer from Kraków Airport (KRK, Balice) to Zakopane, no bus station, no changes. Meet & greet, flight tracking, fixed price upfront.
+- [Kraków to Auschwitz Private Transfer](https://krakow-transfers.com/en/krakow-to-auschwitz-transfer.html): Private transfer from your Kraków hotel to the Auschwitz-Birkenau Memorial in Oświęcim (approx. 70 km), timed to your entry slot. Fixed price quoted upfront.
+- [Kraków to Wieliczka Salt Mine Transfer](https://krakow-transfers.com/en/krakow-to-wieliczka-salt-mine-transfer.html): Private transfer from your Kraków hotel to the Wieliczka Salt Mine (approx. 10 km) and back. Door pick-up timed to your tour, fixed price agreed upfront.
+- [Kraków to Zakopane Private Transfer](https://krakow-transfers.com/en/krakow-to-zakopane-transfer.html): Door-to-door private transfer between Kraków and Zakopane, from your Kraków hotel to your Tatra accommodation or back. Fixed price from 600 PLN per vehicle.
+- [Minibus Hire with Driver in Kraków](https://krakow-transfers.com/en/minibus-hire-with-driver-krakow.html): Minibus hire with driver in Kraków for airport transfers, weddings, conferences, tours and company trips. Vehicles for 8 and 20 people, larger on request.
+
+## Trasy (polski)
+
+- [Transfer Pyrzowice – Kraków i Zakopane](https://krakow-transfers.com/): Prywatne i grupowe transfery z lotniska Katowice-Pyrzowice do Krakowa i Zakopanego. Stała cena od 600 zł za auto, kierowca czeka w hali przylotów, 24/7.
+- [Przewóz osób Kraków – wynajem busa z kierowcą](https://krakow-transfers.com/przewoz-osob-krakow-wynajem-busa.html): Przewóz osób w Krakowie: wynajem busa z kierowcą na lotnisko, wesele, konferencję, wycieczkę lub wyjazd firmowy. Pojazdy do 8 i 20 osób, większe na zapytanie.
+- [Transfer do Energylandii z Krakowa i Pyrzowic](https://krakow-transfers.com/transfer-energylandia-zator.html): Prywatny transfer do Energylandii w Zatorze z hotelu w Krakowie lub prosto z lotniska Katowice-Pyrzowice. Dla rodzin z dziećmi, od drzwi do drzwi, cena z góry.
+- [Transfer Kraków – Auschwitz (Oświęcim)](https://krakow-transfers.com/transfer-krakow-auschwitz-oswiecim.html): Prywatny transfer z hotelu w Krakowie do Miejsca Pamięci Auschwitz-Birkenau w Oświęcimiu (ok. 70 km), dopasowany do godziny wejścia. Stała cena podana z góry.
+- [Transfer Kraków – Kopalnia Soli Wieliczka](https://krakow-transfers.com/transfer-krakow-wieliczka-kopalnia-soli.html): Prywatny transfer z hotelu w Krakowie do Kopalni Soli Wieliczka (ok. 10 km) i z powrotem. Odbiór spod drzwi pod godzinę zwiedzania, stała cena z góry.
+- [Transfer Kraków – Zakopane od 600 zł](https://krakow-transfers.com/transfer-krakow-zakopane.html): Prywatny przejazd Kraków – Zakopane od drzwi do drzwi, z hotelu pod pensjonat w Tatrach lub z powrotem. Stała cena od 600 zł za auto, płatność u kierowcy.
+- [Transfer z lotniska Balice do centrum Krakowa](https://krakow-transfers.com/transfer-lotnisko-balice-krakow.html): Prywatny transfer z lotniska Kraków-Balice (KRK) pod hotel lub mieszkanie w Krakowie. Kierowca z tabliczką w hali przylotów, śledzenie lotu, stała cena z góry.
+- [Transfer z lotniska Balice do Zakopanego](https://krakow-transfers.com/transfer-lotnisko-balice-zakopane.html): Bezpośredni transfer z lotniska Kraków-Balice (KRK) do Zakopanego, bez dworca i przesiadek. Kierowca w hali przylotów, śledzenie lotu, stała cena z góry.
+- [Transfer Pyrzowice – Białka Tatrzańska](https://krakow-transfers.com/transfer-pyrzowice-bialka-tatrzanska.html): Prywatny transfer z lotniska Katowice-Pyrzowice lub Krakowa do Białki Tatrzańskiej. Narty i duży bagaż bez problemu, śledzenie lotu, płatność u kierowcy.
+- [Transfer Pyrzowice – Kraków od 600 zł](https://krakow-transfers.com/transfer-pyrzowice-krakow.html): Prywatny transfer z lotniska Katowice-Pyrzowice pod adres w Krakowie. Stała cena od 600 zł za auto, kierowca z tabliczką w hali przylotów, płatność u kierowcy.
+- [Transfer Pyrzowice – Zakopane od 1200 zł](https://krakow-transfers.com/transfer-pyrzowice-zakopane.html): Bezpośredni transfer z lotniska Katowice-Pyrzowice do Zakopanego, bez przesiadki w Krakowie. Stała cena od 1200 zł za auto, odbiór 24/7, płatność u kierowcy.
+
+## Blog
+- [Blog](https://krakow-transfers.com/blog.html)
