@@ -1,5 +1,91 @@
 [
   {
+    "title": "Transfer firmowy a RODO — jak dbamy o dane pasażerów przy rezerwacji",
+    "topicKey": "Transfer firmowy a RODO — jak dbamy o dane pasażerów przy rezerwacji",
+    "lang": "pl",
+    "url": "blog/pl/transfer-firmowy-a-rodo-jak-dbamy-o-dane-pasazerow-przy-rezerwacji-pl.html",
+    "meta": "Jak chronimy dane pasażerów przy rezerwacji transferu z lotniska Katowice-Pyrzowice? Sprawdź zasady RODO przy transferach firmowych do Krakowa i Zakopanego.",
+    "date": "2026-11-26",
+    "seoTitle": "RODO a transfer firmowy — ochrona danych",
+    "desc": "Jak chronimy dane pasażerów przy rezerwacji transferu z lotniska Katowice-Pyrzowice? Sprawdź zasady RODO przy transferach firmowych do Krakowa i Zakopanego."
+  },
+  {
+    "title": "Corporate Transfers and GDPR: How We Protect Passenger Data",
+    "topicKey": "Transfer firmowy a RODO — jak dbamy o dane pasażerów przy rezerwacji",
+    "lang": "en",
+    "url": "blog/en/corporate-transfers-and-gdpr-how-we-protect-passenger-data-en.html",
+    "meta": "Learn how Katowice Airport transfer bookings handle passenger data under GDPR. Clear info on data use, retention, and your rights. Book with confidence today.",
+    "date": "2026-11-26",
+    "seoTitle": "GDPR and Airport Transfer Bookings",
+    "desc": "Learn how Katowice Airport transfer bookings handle passenger data under GDPR. Clear info on data use, retention, and your rights. Book with confidence today."
+  },
+  {
+    "title": "Firmentransfer und DSGVO — wie wir Ihre Daten schützen",
+    "topicKey": "Transfer firmowy a RODO — jak dbamy o dane pasażerów przy rezerwacji",
+    "lang": "de",
+    "url": "blog/de/firmentransfer-und-dsgvo-wie-wir-ihre-daten-schutzen-de.html",
+    "meta": "Transfer vom Flughafen Katowice nach Krakau oder Zakopane buchen und dabei sicher sein: Erfahren Sie, wie wir Ihre Daten gemäß DSGVO schützen.",
+    "date": "2026-11-26",
+    "seoTitle": "Transfer Katowice & DSGVO Datenschutz",
+    "desc": "Transfer vom Flughafen Katowice nach Krakau oder Zakopane buchen und dabei sicher sein: Erfahren Sie, wie wir Ihre Daten gemäß DSGVO schützen."
+  },
+  {
+    "title": "Transfert d'entreprise et RGPD : la protection de vos données",
+    "topicKey": "Transfer firmowy a RODO — jak dbamy o dane pasażerów przy rezerwacji",
+    "lang": "fr",
+    "url": "blog/fr/transfert-d-entreprise-et-rgpd-la-protection-de-vos-donnees-fr.html",
+    "meta": "Transfert depuis l'aéroport de Katowice vers Cracovie ou Zakopane en toute confiance : découvrez comment Kraków Transfers protège vos données selon le RGPD.",
+    "date": "2026-11-26",
+    "seoTitle": "Transfert aéroport et RGPD : vos données",
+    "desc": "Transfert depuis l'aéroport de Katowice vers Cracovie ou Zakopane en toute confiance : découvrez comment Kraków Transfers protège vos données selon le RGPD."
+  },
+  {
+    "title": "Trasferimento aziendale e GDPR: come proteggiamo i dati dei passeggeri",
+    "topicKey": "Transfer firmowy a RODO — jak dbamy o dane pasażerów przy rezerwacji",
+    "lang": "it",
+    "url": "blog/it/trasferimento-aziendale-e-gdpr-come-proteggiamo-i-dati-dei-passeggeri-it.html",
+    "meta": "Quando prenotate un trasferimento dall'aeroporto di Katowice-Pyrzowice verso Cracovia o Zakopane, ci affidate alcune informazioni personali: nome, numero di…",
+    "date": "2026-11-26",
+    "seoTitle": "Trasferimento aziendale: GDPR e privacy"
+  },
+  {
+    "title": "Traslado corporativo y RGPD: cómo protegemos los datos de los pasajeros",
+    "topicKey": "Transfer firmowy a RODO — jak dbamy o dane pasażerów przy rezerwacji",
+    "lang": "es",
+    "url": "blog/es/traslado-corporativo-y-rgpd-como-protegemos-los-datos-de-los-pasajeros-es.html",
+    "meta": "Cuando una empresa reserva un traslado desde el aeropuerto de Katowice-Pyrzowice (KTW) hacia Cracovia o Zakopane, no solo confía en nosotros la puntualidad…",
+    "date": "2026-11-26",
+    "seoTitle": "Traslado corporativo y RGPD en Cracovia"
+  },
+  {
+    "title": "Trasferiment Korporattiv u l-GDPR — Kif Nieħdu Ħsieb id-Data tal-Passiġġieri waqt Prenotazzjoni",
+    "topicKey": "Transfer firmowy a RODO — jak dbamy o dane pasażerów przy rezerwacji",
+    "lang": "mt",
+    "url": "blog/mt/trasferiment-korporattiv-u-l-gdpr-kif-nie-du-sieb-id-data-tal-passiggieri-waqt-p-mt.html",
+    "meta": "Meta tipprenota trasferiment mal-ajruport ma' Kraków Transfers, trid tagħti ċerti dettalji personali — isem, numru tat-telefon, dettalji tat-titjira u xi…",
+    "date": "2026-11-26",
+    "seoTitle": "Transfer u GDPR — Sigurtà tad-Data Pasiġġieri"
+  },
+  {
+    "title": "Корпоративний трансфер і GDPR — як ми захищаємо дані пасажирів при бронюванні",
+    "topicKey": "Transfer firmowy a RODO — jak dbamy o dane pasażerów przy rezerwacji",
+    "lang": "uk",
+    "url": "blog/uk/corporate-transfer-and-gdpr-how-we-protect-passenger-data-when-booking-uk.html",
+    "meta": "Коли компанія замовляє трансфер з аеропорту Катовіце-Пирович для своїх співробітників чи партнерів, мова йде не лише про комфорт і пунктуальність.",
+    "date": "2026-11-26",
+    "seoTitle": "Трансфер з аеропорту і GDPR — захист даних"
+  },
+  {
+    "title": "نقل الشركات وحماية البيانات — كيف نهتم ببيانات الركاب عند الحجز",
+    "topicKey": "Transfer firmowy a RODO — jak dbamy o dane pasażerów przy rezerwacji",
+    "lang": "ar",
+    "url": "blog/ar/corporate-transfer-and-gdpr-how-we-protect-passenger-data-when-booking-ar.html",
+    "meta": "كيف تحمي Krakow Transfers بيانات الركاب عند حجز نقل من مطار كاتوفيتسه إلى كراكوف وزاكوباني وفق RODO. تعرف على حقوقك وطرق الحجز الآمن.",
+    "date": "2026-11-26",
+    "seoTitle": "نقل المطار وحماية البيانات RODO",
+    "desc": "كيف تحمي Krakow Transfers بيانات الركاب عند حجز نقل من مطار كاتوفيتسه إلى كراكوف وزاكوباني وفق RODO. تعرف على حقوقك وطرق الحجز الآمن."
+  },
+  {
     "title": "Transfer firmowy na targi i eventy w Krakowie — logistyka wielu lotów",
     "topicKey": "Transfer firmowy na targi i eventy branżowe w Krakowie — logistyka dla wielu lotów naraz",
     "lang": "pl",
